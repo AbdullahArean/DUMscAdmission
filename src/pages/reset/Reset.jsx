@@ -1,8 +1,31 @@
 import React from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { MdOutlineLightMode } from "react-icons/md";
+import { MdOutlineDarkMode } from "react-icons/md";
 
 const Reset = () => {
   const nav = useNavigate();
+  const [theme, setTheme] = useState(null);
+  useEffect(() => {
+    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+      setTheme("dark");
+    } else {
+      setTheme("light");
+    }
+  }, []);
+
+  useEffect(() => {
+    if (theme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [theme]);
+
+  const handleThemeSwitch = () => {
+    setTheme(theme === "dark" ? "light" : "dark");
+  };
   const toLogin = () => {
     nav("/login");
   };
@@ -70,6 +93,23 @@ const Reset = () => {
             </form>
           </div>
         </div>
+        <button
+          type="button"
+          onClick={handleThemeSwitch}
+          className="text-white fixed right-10 bottom-10"
+        >
+          {theme === "dark" ? (
+            <div className="flex align-middle gap-3  border rounded-full px-2 py-1">
+              <div className="text-center text-lg">Light</div>
+              <MdOutlineLightMode className="text-3xl" />
+            </div>
+          ) : (
+            <div className="flex align-middle gap-3 border border-gray-900 rounded-full px-2 py-1">
+              <div className="text-center text-lg text-gray-900">Dark</div>
+              <MdOutlineDarkMode className="text-3xl text-gray-900" />
+            </div>
+          )}
+        </button>
       </div>
     </section>
   );
