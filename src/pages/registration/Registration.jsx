@@ -1,8 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { MdOutlineLightMode } from "react-icons/md";
-import { MdOutlineDarkMode } from "react-icons/md";
 
 const Registration = () => {
   const nav = useNavigate();
@@ -31,7 +29,7 @@ const Registration = () => {
   };
   return (
     <section className="bg-gray-50 dark:bg-gray-900">
-      <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+      <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0">
         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
@@ -143,23 +141,20 @@ const Registration = () => {
             </form>
           </div>
         </div>
-        <button
-          type="button"
-          onClick={handleThemeSwitch}
-          className="text-white fixed right-10 bottom-10"
-        >
-          {theme === "dark" ? (
-            <div className="flex align-middle gap-3  border rounded-full px-2 py-1">
-              <div className="text-center text-lg">Light</div>
-              <MdOutlineLightMode className="text-3xl" />
-            </div>
-          ) : (
-            <div className="flex align-middle gap-3 border border-gray-900 rounded-full px-2 py-1">
-              <div className="text-center text-lg text-gray-900">Dark</div>
-              <MdOutlineDarkMode className="text-3xl text-gray-900" />
-            </div>
-          )}
-        </button>
+        <label className="fixed top-5 right-5 md:top-10 md:right-10 inline-flex items-center mb-4 cursor-pointer">
+          <input
+            type="checkbox"
+            id="themeSwitch"
+            value=""
+            className="sr-only peer"
+            checked={theme === "dark" ? "checked" : ""}
+            onChange={handleThemeSwitch}
+          />
+          <div className="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-0 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+          <span className="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">
+            Dark Mode
+          </span>
+        </label>
       </div>
     </section>
   );
