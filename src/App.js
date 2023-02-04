@@ -7,6 +7,7 @@ import Login from "./pages/login/Login";
 import NotFound from "./pages/notFound/NotFound";
 import Registration from "./pages/registration/Registration";
 import Reset from "./pages/reset/Reset";
+import Profile from "./pages/profile/Profile";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="forgot" element={<Forgot />} />
           <Route path="reset" element={<Reset />} />
           <Route path="application" element={<Application />} />
+          <Route path="profile" element={<Profile />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
