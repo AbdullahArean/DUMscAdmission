@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 const Registration = () => {
   const nav = useNavigate();
   const [theme, setTheme] = useState(null);
-  const [studentType, setStudentType] = useState("");
+  const [studentType, setStudentType] = useState("national");
   useEffect(() => {
     if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
       setTheme("dark");
