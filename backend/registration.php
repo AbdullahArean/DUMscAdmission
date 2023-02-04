@@ -26,35 +26,35 @@
 
 
         // EMAIL UNIQUE CHECK
-         else{
-            // Prepare a select statement
-            $sql = "SELECT id FROM users WHERE u_mail = ?";
+        //  else{
+        //     // Prepare a select statement
+        //     $sql = "SELECT id FROM users WHERE u_mail = ?";
             
-            if($stmt = mysqli_prepare($link, $sql)){
-                // Bind variables to the prepared statement as parameters
-                mysqli_stmt_bind_param($stmt, "s", $param_mail);
+        //     if($stmt = mysqli_prepare($link, $sql)){
+        //         // Bind variables to the prepared statement as parameters
+        //         mysqli_stmt_bind_param($stmt, "s", $param_mail);
                 
-                // Set parameters
-                $param_mail = trim($_POST["email"]);
+        //         // Set parameters
+        //         $param_mail = trim($_POST["email"]);
                 
-                // Attempt to execute the prepared statement
-                if(mysqli_stmt_execute($stmt)){
-                    /* store result */
-                    mysqli_stmt_store_result($stmt);
+        //         // Attempt to execute the prepared statement
+        //         if(mysqli_stmt_execute($stmt)){
+        //             /* store result */
+        //             mysqli_stmt_store_result($stmt);
                     
-                    if(mysqli_stmt_num_rows($stmt) == 1){
-                        $email_err = "This email is already registered.";
-                    } else{
-                        $email = trim($_POST["email"]);
-                    }
-                } else{
-                    echo "Oops! Something went wrong. Please try again.";
-                }
+        //             if(mysqli_stmt_num_rows($stmt) == 1){
+        //                 $email_err = "This email is already registered.";
+        //             } else{
+        //                 $email = trim($_POST["email"]);
+        //             }
+        //         } else{
+        //             echo "Oops! Something went wrong. Please try again.";
+        //         }
 
-                // Close statement
-                mysqli_stmt_close($stmt);
-            }
-        }
+        //         // Close statement
+        //         mysqli_stmt_close($stmt);
+        //     }
+        // }
         
         // Validate password
         if(empty(trim($_POST["password"]))){
@@ -79,34 +79,28 @@
         if(empty($email_err) && empty($password_err) && empty($confirm_password_err)){
             
             // Prepare an insert statement
-            $sql = "INSERT INTO users (u_mail, u_phone, username, password, role_id) VALUES (?, ?, ?, ?, ?)";
+            $query = 'INSERT INTO users (u_mail, u_phone, username, password, role_id) VALUES :db_u_mail, :db_u_phone, :db_username, :db_password, :db_role_id';
+            $s = oci_parse($c, $query);
             
-            if($stmt = mysqli_prepare($link, $sql)){
-                // Bind variables to the prepared statement as parameters
-                mysqli_stmt_bind_param($stmt, "ssssi", $param_mail, $param_phone, $param_name ,$param_password, $param_role_id);
-                
-                // Set parameters
-                $param_name = $_POST["name"];
-                $param_phone = $phone;
-                $param_password = password_hash($password, PASSWORD_DEFAULT); // Creates a password hash
-                $param_otp = "ABCDEF";
-                $param_role_id = 3; /* STUDENT ROLE ID */
-                
-                // Attempt to execute the prepared statement
-                if(mysqli_stmt_execute($stmt)){
-                    // Redirect to login page
-                    header("location: login.php");
-                } else{
-                    echo "Oops! Something went wrong. Please try again later.";
-                }
+            $hased_password = password_hash($password, PASSWORD_DEFAULT);
+            $student_role_id = 4;
+            oci_bind_by_name($s, ":db_u_mail", $_POST["mail"]);
+            oci_bind_by_name($s, ":db_u_phone", $phone);
+            oci_bind_by_name($s, ":db_username", $_POST["name"]);
+            oci_bind_by_name($s, ":db_password", $hased_password);
+            oci_bind_by_name($s, ":db_role_id", $student_role_id);
 
-                // Close statement
-                mysqli_stmt_close($stmt);
+            // Attempt to execute the prepared statement
+            if(oci_execute($s)){
+                // Redirect to login page
+                header("location: login.php");
+            } else{
+                echo "Oops! Something went wrong. Please try again later.";
             }
         }
         
         // Close connection
-        mysqli_close($link);
+        oci_close($link);
     }
 
 
@@ -170,11 +164,11 @@
                         </label>
                         <input
                         type="text"
-                        name="username"
-                        id="username"
+                        name="name" id="name" value="<?php echo $name; ?>"
                         class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         required=""
                         />
+                        <div className="text-red-400 mt-2"><?php echo $name_err; ?></div>
                     </div>
                     <div class="flex flex-col items-start justify-center">
                         <label
@@ -185,11 +179,12 @@
                         </label>
                         <input
                         type="text"
-                        name="email"
-                        id="email"
+                        name="email" id="email" value="<?php echo $email; ?>"
                         class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         required=""
                         />
+                        <div className="text-red-400 mt-2"><?php echo $email_err; ?></div>
+                        
                     </div>
 
                     <!-- {studentType === "national" ? ( -->
@@ -202,13 +197,12 @@
                         </label>
                         <input
                             type="text"
-                            name="phone"
-                            id="phone"
+                            name="phone" id="phone" value="<?php echo $phone; ?>"
                             class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             required=""
                         />
                         </div>
-                    
+                        <div className="text-red-400 mt-2"><?php echo $phone_err; ?></div>
                         <!-- ) : (
                         <></>
                     )} -->
@@ -221,11 +215,11 @@
                         </label>
                         <input
                         type="password"
-                        name="password"
-                        id="password"
+                        name="password" id="password" value="<?php echo $password; ?>"
                         class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         required=""
                         />
+                        <div className="text-red-400 mt-2"><?php echo $password_err; ?></div>
                     </div>
                     <div class="flex flex-col items-start justify-center">
                         <label
@@ -235,12 +229,12 @@
                         Confirm password
                         </label>
                         <input
-                        type="confirm-password"
-                        name="confirm-password"
-                        id="confirm-password"
+                        type="password"
+                        name="confirm_password" id="confirm_password" value="<?php echo $confirm_password; ?>"
                         class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         required=""
                         />
+                        <div className="text-red-400 mt-2"><?php echo $confirm_password_err; ?></div>
                     </div>
                     <div class="flex items-start">
                         <div class="flex items-center h-5">
@@ -257,7 +251,7 @@
                             htmlFor="terms"
                             class="font-light text-gray-500 dark:text-gray-300"
                         >
-                            I accept the{" "}
+                            I accept the
                             <button
                             class="font-medium text-blue-600 hover:underline dark:text-blue-500"
                             href="#"
@@ -275,7 +269,7 @@
                     </button>
                     <div class="flex justify-between">
                         <p class="text-sm font-light text-gray-500 dark:text-gray-400">
-                        Already have an account?{" "}
+                        Already have an account?
                         </p>
                         <button
                         onClick={toLogin}
@@ -288,12 +282,13 @@
                 </div>
                 </div>
                 <label class="fixed top-5 right-5 md:top-10 md:right-10 inline-flex items-center mb-4 cursor-pointer">
+                <!-- checked={theme === "dark" ? "checked" : ""} -->
                 <input
                     type="checkbox"
                     id="themeSwitch"
                     value=""
                     class="sr-only peer"
-                    checked={theme === "dark" ? "checked" : ""}
+                    checked
                     onChange={handleThemeSwitch}
                 />
                 <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-0 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
