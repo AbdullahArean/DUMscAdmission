@@ -6,7 +6,7 @@ const Application = () => {
     <div className="bg-white h-full dark:bg-gray-900 flex flex-col justify-center">
       <Navbar />
       <form className="w-4/5 mx-auto mt-14 mb-10 md:mt-24 md:mb-20">
-        <div className="text-gray-400 mb-3 my-8">Personal Information</div>
+        <div className="text-black dark:text-white mb-3 my-8 text-center text-xl">Personal Information</div>
         <div className="relative z-0 w-full mb-6 group">
           <input
             type="text"
@@ -139,12 +139,12 @@ const Application = () => {
             </label>
           </div>
         </div>
-        <div className="text-gray-400 mb-3 my-8">Educational Information</div>
+        <div className="text-black dark:text-white mb-3 my-8 text-center text-xl">Educational Information</div>
 
         {/* SSC */}
 
         <div>
-          <div className="text-gray-400 mb-3 my-8 ml-5">SSC / Equivalent</div>
+          <div className="text-black dark:text-white mb-3 my-8 ml-5">SSC / Equivalent</div>
           <div className="md:grid md:grid-cols-3 md:gap-5">
             <div className="relative z-0 w-full mb-6 group">
               <input
@@ -266,7 +266,7 @@ const Application = () => {
         {/* HSC */}
 
         <div>
-          <div className="text-gray-400 mb-3 my-8 ml-5">HSC / Equivalent</div>
+          <div className="text-black dark:text-white mb-3 my-8 ml-5">HSC / Equivalent</div>
           <div className="md:grid md:grid-cols-3 md:gap-5">
             <div className="relative z-0 w-full mb-6 group">
               <input
@@ -388,7 +388,7 @@ const Application = () => {
         {/* Undergraduate */}
 
         <div>
-          <div className="text-gray-400 mb-3 my-8 ml-5">
+          <div className="text-black dark:text-white mb-3 my-8 ml-5">
             Undergraduate / Equivalent
           </div>
           <div className="md:grid md:grid-cols-3 md:gap-5">
@@ -425,7 +425,23 @@ const Application = () => {
               </label>
             </div>
           </div>
-          <div className="md:grid md:grid-cols-2 md:gap-5">
+          <div className="md:grid md:grid-cols-3 md:gap-5">
+            <div className="relative z-0 w-full mb-6 group">
+              <input
+                type="text"
+                name="ug_subject"
+                id="ug_subject"
+                className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                placeholder=" "
+                required
+              />
+              <label
+                htmlFor="ug_subject"
+                className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75  peer-focus:-translate-y-7"
+              >
+                Subject
+              </label>
+            </div>
             <div className="relative z-0 w-full mb-6 group">
               <input
                 type="text"

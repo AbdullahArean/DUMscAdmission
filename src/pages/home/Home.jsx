@@ -4,7 +4,7 @@ import Navbar from "../../components/Navbar";
 const Home = () => {
   return (
     <div className="bg-white dark:bg-gray-900 h-screen">
-      <Navbar />
+      <Navbar active={"home"}/>
     </div>
   );
 };

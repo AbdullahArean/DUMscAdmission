@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 
 const NotFound = () => {
   const nav = useNavigate();
-  const toDashboard = () => {
-    nav("/dashboard");
+  const toHome = () => {
+    nav("/home");
   };
   return (
     <section className="bg-white dark:bg-gray-900 h-screen flex flex-col justify-center">
@@ -21,7 +21,7 @@ const NotFound = () => {
             home page.{" "}
           </p>
           <button
-            onClick={toDashboard}
+            onClick={toHome}
             className="inline-flex text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:focus:ring-blue-900 my-4"
           >
             Back to Dashboard
