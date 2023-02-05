@@ -20,7 +20,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
  
     // Check if email is empty
     if(empty(trim($_POST["email"]))){
-        $email_err = "Please enter email.";
+        $email_err = "Please enter email or phone.";
     } else{
         $email = trim($_POST["email"]);
     }
@@ -35,20 +35,15 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     // Validate credentials
     if(empty($email_err) && empty($password_err)){
         // Prepare a select statement
-        $sql = "SELECT U_MAIL, U_PHONE, USERNAME, PASSWORD, ROLE_ID FROM SYS.USERS WHERE U_MAIL = '".$_POST["email"]."'";
+        $sql = "SELECT U_ID, U_MAIL, U_PHONE, USERNAME, PASSWORD, ROLE_ID FROM SYS.USERS WHERE U_MAIL = '".$_POST["email"]."'". " OR U_PHONE = '".$_POST["email"]."'";
         
         // Parse the statement
         $stmt = oci_parse($link, $sql);
         
-        // // Bind variables to the prepared statement as parameters
-        // oci_bind_by_name($stmt, ":email", $param_email);
-        
-        // // Set parameters
-        // $param_email = $email;
-        
         // Attempt to execute the prepared statement
         if(oci_execute($stmt)){
-            // Fetch the result
+            
+          // Fetch the result
             $row = oci_fetch_array($stmt, OCI_ASSOC);
             
             // Check if email exists, if yes then verify password
@@ -67,7 +62,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     $_SESSION["loggedin"] = true;
                     $_SESSION["id"] = $id;
                     $_SESSION["name"] = $name;
-                    $_SESSION["role"] = $role_id;                            
+                    $_SESSION["role"] = $role_id;
+
+                    print("HERE");
                     
                     // Redirect user to index page
                     header("location: index.php");
@@ -145,6 +142,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                   </button>
                 </div>
               </div>
+
+              <div class="flex justify-center">
+                <div class="text-red-400"><?php echo $login_err ?></div>
+                </div>
               <button
                 type="submit"
                 onClick={login}

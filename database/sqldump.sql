@@ -10,7 +10,7 @@ CREATE TABLE notice (
 CREATE TABLE users (
   u_id INTEGER GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) NOT NULL,
   u_mail varchar2(50) NOT NULL,
-  u_phone varchar2(10),
+  u_phone varchar2(20),
   username varchar2(15) NOT NULL,
   password varchar2(100) NOT NULL,
   verified NUMBER(1,0) DEFAULT 0,

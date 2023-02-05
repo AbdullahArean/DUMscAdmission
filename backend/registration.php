@@ -26,14 +26,14 @@
         if (empty(trim($_POST["email"]))) {
             $email_err = "Please enter your email.";
         } else {
-            $email = trim($_POST["name"]);
+            $email = trim($_POST["email"]);
         }
         // phone not null national student
         if (isset($_POST["phone"])) {
             if ($student_type == "national" && empty(trim($_POST["phone"]))) {
                 $phone = "Please enter your phone.";
             } else {
-                $phone = trim($_POST["name"]);
+                $phone = trim($_POST["phone"]);
             }
         }
 
