@@ -1,18 +1,18 @@
 
 CREATE TABLE notice (
-  notice_id varchar2(15) PRIMARY KEY NOT NULL,
+  notice_id INTEGER GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) NOT NULL,
   notice_body varchar2(1500),
   notice_file_path varchar2(100),
   notice_date_time timestamp(0)
 );
 
 
-CREATE TABLE user (
-  u_id varchar2(15) PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+CREATE TABLE users (
+  u_id INTEGER GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) NOT NULL,
   u_mail varchar2(50) NOT NULL,
   u_phone varchar2(10),
   username varchar2(15) NOT NULL,
-  password varchar2(15) NOT NULL,
+  password varchar2(100) NOT NULL,
   verified NUMBER(1,0) DEFAULT 0,
   role_id number(10) NOT NULL,
   u_picpath varchar2(100)

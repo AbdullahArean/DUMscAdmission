@@ -157,12 +157,15 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 <p class="text-sm font-light text-gray-500 dark:text-gray-400">
                   Don't have an account?
                 </p>
-                <button
-                  onClick={toReg}
-                  class="text-blue-600 hover:underline dark:text-blue-500"
-                >
-                  Sign Up
-                </button>
+                <a href="registration.php">
+                  <button
+                    type="button"
+                    onClick={toReg}
+                    class="text-blue-600 hover:underline dark:text-blue-500"
+                  >
+                    Sign Up
+                  </button>
+                </a>
               </div>
             </form>
           </div>

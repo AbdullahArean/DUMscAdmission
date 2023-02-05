@@ -5,6 +5,11 @@
     // Define variables and initialize with empty values
     $name = $phone = $email = $password = $confirm_password = "";
     $name_err = $phone_err = $email_err = $password_err = $confirm_password_err = "";
+    $student_type = "national";
+
+    if(isset($_GET['studentType'])) {
+        $student_type = $_GET['studentType'];
+    }
     
     // Processing form data when form is submitted
     if($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -14,47 +19,27 @@
         // Validate username not null
         if(empty(trim($_POST["name"]))){
             $name_err = "Please enter a name.";
+        } else {
+            $name = trim($_POST["name"]);
         }
         // Validate email not null
-        elseif (empty(trim($_POST["email"]))) {
+        if (empty(trim($_POST["email"]))) {
             $email_err = "Please enter your email.";
+        } else {
+            $email = trim($_POST["name"]);
         }
-        // TODO: 1. phone not null national student
-        // elseif(!preg_match('/^[a-zA-Z ]+$/', trim($_POST["name"]))){
-        //     $name_err = "name can only contain sapces and letters.";
-        // }
+        // phone not null national student
+        if (isset($_POST["phone"])) {
+            if ($student_type == "national" && empty(trim($_POST["phone"]))) {
+                $phone = "Please enter your phone.";
+            } else {
+                $phone = trim($_POST["name"]);
+            }
+        }
 
 
-        // EMAIL UNIQUE CHECK
-        //  else{
-        //     // Prepare a select statement
-        //     $sql = "SELECT id FROM users WHERE u_mail = ?";
-            
-        //     if($stmt = mysqli_prepare($link, $sql)){
-        //         // Bind variables to the prepared statement as parameters
-        //         mysqli_stmt_bind_param($stmt, "s", $param_mail);
-                
-        //         // Set parameters
-        //         $param_mail = trim($_POST["email"]);
-                
-        //         // Attempt to execute the prepared statement
-        //         if(mysqli_stmt_execute($stmt)){
-        //             /* store result */
-        //             mysqli_stmt_store_result($stmt);
-                    
-        //             if(mysqli_stmt_num_rows($stmt) == 1){
-        //                 $email_err = "This email is already registered.";
-        //             } else{
-        //                 $email = trim($_POST["email"]);
-        //             }
-        //         } else{
-        //             echo "Oops! Something went wrong. Please try again.";
-        //         }
-
-        //         // Close statement
-        //         mysqli_stmt_close($stmt);
-        //     }
-        // }
+        // TODO: UNIQUE EMAIL CHECK
+        
         
         // Validate password
         if(empty(trim($_POST["password"]))){
@@ -76,17 +61,23 @@
         }
         
         // Check input errors before inserting in database
-        if(empty($email_err) && empty($password_err) && empty($confirm_password_err)){
+        if(empty($email_err) && empty($password_err) && empty($confirm_password_err) && empty($phone_err) && empty($name_err)){
             
             // Prepare an insert statement
             // $query = 'INSERT INTO users (u_mail, u_phone, username, password, role_id) VALUES :db_u_mail, :db_u_phone, :db_username, :db_password, :db_role_id';
             
             $hased_password = password_hash($password, PASSWORD_DEFAULT);
             $student_role_id = 4;
-            $new_id = 4;
-            $query = "INSERT INTO SYS.USERS (u_id, u_mail, u_phone, username, password, role_id) VALUES (".$new_id.", '".$_POST["email"]."', '".$_POST["phone"]."', '".$_POST["name"]."', '".$hased_password."', ".$student_role_id.")"  ;
 
-            print $query;
+            $query = "";
+            print($student_type);
+            if ($student_type == "national") {
+                $query = "INSERT INTO SYS.USERS (u_mail, u_phone, username, password, role_id) VALUES ( '" . $email . "', '" . $phone . "', '" . $name . "', '" . $hased_password . "', " . $student_role_id . ")";
+            } elseif ($student_type == "international") {
+                $query = "INSERT INTO SYS.USERS (u_mail, username, password, role_id) VALUES ( '" . $email  . "', '" . $name . "', '" . $hased_password . "', " . $student_role_id . ")";
+            }
+
+            print($query);
             $s = oci_parse($link, $query);
             
            
@@ -104,7 +95,25 @@
             // } else{
             //     echo "Oops! Something went wrong. Please try again later.";
             // }
-            oci_execute($s);
+            // oci_execute($s);
+
+            $r = oci_execute($s, OCI_NO_AUTO_COMMIT);
+            if (!$r) {    
+                $e = oci_error($s);
+                oci_rollback($link);  // rollback changes
+                trigger_error(htmlentities($e['message']), E_USER_ERROR);
+            }
+            else{
+                // Commit the changes 
+                $r = oci_commit($link);
+                if (!$r) {
+                    $e = oci_error($link);
+                    trigger_error(htmlentities($e['message']), E_USER_ERROR);
+                }
+                else{
+                    header("location: login.php");
+                }
+            }
         }
         
         // Close connection
@@ -133,36 +142,34 @@
                     <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                     Create an account
                     </h1>
-                    <ul class="flex justify-evenly w-full">
-                    <li class="mr-2">
-                        <!-- onClick={() => setStudentType("national")} -->
-                    <button
+                    <form class="flex justify-evenly w-full">
+                    <div class="mr-2">
                         
-                        class={
-                            studentType === "national"
-                            ? "inline-block p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg dark:text-blue-500 dark:border-blue-500 transition-all duration-200 ease-in-out"
-                            : "inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300  transition-all duration-200 ease-in-out"
-                        }
+                    <button
+                    name="studentType"
+                    value="national"
+                    class="<?php echo ($student_type == "national") ? 
+                    'inline-block p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg dark:text-blue-500 dark:border-blue-500  transition-all duration-200 ease-in-out' 
+                    : 'inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300  transition-all duration-200 ease-in-out'; ?>"
                         >
                         National Student
                         </button>
-                    </li>
-                    <li class="">
-                        <!-- onClick={() =>  onClick={() => setStudentType("international")} -->
+                    </div>
+                    <div>
+                        
                         <button
-                       
-                        class={
-                            studentType === "international"
-                            ? "inline-block p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg dark:text-blue-500 dark:border-blue-500  transition-all duration-200 ease-in-out"
-                            : "inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300  transition-all duration-200 ease-in-out"
-                        }
+                        name="studentType"
+                        value="international"
+                        class="<?php echo ($student_type != "national") ? 
+                        'inline-block p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg dark:text-blue-500 dark:border-blue-500  transition-all duration-200 ease-in-out' 
+                        : 'inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300  transition-all duration-200 ease-in-out'; ?>"
                         >
                         International Student
                         </button>
-                    </li>
-                    </ul>
+                    </div>
+                    </form>
 
-                    <form class="space-y-4 md:space-y-6 transition-all duration-200 ease-in-out" method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+                    <form class="space-y-4 md:space-y-6 transition-all duration-200 ease-in-out" method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]."?studentType=".$student_type); ?>">
                     <div class="flex flex-col items-start justify-center">
                         <label
                         htmlFor="username"
@@ -196,6 +203,7 @@
                     </div>
 
                     <!-- {studentType === "national" ? ( -->
+                        <?php if($student_type == "national") : ?> 
                         <div class="flex flex-col items-start justify-center">
                         <label
                             htmlFor="phone"
@@ -203,14 +211,17 @@
                         >
                             Phone
                         </label>
+
                         <input
                             type="text"
                             name="phone" id="phone" value="<?php echo $phone; ?>"
                             class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             required=""
                         />
+
                         </div>
                         <div className="text-red-400 mt-2"><?php echo $phone_err; ?></div>
+                        <?php endif; ?>
                         <!-- ) : (
                         <></>
                     )} -->
@@ -279,12 +290,15 @@
                         <p class="text-sm font-light text-gray-500 dark:text-gray-400">
                         Already have an account?
                         </p>
-                        <button
-                        onClick={toLogin}
-                        class="text-blue-600 hover:underline dark:text-blue-500"
-                        >
-                        Log In
-                        </button>
+                        <a href="login.php">
+                            <button
+                            type="button"
+                            onClick={toLogin}
+                            class="text-blue-600 hover:underline dark:text-blue-500"
+                            >
+                            Log In
+                            </button>
+                        </a>
                     </div>
                     </form>
                 </div>
