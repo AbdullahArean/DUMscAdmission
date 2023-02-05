@@ -79,24 +79,32 @@
         if(empty($email_err) && empty($password_err) && empty($confirm_password_err)){
             
             // Prepare an insert statement
-            $query = 'INSERT INTO users (u_mail, u_phone, username, password, role_id) VALUES :db_u_mail, :db_u_phone, :db_username, :db_password, :db_role_id';
-            $s = oci_parse($c, $query);
+            // $query = 'INSERT INTO users (u_mail, u_phone, username, password, role_id) VALUES :db_u_mail, :db_u_phone, :db_username, :db_password, :db_role_id';
             
             $hased_password = password_hash($password, PASSWORD_DEFAULT);
             $student_role_id = 4;
-            oci_bind_by_name($s, ":db_u_mail", $_POST["mail"]);
-            oci_bind_by_name($s, ":db_u_phone", $phone);
-            oci_bind_by_name($s, ":db_username", $_POST["name"]);
-            oci_bind_by_name($s, ":db_password", $hased_password);
-            oci_bind_by_name($s, ":db_role_id", $student_role_id);
+            $new_id = 4;
+            $query = "INSERT INTO SYS.USERS (u_id, u_mail, u_phone, username, password, role_id) VALUES (".$new_id.", '".$_POST["email"]."', '".$_POST["phone"]."', '".$_POST["name"]."', '".$hased_password."', ".$student_role_id.")"  ;
+
+            print $query;
+            $s = oci_parse($link, $query);
+            
+           
+            // oci_bind_by_name($s, ":db_u_mail", $_POST["email"]);
+            // oci_bind_by_name($s, ":db_u_phone", $phone);
+            // oci_bind_by_name($s, ":db_username", $_POST["name"]);
+            // oci_bind_by_name($s, ":db_password", $hased_password);
+            // oci_bind_by_name($s, ":db_role_id", $student_role_id);
+
 
             // Attempt to execute the prepared statement
-            if(oci_execute($s)){
-                // Redirect to login page
-                header("location: login.php");
-            } else{
-                echo "Oops! Something went wrong. Please try again later.";
-            }
+            // if(oci_execute($s)){
+            //     // Redirect to login page
+            //     header("location: login.php");
+            // } else{
+            //     echo "Oops! Something went wrong. Please try again later.";
+            // }
+            oci_execute($s);
         }
         
         // Close connection
@@ -262,7 +270,7 @@
                         </div>
                     </div>
                     <button
-                        type="button"
+                        type="submit"
                         class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800  transition-all duration-200 ease-in-out"
                     >
                         Create an account
