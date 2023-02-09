@@ -14,12 +14,19 @@ Table "user" {
   "u_id" varchar(15) [pk, not null]
   "u_mail" varchar(50) [not null]
   "u_phone" varchar(10) [not null]
-  "username" varchar(15) [not null]
+  "name" varchar(15) [not null]
   "password" varchar(15) [not null]
   "verified" varchar(50) [not null]
   "u_picpath" varchar(100) 
   created datetime
   updated datetime
+}
+
+Table otp {
+  otp_id number [pk]
+  otp_code number(10)
+  otp_for varchar [ref: > user.u_id]
+  otp_valid_until datetime
 }
 
 Table "application" {
@@ -55,7 +62,8 @@ Table "hsc_ssc" {
 }
 Table "undergraduate" {
   "app_id" varchar(15) [pk,not null, ref: > application.app_id]
-  "ug_institution" varchar(15) [not null ]
+  "ug_institution" varchar(15) [not null, ref: > Universities.uni_id]
+  "ug_subject" varchar(15) [not null, ref: > Subject.sub_id]
   "ug_type" varchar(50) [not null]
   "ug_cgpa" varchar(100) [not null]
   "ug_pass_year" year [not null]
@@ -89,4 +97,24 @@ Table Payment {
   amount double
   status varchar(50)
   details varchar(1000)
+}
+
+
+Table Universities {
+  uni_id int [pk, not null]
+  uni_name varchar(100)
+  uni_type varchar(40)
+  uni_website varchar(100)
+}
+
+
+Table Subject {
+  sub_id int [pk, not null]
+  sub_name varchar(100)
+}
+
+
+Table Undergrad_type {
+  ug_type_id int [pk, not null]
+  ug_type_name varchar(100)
 }
