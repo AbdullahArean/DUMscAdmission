@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { MdDarkMode } from "react-icons/md";
 
-const Navbar = ({active}) => {
+const Navbar = ({ active }) => {
   const nav = useNavigate();
   const [theme, setTheme] = useState(null);
   useEffect(() => {
