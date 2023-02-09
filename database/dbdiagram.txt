@@ -1,0 +1,61 @@
+
+
+Table "notice" {
+  
+  "notice_id" varchar(15) [pk,not null]
+  "notice_body" varchar(1500)
+  "notice_file_path" varchar(100)
+  "notice_date_time" datetime
+}
+Table "user" {
+  "u_id" varchar(15) [pk, not null]
+  "app_id" varchar(15) [not null, ref: > application.app_id]
+  "u_mail" varchar(50) [not null]
+  "u_phone" varchar(10) [not null]
+  "username" varchar(15) [not null]
+  "password" varchar(15) [not null]
+  "verified" varchar(50) [not null]
+  "u_picpath" varchar(100)
+}
+Table "application" {
+  "app_id" varchar(15) [pk, not null]
+  "name" varchar(100) [not null]
+  "f_name" varchar(100) [not null]
+  "m_name" varchar(100) [not null]
+  "dob" date [not null]
+  "a_picpath" varchar(100) [not null]
+  "a_sigpath" varchar(100) [not null]
+  "a_phone" varchar(15) [not null]
+  "a_mail" varchar(50) [not null]
+}
+
+Table "ssc" {
+"app_id" varchar(15) [pk,not null, ref: > application.app_id]
+  "ssc_roll" varchar(15) [not null ]
+  "ssc_reg" varchar(15) [not null]
+  "ssc_type" varchar(50) [not null]
+  "ssc_board" varchar(100) [not null]
+  "ssc_year" year [not null]
+  "ssc_transcript_path" varchar(15) [not null]
+  "ssc_result" varchar(50) [not null] //grade or gpa and in which matrix
+}
+
+Table "hsc" {
+  "app_id" varchar(15) [not null, ref: > application.app_id]
+  "hsc_roll" varchar(15) [ not null ]
+  "hsc_reg" varchar(15) [not null]
+  "hsc_type" varchar(50) [not null]
+  "hsc_board" varchar(100) [not null]
+  "hsc_year" year [not null]
+  "hsc_transcript_path" varchar(100)
+  "hsc_result" varchar(50) [not null] //grade or gpa and in which matrix
+}
+Table "undergraduate" {
+  "app_id" varchar(15) [pk,not null, ref: > application.app_id]
+  "ug_institution" varchar(15) [not null ]
+  "ug_type" varchar(50) [not null]
+  "ug_cgpa" varchar(100) [not null]
+  "ug_pass_year" year [not null]
+  "ug_transcript_path" varchar(100) 
+  "ssc_result" varchar(50) [not null] //grade or gpa and in which matrix
+}
