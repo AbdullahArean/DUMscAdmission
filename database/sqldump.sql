@@ -62,7 +62,7 @@ CREATE TABLE Users (
     u_phone varchar2(20),
     u_name varchar2(200),
     role_id NUMBER REFERENCES Roles(role_id),
-    student_nation VARCHAR2(50)
+    student_nation VARCHAR2(50),
     u_verified NUMBER(1) DEFAULT 0,
     u_pic_path varchar2(200),
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -122,6 +122,15 @@ CREATE TABLE Payment(
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     modified_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE VerificationCode (
+    otp_id NUMBER(10) GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY NOT NULL,
+    otp_for_user NUMBER(10) REFERENCES Users(u_id),
+    otp_code NUMBER(10) NOT NULL,
+    expire_at TIMESTAMP
+);
+
+
 
 /* DATA */
 
