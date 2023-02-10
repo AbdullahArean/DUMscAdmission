@@ -1,7 +1,8 @@
 <?php
 // Include config file
 require_once "config.php";
-
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: *");
 use Firebase\JWT\JWT;
 
 require_once "jwt/JWT.php";

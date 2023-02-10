@@ -2,6 +2,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import api from "../../api";
 
 const Login = () => {
   const nav = useNavigate();
@@ -34,6 +35,33 @@ const Login = () => {
   const login = () => {
     nav("/verify");
   };
+  const toProfile = () => {
+    nav("/backend/api/profile.php");
+  };
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    let dataToPost = new FormData();
+    dataToPost.set("email", e.target.email.value);
+    dataToPost.set("password", e.target.password.value);
+    
+
+
+    api
+      .post("/login.php", dataToPost)
+      .then((res) => {
+        console.log(res);
+        if(res.status == 200)
+        {
+          // console.log("Success");
+          toProfile();
+        }
+        
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   return (
     <section className="bg-gray-100 dark:bg-gray-900">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0">
@@ -42,7 +70,7 @@ const Login = () => {
             <h1 className="text-xl text-center font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
               Sign in to your account
             </h1>
-            <form className="space-y-4 md:space-y-6" action="#">
+            <form onSubmit={handleLogin} className="space-y-4 md:space-y-6" action="#">
               <div>
                 <label
                   htmlFor="email"
@@ -82,8 +110,7 @@ const Login = () => {
                 </div>
               </div>
               <button
-                type="button"
-                onClick={login}
+                type="submit"
                 className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800  transition-all duration-200 ease-in-out"
               >
                 Log in

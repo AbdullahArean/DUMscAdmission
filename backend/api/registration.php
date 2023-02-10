@@ -2,6 +2,8 @@
 
 // Include config file
 require_once "config.php";
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: *");
     
 // Define variables and initialize with empty values
 $name = $phone = $email = $password = $confirm_password = $student_type = "";
