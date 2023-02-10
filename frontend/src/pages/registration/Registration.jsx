@@ -4,6 +4,7 @@ import PhoneInput from "react-phone-number-input";
 import { useNavigate } from "react-router-dom";
 import "react-phone-number-input/style.css";
 import "../../index.css";
+import api from "../../api";
 
 const Registration = () => {
   const nav = useNavigate();
@@ -31,6 +32,25 @@ const Registration = () => {
   const toLogin = () => {
     nav("/login");
   };
+
+  const handleRegister = (e) => {
+    e.preventDefault();
+    console.log(e.target.fullname.value);
+
+    let dataToPost = new FormData();
+    dataToPost.set("name", e.target.fullname.value);
+
+    api
+      .post("/register.php", dataToPost)
+      .then((res) => {
+        console.log(res);
+        // SRIZON SUCCESSFUL TOAST
+        toLogin();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   return (
     <div className="bg-gray-50 dark:bg-gray-900">
       <div className="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700">
@@ -41,7 +61,10 @@ const Registration = () => {
                 <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                   Create an account
                 </h1>
-                <form className="space-y-4 md:space-y-6 transition-all duration-200 ease-in-out">
+                <form
+                  onSubmit={handleRegister}
+                  className="space-y-4 md:space-y-6 transition-all duration-200 ease-in-out"
+                >
                   <div className="flex flex-col items-start justify-center">
                     <label
                       htmlFor="fullname"
@@ -149,7 +172,7 @@ const Registration = () => {
                     </div>
                   </div>
                   <button
-                    type="button"
+                    type="submit"
                     className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800  transition-all duration-200 ease-in-out"
                   >
                     Create account
