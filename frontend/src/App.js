@@ -8,6 +8,8 @@ import NotFound from "./pages/notFound/NotFound";
 import Registration from "./pages/registration/Registration";
 import Reset from "./pages/reset/Reset";
 import Profile from "./pages/profile/Profile";
+import Verification from "./pages/verification/Verification";
+import Confirmation from "./pages/confirmation/Confirmation";
 
 function App() {
   return (
@@ -22,6 +24,8 @@ function App() {
           <Route path="reset" element={<Reset />} />
           <Route path="application" element={<Application />} />
           <Route path="profile" element={<Profile />} />
+          <Route path="verify" element={<Verification />} />
+          <Route path="confirm" element={<Confirmation />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
