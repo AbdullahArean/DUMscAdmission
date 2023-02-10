@@ -118,7 +118,27 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 trigger_error(htmlentities($e['message']), E_USER_ERROR);
             }
             else{
-                header("location: login.php");
+                // Send Veirification Code
+                $sql = "SELECT U_ID FROM SYS.USERS WHERE U_MAIL = '".$email."'";
+                $stmt = oci_parse($link, $sql);
+                $u_id = 1;
+                // Getting user id
+                if(oci_execute($stmt)){
+                    $row = oci_fetch_array($stmt, OCI_ASSOC);
+                    $u_id = $row["U_ID"];
+                }
+
+
+                $current_timestamp = time();
+                $future_timestamp = $current_timestamp + (60 * 5);
+                $oracle_timestamp = "FROM_TZ(TO_TIMESTAMP('1970-01-01 00:00:00', 'YYYY-MM-DD HH24:MI:SS') + NUMTODSINTERVAL(" . $future_timestamp . ", 'SECOND'), 'UTC')";
+                $code = str_pad(rand(0, 999999), 6, '0', STR_PAD_LEFT);
+
+                
+                $query = "INSERT INTO SYS.VerificationCode (otp_for_user, otp_code, expire_at) VALUES ( ".$u_id.", ".$code.", ". $oracle_timestamp. ")";
+                $s = oci_parse($link, $query);
+                $r = oci_execute($s);
+                
                 http_response_code(200);
                 echo json_encode(array("status"=>"Succesful"));
             }
