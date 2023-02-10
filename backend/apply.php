@@ -11,6 +11,102 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     exit;
 }
 
+$NAME = $F_NAME = $M_NAME = $DOB = $A_PHONE = $A_MAIL = $APP_ID = $SSC_ROLL = $SSC_REG = $SSC_TYPE = $SSC_BOARD = $SSC_YEAR = $SSC_RESULT = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    $NAME = trim($_POST["NAME"]);
+    $F_NAME = trim($_POST["F_NAME"]);
+    $M_NAME = trim($_POST["M_NAME"]);
+    $DOB = $_POST["DOB"];
+    $A_PHONE = trim($_POST["A_PHONE"]);
+    $A_MAIL = trim($_POST["A_MAIL"]);
+    $SSC_ROLL = trim($_POST["SSC_ROLL"]);
+    $SSC_REG = trim($_POST["SSC_REG"]);
+    $SSC_TYPE = trim($_POST["SSC_TYPE"]);
+    $SSC_YEAR = trim($_POST["SSC_YEAR"]);
+    $SSC_RESULT = trim($_POST["SSC_RESULT"]);
+    $SSC_BOARD = trim($_POST["SSC_BOARD"]);
+
+    $APP_ID = "3";
+    // Prepare an insert statement
+    // $sql = "INSERT INTO SYS.APPLICATION (APP_ID, NAME, F_NAME, M_NAME, DOB, A_PHONE, A_MAIL) VALUES( '" . $APP_ID . "','" . $NAME . "', '" . $F_NAME . "', '" . $M_NAME . "', '" . $DOB . "', '" . $A_PHONE . "',  '" . $A_MAIL . "')";
+
+    // $sql2 = "INSERT INTO SYS.SSC (APP_ID, SSC_ROLL, SSC_REG, SSC_TYPE, SSC_BOARD, SSC_YEAR, SSC_RESULT) VALUES( '" . $APP_ID . "','" . $SSC_ROLL . "', '" . $SSC_REG . "', '" . $SSC_TYPE . "', '" . $SSC_BOARD . "', '" . $SSC_YEAR . "',  '" . $SSC_RESULT . "')";
+
+    $queries = array(
+        "INSERT INTO SYS.APPLICATION (APP_ID, NAME, F_NAME, M_NAME, DOB, A_PHONE, A_MAIL) VALUES( '" . $APP_ID . "','" . $NAME . "', '" . $F_NAME . "', '" . $M_NAME . "', '" . $DOB . "', '" . $A_PHONE . "',  '" . $A_MAIL . "')",
+        "INSERT INTO SYS.SSC (APP_ID, SSC_ROLL, SSC_REG, SSC_TYPE, SSC_BOARD, SSC_YEAR, SSC_RESULT) VALUES( '" . $APP_ID . "','" . $SSC_ROLL . "', '" . $SSC_REG . "', '" . $SSC_TYPE . "', '" . $SSC_BOARD . "', '" . $SSC_YEAR . "',  '" . $SSC_RESULT . "')"
+        
+        
+    );
+      
+      foreach ($queries as $query ) {
+        // Parse the SQL statement
+    $stmt = oci_parse($link, $query);
+    // $stmt2 = oci_parse($link, $sql2);
+
+    $r = oci_execute($stmt, OCI_NO_AUTO_COMMIT);
+            if (!$r) {    
+                $e = oci_error($stmt);
+                oci_rollback($link);  // rollback changes
+                trigger_error(htmlentities($e['message']), E_USER_ERROR);
+            }
+            else{
+                // Commit the changes 
+                $r = oci_commit($link);
+                if (!$r) {
+                    $e = oci_error($link);
+                    trigger_error(htmlentities($e['message']), E_USER_ERROR);
+                }
+                else{
+                    header("location: login.php");
+                }
+            }
+      }
+
+
+
+    // // Parse the SQL statement
+    // $stmt = oci_parse($link, $sql);
+    // // $stmt2 = oci_parse($link, $sql2);
+
+    // $r = oci_execute($stmt, OCI_NO_AUTO_COMMIT);
+    //         if (!$r) {    
+    //             $e = oci_error($stmt);
+    //             oci_rollback($link);  // rollback changes
+    //             trigger_error(htmlentities($e['message']), E_USER_ERROR);
+    //         }
+    //         else{
+    //             // Commit the changes 
+    //             $r = oci_commit($link);
+    //             if (!$r) {
+    //                 $e = oci_error($link);
+    //                 trigger_error(htmlentities($e['message']), E_USER_ERROR);
+    //             }
+    //             else{
+    //                 header("location: login.php");
+    //             }
+    //         }
+
+            // $r2 = oci_execute($stmt2, OCI_NO_AUTO_COMMIT);
+            // if (!$r2) {    
+            //     $e2 = oci_error($stmt2);
+            //     oci_rollback($link);  // rollback changes
+            //     trigger_error(htmlentities($e2['message']), E_USER_ERROR);
+            // }
+            // else{
+            //     // Commit the changes 
+            //     $r2 = oci_commit($link);
+            //     if (!$r2) {
+            //         $e2 = oci_error($link);
+            //         trigger_error(htmlentities($e2['message']), E_USER_ERROR);
+            //     }
+            //     else{
+            //         header("location: login.php");
+            //     }
+            // }
+}
 
 ?>
 
@@ -28,19 +124,19 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 
         <div class="bg-white h-full dark:bg-gray-900 flex flex-col justify-center">
     
-        <form class="w-4/5 mx-auto mt-14 mb-10 md:mt-24 md:mb-20">
+        <form class="w-4/5 mx-auto mt-14 mb-10 md:mt-24 md:mb-20" method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
             <div class="text-black dark:text-white mb-3 my-8 text-center text-xl">Personal Information</div>
             <div class="relative z-0 w-full mb-6 group">
             <input
                 type="text"
-                name="fullname"
-                id="fullname"
+                name="NAME"
+                id="NAME" value="<?php echo $NAME; ?>"
                 class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
-                required
+                
             />
             <label
-                htmlFor="fullname"
+                htmlFor="NAME"
                 class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75  peer-focus:-translate-y-7"
             >
                 Full Name
@@ -49,14 +145,14 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
             <div class="relative z-0 w-full mb-6 group">
             <input
                 type="text"
-                name="fname"
-                id="fname"
+                name="F_NAME"
+                id="F_NAME" value="<?php echo $F_NAME; ?>"
                 class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
-                required
+                
             />
             <label
-                htmlFor="fname"
+                htmlFor="F_NAME"
                 class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75  peer-focus:-translate-y-7"
             >
                 Father's Name
@@ -65,11 +161,11 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
             <div class="relative z-0 w-full mb-6 group">
             <input
                 type="text"
-                name="mname"
-                id="mname"
+                name="M_NAME"
+                id="M_NAME" value="<?php echo $M_NAME; ?>"
                 class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
-                required
+                
             />
             <label
                 htmlFor="mname"
@@ -81,14 +177,14 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
             <div class="relative z-0 w-full mb-6 group">
             <input
                 type="email"
-                name="email"
-                id="email"
+                name="A_MAIL"
+                id="A_MAIL" value="<?php echo $A_MAIL; ?>"
                 class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
-                required
+                
             />
             <label
-                htmlFor="email"
+                htmlFor="A_MAIL"
                 class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75  peer-focus:-translate-y-7"
             >
                 Email address
@@ -98,14 +194,14 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
             <div class="relative z-0 w-full mb-6 group">
                 <input
                 type="text"
-                name="dob"
-                id="dob"
+                name="DOB"
+                id="DOB" value="<?php echo $DOB; ?>"
                 class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
-                required
+                
                 />
                 <label
-                htmlFor="dob"
+                htmlFor="DOB"
                 class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-7"
                 >
                 Date of Birth
@@ -114,14 +210,14 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
             <div class="relative z-0 w-full mb-6 group">
                 <input
                 type="text"
-                name="phone"
-                id="phone"
+                name="A_PHONE"
+                id="A_PHONE" value="<?php echo $A_PHONE; ?>"
                 class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
-                required
+                
                 />
                 <label
-                htmlFor="phone"
+                htmlFor="A_PHONE"
                 class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75  peer-focus:-translate-y-7"
                 >
                 Phone
@@ -136,7 +232,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                 id="pic"
                 class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
-                required
+                
                 />
                 <label
                 htmlFor="pic"
@@ -152,7 +248,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                 id="sign"
                 class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
-                required
+
                 />
                 <label
                 htmlFor="sign"
@@ -170,14 +266,13 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                 <div class="relative z-0 w-full mb-6 group">
                 <input
                     type="text"
-                    name="ssc_type"
-                    id="ssc_type"
+                    name="SSC_TYPE"
+                    id="SSC_TYPE" value="<?php echo $SSC_TYPE; ?>"
                     class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
-                    required
                 />
                 <label
-                    htmlFor="ssc_type"
+                    htmlFor="SSC_TYPE"
                     class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75  peer-focus:-translate-y-7"
                 >
                     Exam Type
@@ -186,14 +281,14 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                 <div class="relative z-0 w-full mb-6 group">
                 <input
                     type="text"
-                    name="ssc_roll"
-                    id="ssc_roll"
+                    name="SSC_ROLL"
+                    id="SSC_ROLL" value="<?php echo $SSC_ROLL; ?>"
                     class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
-                    required
+                    
                 />
                 <label
-                    htmlFor="ssc_roll"
+                    htmlFor="SSC_ROLL"
                     class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75  peer-focus:-translate-y-7"
                 >
                     Roll No.
@@ -202,14 +297,14 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                 <div class="relative z-0 w-full mb-6 group">
                 <input
                     type="text"
-                    name="ssc_reg"
-                    id="ssc_reg"
+                    name="SSC_REG"
+                    id="SSC_REG" value="<?php echo $SSC_REG; ?>"
                     class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
-                    required
+                    
                 />
                 <label
-                    htmlFor="ssc_reg"
+                    htmlFor="SSC_REG"
                     class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75  peer-focus:-translate-y-7"
                 >
                     Registration No.
@@ -220,14 +315,14 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                 <div class="relative z-0 w-full mb-6 group">
                 <input
                     type="text"
-                    name="ssc_board"
-                    id="ssc_board"
+                    name="SSC_BOARD"
+                    id="SSC_BOARD" value="<?php echo $SSC_BOARD; ?>"
                     class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
-                    required
+                    
                 />
                 <label
-                    htmlFor="ssc_board"
+                    htmlFor="SSC_BOARD"
                     class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75  peer-focus:-translate-y-7"
                 >
                     Board
@@ -236,14 +331,14 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                 <div class="relative z-0 w-full mb-6 group">
                 <input
                     type="text"
-                    name="ssc_year"
-                    id="ssc_year"
+                    name="SSC_YEAR"
+                    id="SSC_YEAR" value="<?php echo $SSC_YEAR; ?>"
                     class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
-                    required
+                    
                 />
                 <label
-                    htmlFor="ssc_year"
+                    htmlFor="SSC_YEAR"
                     class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75  peer-focus:-translate-y-7"
                 >
                     Passing Year
@@ -252,14 +347,14 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                 <div class="relative z-0 w-full mb-6 group">
                 <input
                     type="text"
-                    name="ssc_result"
-                    id="ssc_result"
+                    name="SSC_RESULT"
+                    id="SSC_RESULT" value="<?php echo $SSC_RESULT; ?>"
                     class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
-                    required
+                    
                 />
                 <label
-                    htmlFor="ssc_result"
+                    htmlFor="SSC_RESULT"
                     class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75  peer-focus:-translate-y-7"
                 >
                     GPA (Out of 5.00)
@@ -273,7 +368,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                 id="ssc_transcript"
                 class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
-                required
+                
                 />
                 <label
                 htmlFor="ssc_transcript"
@@ -294,7 +389,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                     id="hsc_type"
                     class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
-                    required
+                    
                 />
                 <label
                     htmlFor="hsc_type"
@@ -310,7 +405,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                     id="hsc_roll"
                     class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
-                    required
+                    
                 />
                 <label
                     htmlFor="hsc_roll"
@@ -326,7 +421,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                     id="hsc_reg"
                     class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
-                    required
+                    
                 />
                 <label
                     htmlFor="hsc_reg"
@@ -344,7 +439,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                     id="hsc_board"
                     class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
-                    required
+                    
                 />
                 <label
                     htmlFor="hsc_board"
@@ -360,7 +455,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                     id="hsc_year"
                     class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
-                    required
+                    
                 />
                 <label
                     htmlFor="hsc_year"
@@ -376,7 +471,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                     id="hsc_result"
                     class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
-                    required
+                    
                 />
                 <label
                     htmlFor="hsc_result"
@@ -393,7 +488,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                 id="hsc_transcript"
                 class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
-                required
+                
                 />
                 <label
                 htmlFor="hsc_transcript"
@@ -416,7 +511,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                     id="ug_type"
                     class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
-                    required
+                    
                 />
                 <label
                     htmlFor="ug_type"
@@ -432,7 +527,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                     id="ug-institution"
                     class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
-                    required
+                    
                 />
                 <label
                     htmlFor="ug-institution"
@@ -450,7 +545,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                     id="ug_subject"
                     class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
-                    required
+                    
                 />
                 <label
                     htmlFor="ug_subject"
@@ -466,7 +561,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                     id="ug_pass_year"
                     class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
-                    required
+                    
                 />
                 <label
                     htmlFor="ug_pass_year"
@@ -482,7 +577,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                     id="ug_cgpa"
                     class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
-                    required
+                    
                 />
                 <label
                     htmlFor="ug_cgpa"
@@ -499,7 +594,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                 id="ug_transcript"
                 class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
-                required
+                
                 />
                 <label
                 htmlFor="ug_transcript"
@@ -511,7 +606,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
             </div>
             <div class="flex justify-center">
             <button
-                type="button"
+                type="submit"
                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm md:text-lg w-full sm:w-auto px-5 py-2.5 md:px-10 md:py-5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
                 Submit

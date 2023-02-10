@@ -183,7 +183,7 @@
                         class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         required=""
                         />
-                        <div className="text-red-400 mt-2"><?php echo $name_err; ?></div>
+                        <div class="text-red-400 mt-2"><?php echo $name_err; ?></div>
                     </div>
                     <div class="flex flex-col items-start justify-center">
                         <label
@@ -198,7 +198,7 @@
                         class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         required=""
                         />
-                        <div className="text-red-400 mt-2"><?php echo $email_err; ?></div>
+                        <div class="text-red-400 mt-2"><?php echo $email_err; ?></div>
                         
                     </div>
 
@@ -220,7 +220,7 @@
                         />
 
                         </div>
-                        <div className="text-red-400 mt-2"><?php echo $phone_err; ?></div>
+                        <div class="text-red-400 mt-2"><?php echo $phone_err; ?></div>
                         <?php endif; ?>
                         <!-- ) : (
                         <></>
@@ -238,7 +238,7 @@
                         class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         required=""
                         />
-                        <div className="text-red-400 mt-2"><?php echo $password_err; ?></div>
+                        <div class="text-red-400 mt-2"><?php echo $password_err; ?></div>
                     </div>
                     <div class="flex flex-col items-start justify-center">
                         <label
@@ -253,7 +253,7 @@
                         class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         required=""
                         />
-                        <div className="text-red-400 mt-2"><?php echo $confirm_password_err; ?></div>
+                        <div class="text-red-400 mt-2"><?php echo $confirm_password_err; ?></div>
                     </div>
                     <div class="flex items-start">
                         <div class="flex items-center h-5">
