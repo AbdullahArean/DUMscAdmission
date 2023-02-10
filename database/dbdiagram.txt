@@ -1,0 +1,120 @@
+Table "notice" {
+
+  "notice_id" varchar(15) [pk,not null]
+  "notice_title" varchar(1500)
+  "notice_body" varchar(1500)
+  "notice_file_path" varchar(100)
+  "notice_date_time" datetime
+  created_by int [ref:> user.u_id]
+  created datetime
+  updated datetime
+}
+
+Table "user" {
+  "u_id" varchar(15) [pk, not null]
+  "u_mail" varchar(50) [not null]
+  "u_phone" varchar(10) [not null]
+  "name" varchar(15) [not null]
+  "password" varchar(15) [not null]
+  "verified" varchar(50) [not null]
+  "u_picpath" varchar(100) 
+  created datetime
+  updated datetime
+}
+
+Table otp {
+  otp_id number [pk]
+  otp_code number(10)
+  otp_for varchar [ref: > user.u_id]
+  otp_valid_until datetime
+}
+
+Table "application" {
+  "app_id" varchar(15) [pk, not null]
+  "u_id" varchar(15) [not null, ref: > user.u_id]
+  "name" varchar(100) [not null]
+  "f_name" varchar(100) [not null]
+  "m_name" varchar(100) [not null]
+  "dob" date [not null]
+  "a_picpath" varchar(100) [not null]
+  "a_sigpath" varchar(100) [not null]
+  "a_phone" varchar(15) [not null]
+  "a_mail" varchar(50) [not null]
+  status int [not null]
+  created datetime
+  updated datetime
+}
+
+Table "hsc_ssc" {
+ "app_id" varchar(15) [pk,not null, ref: > application.app_id]
+  "ssc_roll" varchar(15) [not null ]
+  "ssc_reg" varchar(15) [not null]
+  "ssc_board" varchar(100) [not null]
+  "ssc_year" year [not null]
+  "ssc_transcript_path" varchar(15) [not null]
+  "ssc_result" varchar(50) [not null] //grade or gpa and in which matrix
+   "hsc_roll" varchar(15) [ not null ]
+  "hsc_reg" varchar(15) [not null]
+  "hsc_board" varchar(100) [not null]
+  "hsc_year" year [not null]
+  "hsc_transcript_path" varchar(100)
+  "hsc_result" varchar(50) [not null] //grade or gpa and in which matrix
+}
+Table "undergraduate" {
+  "app_id" varchar(15) [pk,not null, ref: > application.app_id]
+  "ug_institution" varchar(15) [not null, ref: > Universities.uni_id]
+  "ug_subject" varchar(15) [not null, ref: > Subject.sub_id]
+  "ug_type" varchar(50) [not null]
+  "ug_cgpa" varchar(100) [not null]
+  "ug_pass_year" year [not null]
+  "ug_transcript_path" varchar(100) 
+}
+
+
+Table Role {
+  role_id integer [pk,not null]
+  role_name varchar(50) [not null]
+}
+
+
+Table Permission {
+  permission_id integer [pk,not null]
+  permission_name varchar(50) [not null]
+}
+
+
+Table RolePermission {
+  role_permission_id integer [pk,not null]
+  role_id integer [not null, ref: > Role.role_id]
+  permission_id integer [not null , ref: > Permission.permission_id]
+}
+
+
+Table Payment {
+  payment_id int [pk, not null]
+  trx_id int
+  app_id int [ref: > application.app_id]
+  amount double
+  status varchar(50)
+  details varchar(1000)
+}
+
+
+Table Universities {
+  uni_id int [pk, not null]
+  uni_name varchar(100)
+  uni_type varchar(40)
+  uni_website varchar(100)
+}
+
+
+Table Subject {
+  sub_id int [pk, not null]
+  sub_name varchar(100)
+}
+
+
+Table Undergrad_type {
+  ug_type_id int [pk, not null]
+  ug_type_name varchar(100)
+}

@@ -1,11 +1,14 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import PhoneInput from "react-phone-number-input";
 import { useNavigate } from "react-router-dom";
+import "react-phone-number-input/style.css";
+import "../../index.css";
 
 const Registration = () => {
   const nav = useNavigate();
   const [theme, setTheme] = useState(null);
-  const [studentType, setStudentType] = useState("national");
+  const [value, setValue] = useState();
   useEffect(() => {
     if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
       setTheme("dark");
@@ -38,45 +41,18 @@ const Registration = () => {
                 <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                   Create an account
                 </h1>
-                <ul className="flex justify-evenly w-full">
-                  <li className="mr-2">
-                    <button
-                      onClick={() => setStudentType("national")}
-                      className={
-                        studentType === "national"
-                          ? "inline-block p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg dark:text-blue-500 dark:border-blue-500 transition-all duration-200 ease-in-out"
-                          : "inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300  transition-all duration-200 ease-in-out"
-                      }
-                    >
-                      National Student
-                    </button>
-                  </li>
-                  <li className="">
-                    <button
-                      onClick={() => setStudentType("international")}
-                      className={
-                        studentType === "international"
-                          ? "inline-block p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg dark:text-blue-500 dark:border-blue-500  transition-all duration-200 ease-in-out"
-                          : "inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300  transition-all duration-200 ease-in-out"
-                      }
-                    >
-                      International Student
-                    </button>
-                  </li>
-                </ul>
-
                 <form className="space-y-4 md:space-y-6 transition-all duration-200 ease-in-out">
                   <div className="flex flex-col items-start justify-center">
                     <label
-                      htmlFor="username"
+                      htmlFor="fullname"
                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                     >
-                      Username
+                      Full Name
                     </label>
                     <input
                       type="text"
-                      name="username"
-                      id="username"
+                      name="fullname"
+                      id="fullname"
                       className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                       required=""
                     />
@@ -96,25 +72,27 @@ const Registration = () => {
                       required=""
                     />
                   </div>
-                  {studentType === "national" ? (
-                    <div className="flex flex-col items-start justify-center">
-                      <label
-                        htmlFor="phone"
-                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                      >
-                        Phone
-                      </label>
-                      <input
-                        type="text"
-                        name="phone"
-                        id="phone"
-                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        required=""
-                      />
-                    </div>
-                  ) : (
-                    <></>
-                  )}
+                  <div className="flex flex-col items-start justify-center">
+                    <label
+                      htmlFor="phone"
+                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >
+                      Phone
+                    </label>
+                    <PhoneInput
+                      international
+                      countryCallingCodeEditable={false}
+                      defaultCountry="BD"
+                      value={value}
+                      onChange={setValue}
+                      className="bg-gray-50 border border-gray-300 text-gray-900
+                        sm:text-sm rounded-lg focus:ring-blue-600
+                        focus:border-blue-600 block w-full px-2.5 py-0.5 dark:bg-gray-700
+                        dark:border-gray-600 dark:placeholder-gray-400
+                        dark:text-white dark:focus:ring-blue-500
+                        dark:focus:border-blue-500"
+                    />
+                  </div>
                   <div className="flex flex-col items-start justify-center">
                     <label
                       htmlFor="password"
@@ -135,7 +113,7 @@ const Registration = () => {
                       htmlFor="confirm-password"
                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                     >
-                      Confirm password
+                      Confirm Password
                     </label>
                     <input
                       type="confirm-password"
@@ -174,7 +152,7 @@ const Registration = () => {
                     type="button"
                     className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800  transition-all duration-200 ease-in-out"
                   >
-                    Create an account
+                    Create account
                   </button>
                   <div className="flex justify-between">
                     <p className="text-sm font-light text-gray-500 dark:text-gray-400">
