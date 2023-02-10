@@ -1,6 +1,8 @@
 <?php
 // Include config file
 require_once "config.php";
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: *");
 
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
@@ -31,13 +33,15 @@ if($_SERVER["REQUEST_METHOD"] == "GET"){
                 'message' => $e->getMessage(),
             ]);
        }
-    }else {
+    }
+    
+    else {
         http_response_code(401);
         echo json_encode([
             'status' => 0,
             'message' => 'Access Denied',
         ]);
 
-}
+    }
 
 ?>  
