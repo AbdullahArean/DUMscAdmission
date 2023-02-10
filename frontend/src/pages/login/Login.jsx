@@ -5,6 +5,8 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import api from "../../api";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
   const nav = useNavigate();
@@ -46,34 +48,54 @@ const Login = () => {
     let dataToPost = new FormData();
     dataToPost.set("email", e.target.email.value);
     dataToPost.set("password", e.target.password.value);
-    
-
 
     api
       .post("/login.php", dataToPost)
       .then((res) => {
         console.log(res);
-        if(res.status == 200)
-        {
-          // console.log("Success");
+        if (res.status === 200) {
           toProfile();
         }
-        
       })
       .catch((err) => {
         console.log(err);
+        toast.error("Login Failed!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          progress: undefined,
+          theme: "colored",
+        });
       });
   };
   return (
     <section className="bg-gray-100 dark:bg-gray-900">
-      
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable={false}
+        pauseOnHover={false}
+        theme="colored"
+      />
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0">
         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1 className="text-xl text-center font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
               Sign in to your account
             </h1>
-            <form onSubmit={handleLogin} className="space-y-4 md:space-y-6" action="#">
+            <form
+              onSubmit={handleLogin}
+              className="space-y-4 md:space-y-6"
+              action="#"
+            >
               <div>
                 <label
                   htmlFor="email"
