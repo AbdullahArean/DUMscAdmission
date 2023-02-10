@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import "react-phone-number-input/style.css";
 import "../../index.css";
 import api from "../../api";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Registration = () => {
   const nav = useNavigate();
@@ -29,7 +31,7 @@ const Registration = () => {
   const handleThemeSwitch = () => {
     setTheme(theme === "dark" ? "light" : "dark");
   };
-  const toLogin = () => {
+  const toLogin = (res) => {
     nav("/login");
   };
 
@@ -56,13 +58,34 @@ const Registration = () => {
       })
       .catch((err) => {
         console.log(err);
+        toast.error("Registration Failed!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          progress: undefined,
+          theme: "colored",
+        });
       });
   };
   return (
     <div className="bg-gray-50 dark:bg-gray-900">
-      <div className="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700">
+    <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable={false}
+        pauseOnHover={false}
+        theme="colored"
+      />
         <section className="">
-          <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto h-full lg:py-0">
+          <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0">
             <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
               <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
                 <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
@@ -214,7 +237,6 @@ const Registration = () => {
             </label>
           </div>
         </section>
-      </div>
     </div>
   );
 };

@@ -25,9 +25,9 @@ const Verification = () => {
   const handleThemeSwitch = () => {
     setTheme(theme === "dark" ? "light" : "dark");
   };
-  const toConfirm = () => {
+  /* const toConfirm = () => {
     nav("/confirm");
-  };
+  }; */
   const toHome = () => {
     nav("/home");
   };
