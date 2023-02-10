@@ -1,6 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Countdown from "react-countdown";
 
 const Verification = () => {
   const nav = useNavigate();
@@ -37,9 +38,11 @@ const Verification = () => {
             </div>
             <div className="text-sm leading-tight tracking-tight text-gray-900 md:text-lg dark:text-gray-400">
               Enter the code sent to you by email
-              <span className="block text-xs text-gray-500">*you may need to check spam folder</span>
+              <span className="block text-xs text-gray-500">
+                *you may need to check spam folder
+              </span>
             </div>
-            <form className="space-y-4 md:space-y-6" action="#">
+            <form className="space-y-4 md:space-y-3" action="#">
               <div>
                 <label
                   htmlFor="email/phone"
@@ -54,6 +57,13 @@ const Verification = () => {
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   required=""
                 />
+              </div>
+              <div className="flex justify-between">
+                <div className="text-gray-500">
+                  OTP expires in{" "}
+                  <Countdown daysInHours date={Date.now() + 300000} />
+                </div>
+                <button type="button" className="text-blue-500 hover:underline">Resend code</button>
               </div>
               <button
                 type="button"
