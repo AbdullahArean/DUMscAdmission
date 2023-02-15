@@ -21,10 +21,27 @@ if($_SERVER["REQUEST_METHOD"] == "GET"){
         // $user_data=JWT::decode($jwt, $secret_key, 'HS256');
         $user_data = JWT::decode($jwt, new Key($secret_key, 'HS256'));
         $data=$user_data->data;
-            echo json_encode([
-                'status' => 1,
-                'message' => $data,
-            ]);
+
+
+        $query = "SELECT U_ID, U_NAME, U_PHONE, U_MAIL, ROLE_NAME FROM Users, Roles WHERE U_ID = ".$data->{'id'}."AND Roles.ROLE_ID = Users.ROLE_ID";
+        $stmt = oci_parse($link, $query);
+
+        if(oci_execute($stmt)){
+            $row = oci_fetch_array($stmt, OCI_ASSOC);
+            if($row){
+                $response = array();
+                $response["id"] = $row["U_ID"];
+                $response["mail"] = $row["U_MAIL"];
+                $response["phone"] = $row["U_PHONE"];
+                $response["name"] = $row["U_NAME"];
+                $response["role"] = $row["ROLE_NAME"];
+                
+                echo json_encode([
+                    'status' => 1,
+                    'message' => $response,
+                ]);
+            }
+        }
        }
        catch(Exception $e){
             http_response_code(400);
@@ -34,14 +51,12 @@ if($_SERVER["REQUEST_METHOD"] == "GET"){
             ]);
        }
     }
-    
     else {
         http_response_code(401);
         echo json_encode([
             'status' => 0,
             'message' => 'Access Denied',
         ]);
-
     }
 
 ?>  
