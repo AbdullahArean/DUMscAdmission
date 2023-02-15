@@ -38,6 +38,24 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         // Only Students can create 
         if($user_data->data->{'role'} == 3){
 
+            // Check if already applied
+            $query = "SELECT * FROM APPLICATIONS, Users WHERE APPLICATIONS.U_ID = ".$data->{'id'}." AND USERS.U_ID = ".$data->{'id'}." ";
+
+            $stmt = oci_parse($link, $query);
+    
+            if(oci_execute($stmt)){
+                $response = array();
+    
+                if($row = oci_fetch_array($stmt, OCI_ASSOC)){
+                    http_response_code(400);
+                    echo json_encode([
+                        'status' => 0,
+                        'message' => "Already Applied.",
+                    ]);
+                    exit();
+                }
+            }
+
             if(!isset($_POST["a_name"]) || empty(trim($_POST["a_name"]))){
                 $a_name_err = "Please enter a a_name.";
                 $error["a_name"] = $a_name_err;
