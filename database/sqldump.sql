@@ -129,6 +129,16 @@ CREATE TABLE VerificationCode (
     expire_at TIMESTAMP
 );
 
+CREATE TABLE NOTICE(
+    notice_id NUMBER(10) GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY NOT NULL,
+    notice_title VARCHAR2(2000),
+    notice_body VARCHAR2(2000),
+    notice_file_path VARCHAR2(2000),
+    created_by NUMBER(10) REFERENCES Users(U_ID),
+    created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
 
 
 /* DATA */
