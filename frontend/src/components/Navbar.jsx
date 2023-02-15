@@ -91,7 +91,7 @@ const Navbar = ({ active }) => {
                 Home
               </div>
             </li>
-            <li>
+            {/* <li>
               <div
                 onClick={() => {
                   nav("/notice");
@@ -104,7 +104,7 @@ const Navbar = ({ active }) => {
               >
                 Notice
               </div>
-            </li>
+            </li> */}
             <li>
               <div
                 onClick={() => {
