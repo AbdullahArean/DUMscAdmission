@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import Navbar from "../../components/Navbar";
 import api from "../../api";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Application = () => {
   const [page, setPage] = useState("1");
@@ -123,27 +125,55 @@ const Application = () => {
         const parser = new DOMParser();
         const data = parser.parseFromString(res.data, "application/xml");
 
-        setFetchedData({
-          name: data.getElementsByTagName("name")[0].childNodes[0].nodeValue,
-          mname: data.getElementsByTagName("mother")[0].childNodes[0].nodeValue,
-          fname: data.getElementsByTagName("father")[0].childNodes[0].nodeValue,
-          dob: data.getElementsByTagName("dob")[0].childNodes[0].nodeValue,
-          hsc_result:
-            data.getElementsByTagName("hsc-gpa")[0].childNodes[0].nodeValue,
-          ssc_roll:
-            data.getElementsByTagName("ssc-roll")[0].childNodes[0].nodeValue,
-          ssc_year:
-            data.getElementsByTagName("ssc-passyr")[0].childNodes[0].nodeValue,
-          ssc_board:
-            data.getElementsByTagName("ssc-board")[0].childNodes[0].nodeValue,
-          ssc_result:
-            data.getElementsByTagName("ssc-gpa")[0].childNodes[0].nodeValue,
-        });
+        if (
+          data.getElementsByTagName("ssc-roll")[0].childNodes[0].nodeValue !=
+          e.target.ssc_roll1.value
+        ) {
+          toast.error("Invalid Data", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: false,
+            progress: undefined,
+            theme: "colored",
+          });
+        } else {
+          setFetchedData({
+            name: data.getElementsByTagName("name")[0].childNodes[0].nodeValue,
+            mname:
+              data.getElementsByTagName("mother")[0].childNodes[0].nodeValue,
+            fname:
+              data.getElementsByTagName("father")[0].childNodes[0].nodeValue,
+            dob: data.getElementsByTagName("dob")[0].childNodes[0].nodeValue,
+            hsc_result:
+              data.getElementsByTagName("hsc-gpa")[0].childNodes[0].nodeValue,
+            ssc_roll:
+              data.getElementsByTagName("ssc-roll")[0].childNodes[0].nodeValue,
+            ssc_year:
+              data.getElementsByTagName("ssc-passyr")[0].childNodes[0]
+                .nodeValue,
+            ssc_board:
+              data.getElementsByTagName("ssc-board")[0].childNodes[0].nodeValue,
+            ssc_result:
+              data.getElementsByTagName("ssc-gpa")[0].childNodes[0].nodeValue,
+          });
 
-        page2();
+          page2();
+        }
       })
       .catch((err) => {
-        console.log(err);
+        toast.error("Invalid Data", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          progress: undefined,
+          theme: "colored",
+        });
       });
   };
 
@@ -153,7 +183,18 @@ const Application = () => {
   return (
     <div className="bg-white dark:bg-gray-900 flex flex-col justify-center">
       <Navbar />
-
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable={false}
+        pauseOnHover={false}
+        theme="colored"
+      />
       {/*page 1 information*/}
 
       {page === "1" ? (
