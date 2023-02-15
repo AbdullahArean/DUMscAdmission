@@ -40,7 +40,7 @@ const Login = () => {
     nav("/verify");
   };
   const toProfile = () => {
-    nav("/backend/api/profile.php");
+    nav("/home");
   };
 
   const handleLogin = (e) => {
@@ -127,6 +127,7 @@ const Login = () => {
                 />
                 <div className="flex justify-end">
                   <button
+                    type="button"
                     onClick={toChange}
                     className="text-blue-600 hover:underline dark:text-blue-500"
                   >
