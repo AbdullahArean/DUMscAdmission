@@ -71,6 +71,7 @@ CREATE TABLE Users (
 
 CREATE TABLE Applications (
     app_id NUMBER(10) GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY NOT NULL,
+    
     u_id NUMBER(10) REFERENCES Users(u_id),
     a_name varchar2(200),
     f_name varchar2(200),
@@ -80,14 +81,7 @@ CREATE TABLE Applications (
     a_dob date,
     a_phone varchar2(20),
     a_mail varchar2(200),
-    app_status NUMBER(1) DEFAULT 0,
-    created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    modified_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-
-CREATE TABLE Hsc_Ssc (
-    app_id NUMBER(10) PRIMARY KEY REFERENCES Applications(app_id),
+    
     ssc_roll VARCHAR2(20),
     ssc_reg VARCHAR2(20),
     ssc_board VARCHAR2(20),
@@ -99,18 +93,23 @@ CREATE TABLE Hsc_Ssc (
     hsc_board VARCHAR2(20),
     hsc_year NUMBER(10),
     hsc_transcript_path VARCHAR2(200),
-    hsc_result NUMBER(10, 2)
-);
-
-CREATE TABLE Undergrad (
-    app_id NUMBER(10) PRIMARY KEY REFERENCES Applications(app_id),
+    hsc_result NUMBER(10, 2),
+    
     ug_institution  NUMBER(10) REFERENCES Universities(uni_id),
     ug_subject NUMBER(10) REFERENCES Subjects(sub_id),
     ug_type VARCHAR2(100),
     ug_cgpa NUMBER(10, 2),
     ug_pass_year NUMBER(10),
-    ug_transcript_path VARCHAR2(200)
+    ug_transcript_path VARCHAR2(200),
+    
+    application_state NUMBER(1) DEFAULT 0,
+    submission_status NUMBER(1) DEFAULT 0,
+    payment_status NUMBER(1) DEFAULT 0,
+    
+    created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    modified_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
 
 CREATE TABLE Payment(
     payment_id NUMBER(10) GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY NOT NULL,
