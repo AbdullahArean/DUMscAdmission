@@ -9,6 +9,39 @@ const Home = () => {
   const [isOpen4, setOpen4] = useState(false);
   const [isOpen5, setOpen5] = useState(false);
 
+  const notice = [
+    {
+      title: "Payment Deadline Approaching",
+      body: `If you have not yet submitted your payment, please do so as soon as possible to secure yourspot in our program. Any payments received after the deadline may result in a delay in processing your application.`,
+      notice_file: "https://www.africau.edu/images/default/sample.pdf",
+      type: "error",
+      created_by: "Admin",
+      created_on: "02/02/23",
+    },
+    {
+      title: "Plagiarism Will Not Be Tolerated",
+      body: `All applications are subject
+      to thorough plagiarism checks, and any applicant found to have
+      plagiarized will be immediately disqualified from
+      consideration.`,
+      notice_file: "https://www.africau.edu/images/default/sample.pdf",
+      type: "warning",
+      created_by: "Admin",
+      created_on: "02/02/23",
+    },
+    {
+      title: "Technical Issues Resolved",
+      body: `We apologize for any inconvenience
+      caused by the technical issues on our website earlier this
+      week. The issues have now been resolved, and all users should
+      be able to access the site without any problems.`,
+      notice_file: "https://www.africau.edu/images/default/sample.pdf",
+      type: "success",
+      created_by: "Admin",
+      created_on: "02/02/23",
+    },
+  ];
+
   const handleDropDown = () => {
     setOpen(!isOpen);
   };
@@ -35,99 +68,39 @@ const Home = () => {
             Notice
           </div>
           <div>
-            <div
-              className="flex p-4 mb-4 text-red-800 border-t-4 border-red-300 bg-red-50 dark:text-red-400 dark:bg-gray-800 dark:border-red-800"
-              role="alert"
-            >
-              <svg
-                className="flex-shrink-0 w-5 h-5"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                  clipRule="evenodd"
-                ></path>
-              </svg>
-              <div className="ml-3 mr-3 flex justify-between w-full text-sm font-medium">
-                <div>
-                  Payment Deadline Approaching: If you have not yet submitted
-                  your payment, please do so as soon as possible to secure your
-                  spot in our program. Any payments received after the deadline
-                  may result in a delay in processing your application.
-                </div>
-                <a
-                  href="https://www.africau.edu/images/default/sample.pdf"
-                  className="font-semibold underline hover:no-underline"
+            {notice.map((notice, index) => {
+              return (
+                <div
+                  key={index}
+                  className={`flex p-4 mb-4 border-t-4 dark:bg-gray-800 ${notice.type === "error" ? "text-red-800 border-red-300 bg-red-50 dark:text-red-400 dark:border-red-800" : notice.type === "warning" ? "text-yellow-800 border-yellow-300 bg-yellow-50 dark:text-yellow-300 dark:border-yellow-800" : notice.type === "success" ? "text-green-800 border-green-300 bg-green-50 dark:text-green-400 dark:border-green-800" : "border-gray-300 bg-gray-50 dark:bg-gray-800 dark:border-gray-600"}`}
+                  role="alert"
                 >
-                  <AiOutlineDownload className="text-2xl" />
-                </a>
-              </div>
-            </div>
-            <div
-              className="flex p-4 mb-4 text-yellow-800 border-t-4 border-yellow-300 bg-yellow-50 dark:text-yellow-300 dark:bg-gray-800 dark:border-yellow-800"
-              role="alert"
-            >
-              <svg
-                className="flex-shrink-0 w-5 h-5"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                  clipRule="evenodd"
-                ></path>
-              </svg>
-              <div className="ml-3 mr-3 flex justify-between w-full text-sm font-medium">
-                <div>
-                  Plagiarism Will Not Be Tolerated: All applications are subject
-                  to thorough plagiarism checks, and any applicant found to have
-                  plagiarized will be immediately disqualified from
-                  consideration.
+                  <svg
+                    className="flex-shrink-0 w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                      clipRule="evenodd"
+                    ></path>
+                  </svg>
+                  <div className="ml-3 mr-3 flex justify-between w-full text-sm font-medium">
+                    <div>
+                      {notice.title}: {notice.body}
+                    </div>
+                    <a
+                      href="https://www.africau.edu/images/default/sample.pdf"
+                      className="font-semibold underline hover:no-underline"
+                    >
+                      <AiOutlineDownload className="text-2xl" />
+                    </a>
+                  </div>
                 </div>
-                <a
-                  href="https://www.africau.edu/images/default/sample.pdf"
-                  className="font-semibold underline hover:no-underline"
-                >
-                  <AiOutlineDownload className="text-2xl" />
-                </a>
-              </div>
-            </div>
-            <div
-              className="flex p-4 mb-4 text-green-800 border-t-4 border-green-300 bg-green-50 dark:text-green-400 dark:bg-gray-800 dark:border-green-800"
-              role="alert"
-            >
-              <svg
-                className="flex-shrink-0 w-5 h-5"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                  clipRule="evenodd"
-                ></path>
-              </svg>
-              <div className="ml-3 mr-3 flex justify-between w-full text-sm font-medium">
-                <div>
-                  Technical Issues Resolved: We apologize for any inconvenience
-                  caused by the technical issues on our website earlier this
-                  week. The issues have now been resolved, and all users should
-                  be able to access the site without any problems.
-                </div>
-                <a
-                  href="https://www.africau.edu/images/default/sample.pdf"
-                  className="font-semibold underline hover:no-underline"
-                >
-                  <AiOutlineDownload className="text-2xl" />
-                </a>
-              </div>
-            </div>
+              );
+            })}
           </div>
         </div>
         {/* FAQ */}
