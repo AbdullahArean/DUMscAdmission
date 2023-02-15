@@ -10,6 +10,7 @@ import Reset from "./pages/reset/Reset";
 import Profile from "./pages/profile/Profile";
 import Verification from "./pages/verification/Verification";
 import Confirmation from "./pages/confirmation/Confirmation";
+import Submission from "./pages/submission/Submission";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route path="profile" element={<Profile />} />
           <Route path="verify" element={<Verification />} />
           <Route path="confirm" element={<Confirmation />} />
+          <Route path="submission" element={<Submission />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

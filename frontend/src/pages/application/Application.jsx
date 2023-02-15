@@ -3,7 +3,6 @@ import Navbar from "../../components/Navbar";
 import api from "../../api";
 import axios from "axios";
 
-
 const Application = () => {
   const [page, setPage] = useState("1");
   const [university, setUniversity] = useState([]);
@@ -17,34 +16,77 @@ const Application = () => {
     setPage("3");
   };
 
-  const [fetchedData, setFetchedData] = useState({
-    "name": "",
-    "fname": "",
-    "mname": "",
-    "dob": "",
-    "ssc_roll": "",
-    "ssc_year": "",
-    "ssc_board": "",
-    "ssc_result": "",
+  const boards = [
+    {
+      name: "Dhaka",
+      code: "10",
+    },
+    {
+      name: "Rajshahi",
+      code: "10",
+    },
+    {
+      name: "Comilla",
+      code: "10",
+    },
+    {
+      name: "Jessore",
+      code: "10",
+    },
+    {
+      name: "Chittagong",
+      code: "10",
+    },
+    {
+      name: "Barisal",
+      code: "10",
+    },
+    {
+      name: "Sylhet",
+      code: "10",
+    },
+    {
+      name: "Dinajpur",
+      code: "10",
+    },
+    {
+      name: "Mymensingh",
+      code: "10",
+    },
+  ];
 
-    "hsc_roll": "",
-    "hsc_year": "",
-    "hsc_board": "",
-    "hsc_result": "",
-  })
+  const [fetchedData, setFetchedData] = useState({
+    name: "",
+    fname: "",
+    mname: "",
+    dob: "",
+    ssc_roll: "",
+    ssc_year: "",
+    ssc_board: "",
+    ssc_result: "",
+
+    hsc_roll: "",
+    hsc_year: "",
+    hsc_board: "",
+    hsc_result: "",
+  });
 
   const uni = () => {
-    api.get('/universities.php').then((response) =>{
-    setUniversity(response.data);
-    console.log(response.data)}).catch(err => console.log(err));
-  }
-
+    api
+      .get("/universities.php")
+      .then((response) => {
+        setUniversity(response.data);
+        console.log(response.data);
+      })
+      .catch((err) => console.log(err));
+  };
 
   const fetchSscHscData = (e) => {
-    console.log(e.target.ssc_roll1.value)
+    console.log(e.target.ssc_roll1.value);
     e.preventDefault();
     // let hsid = 1311406473;
-    let hsid = "10" + e.target.hsc_year.value.slice(-2) + e.target.hsc_roll1.value;
+    let hsid =
+      "10" + e.target.hsc_year.value.slice(-2) + e.target.hsc_roll1.value;
     let requestBody = `<dupgwp>
     <header>
     <pgwkey>abcd</pgwkey>
@@ -65,40 +107,45 @@ const Application = () => {
     </params>
     </requestdata>
     </body>
-    </dupgwp>`
-    axios.post("https://regservices.eis.du.ac.bd/edusections/preregistration/getboarddata", requestBody, {
-      headers:{
-        'Content-Type': 'text/xml',
-        'Accept' : 'application/xml'
-      }
-    })
-    .then(res => {
-      
-      const parser = new DOMParser();
-      const data = parser.parseFromString(res.data, "application/xml");
+    </dupgwp>`;
+    axios
+      .post(
+        "https://regservices.eis.du.ac.bd/edusections/preregistration/getboarddata",
+        requestBody,
+        {
+          headers: {
+            "Content-Type": "text/xml",
+            Accept: "application/xml",
+          },
+        }
+      )
+      .then((res) => {
+        const parser = new DOMParser();
+        const data = parser.parseFromString(res.data, "application/xml");
 
-      setFetchedData(
-        {"name" : data.getElementsByTagName("name")[0].childNodes[0].nodeValue,
-        "mname" : data.getElementsByTagName("mother")[0].childNodes[0].nodeValue,
-        "fname" : data.getElementsByTagName("father")[0].childNodes[0].nodeValue,
-        "dob" : data.getElementsByTagName("dob")[0].childNodes[0].nodeValue,
-        "hsc_result" : data.getElementsByTagName("hsc-gpa")[0].childNodes[0].nodeValue,  
-        "ssc_roll" : data.getElementsByTagName("ssc-roll")[0].childNodes[0].nodeValue,
-        "ssc_year" : data.getElementsByTagName("ssc-passyr")[0].childNodes[0].nodeValue,
-        "ssc_board" : data.getElementsByTagName("ssc-board")[0].childNodes[0].nodeValue,
-        "ssc_result" : data.getElementsByTagName("ssc-gpa")[0].childNodes[0].nodeValue,
-      }
-      );
+        setFetchedData({
+          name: data.getElementsByTagName("name")[0].childNodes[0].nodeValue,
+          mname: data.getElementsByTagName("mother")[0].childNodes[0].nodeValue,
+          fname: data.getElementsByTagName("father")[0].childNodes[0].nodeValue,
+          dob: data.getElementsByTagName("dob")[0].childNodes[0].nodeValue,
+          hsc_result:
+            data.getElementsByTagName("hsc-gpa")[0].childNodes[0].nodeValue,
+          ssc_roll:
+            data.getElementsByTagName("ssc-roll")[0].childNodes[0].nodeValue,
+          ssc_year:
+            data.getElementsByTagName("ssc-passyr")[0].childNodes[0].nodeValue,
+          ssc_board:
+            data.getElementsByTagName("ssc-board")[0].childNodes[0].nodeValue,
+          ssc_result:
+            data.getElementsByTagName("ssc-gpa")[0].childNodes[0].nodeValue,
+        });
 
-
-
-
-      page2();
-    })
-    .catch(err => {
-      console.log(err)
-    })
-  }
+        page2();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   useEffect(() => {
     uni();
@@ -111,7 +158,10 @@ const Application = () => {
 
       {page === "1" ? (
         <div className="bg-white h-screen dark:bg-gray-900">
-          <form onSubmit={fetchSscHscData} className="w-4/5 mx-auto mt-14 mb-10 md:mt-24 md:mb-20">
+          <form
+            onSubmit={fetchSscHscData}
+            className="w-4/5 mx-auto mt-14 mb-10 md:mt-24 md:mb-20"
+          >
             <div>
               <ul className="flex justify-evenly w-full">
                 <li className="mr-2">
@@ -175,36 +225,34 @@ const Application = () => {
                     </label>
                   </div>
                   <div className="relative z-0 w-full mb-6 group">
-                    <input
-                      type="text"
-                      name="ssc_board1"
-                      id="ssc_board1"
-                      className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                      placeholder=" "
-                      required
-                    />
-                    <label
-                      htmlFor="ssc_board1"
-                      className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75  peer-focus:-translate-y-7"
-                    >
-                      Board
+                    <label for="underline_select" class="sr-only">
+                      Underline select
                     </label>
+                    <select
+                      id="underline_select"
+                      class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
+                    >
+                      <option selected>Board</option>
+                      {boards.map((board) => {
+                        return <option value={board.code}>{board.name}</option>;
+                      })}
+                    </select>
                   </div>
                   <div className="relative z-0 w-full mb-6 group">
-                    <input
-                      type="text"
-                      name="ssc_year"
-                      id="ssc_year"
-                      className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                      placeholder=" "
-                      required
-                    />
-                    <label
-                      htmlFor="ssc_year"
-                      className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75  peer-focus:-translate-y-7"
-                    >
-                      Passing Year
+                    <label for="underline_select3" class="sr-only">
+                      Underline select
                     </label>
+                    <select
+                      id="underline_select3"
+                      class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
+                    >
+                      <option selected>Passing Year</option>
+                      <option value="15">2015</option>
+                      <option value="16">2016</option>
+                      <option value="17">2017</option>
+                      <option value="18">2018</option>
+                      <option value="19">2019</option>
+                    </select>
                   </div>
                 </div>
                 <div></div>
@@ -229,36 +277,34 @@ const Application = () => {
                     </label>
                   </div>
                   <div className="relative z-0 w-full mb-6 group">
-                    <input
-                      type="text"
-                      name="hsc_board1"
-                      id="hsc_board1"
-                      className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                      placeholder=" "
-                      required
-                    />
-                    <label
-                      htmlFor="hsc_board1"
-                      className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75  peer-focus:-translate-y-7"
-                    >
-                      Board
+                    <label for="underline_select1" class="sr-only">
+                      Underline select
                     </label>
+                    <select
+                      id="underline_select1"
+                      class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
+                    >
+                      <option selected>Board</option>
+                      {boards.map((board) => {
+                        return <option value={board.code}>{board.name}</option>;
+                      })}
+                    </select>
                   </div>
                   <div className="relative z-0 w-full mb-6 group">
-                    <input
-                      type="text"
-                      name="hsc_year"
-                      id="hsc_year"
-                      className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                      placeholder=" "
-                      required
-                    />
-                    <label
-                      htmlFor="hsc_year"
-                      className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75  peer-focus:-translate-y-7"
-                    >
-                      Passing Year
+                    <label for="underline_select2" class="sr-only">
+                      Underline select
                     </label>
+                    <select
+                      id="underline_select2"
+                      class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
+                    >
+                      <option selected>Passing Year</option>
+                      <option value="13">2013</option>
+                      <option value="14">2014</option>
+                      <option value="15">2015</option>
+                      <option value="16">2016</option>
+                      <option value="17">2017</option>
+                    </select>
                   </div>
                 </div>
                 <div></div>
@@ -762,8 +808,8 @@ const Application = () => {
                     placeholder=" "
                     required
                   />
-                  
-{/* <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button"> <svg className="w-4 h-4 ml-2" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg></button>
+
+                  {/* <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button"> <svg className="w-4 h-4 ml-2" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg></button>
 <div id="dropdown" className="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
     <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
                   {university.map(uni => {
