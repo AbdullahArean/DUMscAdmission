@@ -1,8 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "../../components/Navbar";
+import api from "../../api";
+import axios from "axios";
+
 
 const Application = () => {
   const [page, setPage] = useState("1");
+  const [university, setUniversity] = useState([]);
   const page1 = () => {
     setPage("1");
   };
@@ -12,6 +16,93 @@ const Application = () => {
   const page3 = () => {
     setPage("3");
   };
+
+  const [fetchedData, setFetchedData] = useState({
+    "name": "",
+    "fname": "",
+    "mname": "",
+    "dob": "",
+    "ssc_roll": "",
+    "ssc_year": "",
+    "ssc_board": "",
+    "ssc_result": "",
+
+    "hsc_roll": "",
+    "hsc_year": "",
+    "hsc_board": "",
+    "hsc_result": "",
+  })
+
+  const uni = () => {
+    api.get('/universities.php').then((response) =>{
+    setUniversity(response.data);
+    console.log(response.data)}).catch(err => console.log(err));
+  }
+
+
+  const fetchSscHscData = (e) => {
+    console.log(e.target.ssc_roll1.value)
+    e.preventDefault();
+    // let hsid = 1311406473;
+    let hsid = "10" + e.target.hsc_year.value.slice(-2) + e.target.hsc_roll1.value;
+    let requestBody = `<dupgwp>
+    <header>
+    <pgwkey>abcd</pgwkey>
+    <pgwreqid>12</pgwreqid>
+    </header>
+    <body>
+    <requestdata>
+    <service>
+    <gentime>20191023193141</gentime>
+    <priority>OT</priority>
+    </service>
+    <params>
+    <param>
+    <query-data>
+    <hsid>${hsid}</hsid>
+    </query-data>
+    </param>
+    </params>
+    </requestdata>
+    </body>
+    </dupgwp>`
+    axios.post("https://regservices.eis.du.ac.bd/edusections/preregistration/getboarddata", requestBody, {
+      headers:{
+        'Content-Type': 'text/xml',
+        'Accept' : 'application/xml'
+      }
+    })
+    .then(res => {
+      
+      const parser = new DOMParser();
+      const data = parser.parseFromString(res.data, "application/xml");
+
+      setFetchedData(
+        {"name" : data.getElementsByTagName("name")[0].childNodes[0].nodeValue,
+        "mname" : data.getElementsByTagName("mother")[0].childNodes[0].nodeValue,
+        "fname" : data.getElementsByTagName("father")[0].childNodes[0].nodeValue,
+        "dob" : data.getElementsByTagName("dob")[0].childNodes[0].nodeValue,
+        "hsc_result" : data.getElementsByTagName("hsc-gpa")[0].childNodes[0].nodeValue,  
+        "ssc_roll" : data.getElementsByTagName("ssc-roll")[0].childNodes[0].nodeValue,
+        "ssc_year" : data.getElementsByTagName("ssc-passyr")[0].childNodes[0].nodeValue,
+        "ssc_board" : data.getElementsByTagName("ssc-board")[0].childNodes[0].nodeValue,
+        "ssc_result" : data.getElementsByTagName("ssc-gpa")[0].childNodes[0].nodeValue,
+      }
+      );
+
+
+
+
+      page2();
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  }
+
+  useEffect(() => {
+    uni();
+  }, []);
   return (
     <div className="bg-white dark:bg-gray-900 flex flex-col justify-center">
       <Navbar />
@@ -20,7 +111,7 @@ const Application = () => {
 
       {page === "1" ? (
         <div className="bg-white h-screen dark:bg-gray-900">
-          <form className="w-4/5 mx-auto mt-14 mb-10 md:mt-24 md:mb-20">
+          <form onSubmit={fetchSscHscData} className="w-4/5 mx-auto mt-14 mb-10 md:mt-24 md:mb-20">
             <div>
               <ul className="flex justify-evenly w-full">
                 <li className="mr-2">
@@ -173,9 +264,16 @@ const Application = () => {
                 <div></div>
               </div>
               <div className="flex justify-center mt-16">
-                <button
+                {/* <button
                   type="button"
                   onClick={() => page2()}
+                  className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm md:text-lg w-full sm:w-auto px-5 py-2.5 md:px-10 md:py-5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                >
+                  Next Page
+                </button> */}
+
+                <button
+                  type="submit"
                   className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm md:text-lg w-full sm:w-auto px-5 py-2.5 md:px-10 md:py-5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                 >
                   Next Page
@@ -242,6 +340,8 @@ const Application = () => {
                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
                 required
+                defaultValue={fetchedData.name}
+                disabled
               />
               <label
                 htmlFor="fullname"
@@ -258,6 +358,8 @@ const Application = () => {
                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
                 required
+                defaultValue={fetchedData.fname}
+                disabled
               />
               <label
                 htmlFor="fname"
@@ -274,6 +376,8 @@ const Application = () => {
                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
                 required
+                defaultValue={fetchedData.mname}
+                disabled
               />
               <label
                 htmlFor="mname"
@@ -307,6 +411,8 @@ const Application = () => {
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
                   required
+                  defaultValue={fetchedData.dob}
+                  disabled
                 />
                 <label
                   htmlFor="dob"
@@ -385,6 +491,8 @@ const Application = () => {
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
                     required
+                    defaultValue={fetchedData.ssc_roll}
+                    disabled
                   />
                   <label
                     htmlFor="ssc_roll"
@@ -401,6 +509,8 @@ const Application = () => {
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
                     required
+                    defaultValue={fetchedData.ssc_board}
+                    disabled
                   />
                   <label
                     htmlFor="ssc_board1"
@@ -419,6 +529,8 @@ const Application = () => {
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
                     required
+                    defaultValue={fetchedData.ssc_year}
+                    disabled
                   />
                   <label
                     htmlFor="ssc_year1"
@@ -435,6 +547,8 @@ const Application = () => {
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
                     required
+                    defaultValue={fetchedData.ssc_result}
+                    disabled
                   />
                   <label
                     htmlFor="ssc_result"
@@ -477,6 +591,8 @@ const Application = () => {
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
                     required
+                    defaultValue={fetchedData.hsc_roll}
+                    disabled
                   />
                   <label
                     htmlFor="hsc_roll"
@@ -493,6 +609,8 @@ const Application = () => {
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
                     required
+                    defaultValue={fetchedData.hsc_board}
+                    disabled
                   />
                   <label
                     htmlFor="hsc_board"
@@ -511,6 +629,8 @@ const Application = () => {
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
                     required
+                    defaultValue={fetchedData.hsc_year}
+                    disabled
                   />
                   <label
                     htmlFor="hsc_year"
@@ -527,6 +647,8 @@ const Application = () => {
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
                     required
+                    defaultValue={fetchedData.hsc_result}
+                    disabled
                   />
                   <label
                     htmlFor="hsc_result"
@@ -640,6 +762,18 @@ const Application = () => {
                     placeholder=" "
                     required
                   />
+                  
+{/* <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button"> <svg className="w-4 h-4 ml-2" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg></button>
+<div id="dropdown" className="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+    <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+                  {university.map(uni => {
+                    return(<li key={uni.id} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{uni.label}
+      </li>)
+                  })}
+    </ul> 
+</div>
+    */}
+
                   <label
                     htmlFor="ug-institution"
                     className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75  peer-focus:-translate-y-7"
