@@ -4,9 +4,11 @@ import api from "../../api";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 
 const Application = () => {
   const [page, setPage] = useState("1");
+  const nav = useNavigate();
   const [university, setUniversity] = useState([]);
   const page1 = () => {
     setPage("1");
@@ -937,6 +939,7 @@ const Application = () => {
               </div>
               <div className="flex justify-center mt-16">
                 <button
+                  onClick={() => nav("/submission")}
                   type="button"
                   className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm md:text-lg w-full sm:w-auto px-5 py-2.5 md:px-10 md:py-5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                 >
