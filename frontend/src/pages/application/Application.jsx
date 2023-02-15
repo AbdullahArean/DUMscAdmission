@@ -18,6 +18,8 @@ const Application = () => {
     setPage("3");
   };
 
+  const subjects = [{ label: "Computer Engineering", id: "1" }];
+
   const boards = [
     {
       name: "Dhaka",
@@ -54,6 +56,90 @@ const Application = () => {
     {
       name: "Mymensingh",
       code: "10",
+    },
+  ];
+
+  const universities = [
+    { label: "Bangladesh Agricultural University", id: "45" },
+    { label: "Bangladesh University of Engineering Technology", id: "46" },
+    { label: "University of Chittagong", id: "47" },
+    { label: "Jahangirnagar University", id: "48" },
+    { label: "Islamic University, Bangladesh", id: "49" },
+    { label: "Shahjalal University of Science Technology", id: "50" },
+    { label: "Khulna University", id: "51" },
+    { label: "National University", id: "52" },
+    { label: "Bangladesh Open University", id: "53" },
+    { label: "Bangabandhu Sheikh Mujib Medical University", id: "54" },
+    {
+      label: "Bangabandhu Sheikh Mujibur Rahman Agricultural University",
+      id: "55",
+    },
+    { label: "Hajee Mohammad Danesh Science Technology University", id: "56" },
+    { label: "Mawlana Bhashani Science Technology University", id: "57" },
+    { label: "Patuakhali Science And Technology University", id: "58" },
+    { label: "Sher-e-Bangla Agricultural University", id: "59" },
+    { label: "Chittagong University of Engineering Technology", id: "60" },
+    { label: "Rajshahi University of Engineering Technology", id: "61" },
+    { label: "Khulna University of Engineering Technology", id: "62" },
+    { label: "Dhaka University of Engineering Technology", id: "63" },
+    { label: "Noakhali Science Technology University", id: "64" },
+    { label: "Jagannath University", id: "65" },
+    { label: "Comilla University", id: "66" },
+    { label: "Jatiya Kabi Kazi Nazrul Islam University", id: "67" },
+    { label: "Chittagong Veterinary and Animal Sciences University", id: "68" },
+    { label: "Sylhet Agricultural University", id: "69" },
+    { label: "Jessore University of Science Technology", id: "70" },
+    { label: "Pabna University of Science and Technology", id: "71" },
+    { label: "Begum Rokeya University, Rangpur", id: "72" },
+    { label: "Bangladesh University of Professionals", id: "73" },
+    {
+      label: "Bangabandhu Sheikh Mujibur Rahman Science Technology University",
+      id: "74",
+    },
+    { label: "Bangladesh University of Textiles", id: "75" },
+    { label: "University of Barishal", id: "76" },
+    { label: "Rangamati Science and Technology University", id: "77" },
+    {
+      label:
+        "Bangabandhu Sheikh Mujibur Rahman Maritime University, Bangladesh",
+      id: "78",
+    },
+    { label: "Islamic Arabic University", id: "79" },
+    { label: "Chittagong Medical University", id: "80" },
+    { label: "Rajshahi Medical University", id: "81" },
+    { label: "Rabindra University,Bangladesh", id: "82" },
+    {
+      label: "Bangabandhu Sheikh Mujibur Rahman Digital University,Bangladesh",
+      id: "83",
+    },
+    { label: "Sheikh Hasina University", id: "84" },
+    { label: "Khulna Agricultural University", id: "85" },
+    { label: "University of Dhaka", id: "43" },
+    { label: "University of Rajshahi", id: "44" },
+    {
+      label:
+        "Bangamata Sheikh Fojilatunnesa Mujib Science and Technology University",
+      id: "86",
+    },
+    { label: "Sylhet Medical University", id: "87" },
+    {
+      label:
+        "Bangabandhu Sheikh Mujibur Rahman Aviation And Aerospace University (BSMRAAU)",
+      id: "88",
+    },
+    { label: "Chandpur Science and Technology University", id: "89" },
+    {
+      label: "Bangabandhu Sheikh Mujibur Rahman University, Kishoreganj",
+      id: "90",
+    },
+    { label: "Hobiganj Agricultural University", id: "91" },
+    { label: "Sheikh Hasina Medical University, Khulna", id: "92" },
+    { label: "Kurigram Agricultural University", id: "93" },
+    { label: "Sunamganj Science and Technology University", id: "94" },
+    {
+      label:
+        "Bangabandhu Sheikh Mujibur Rahman Science Technology University,Pirojpur",
+      id: "95",
     },
   ];
 
@@ -126,7 +212,7 @@ const Application = () => {
         const data = parser.parseFromString(res.data, "application/xml");
 
         if (
-          data.getElementsByTagName("ssc-roll")[0].childNodes[0].nodeValue !=
+          data.getElementsByTagName("ssc-roll")[0].childNodes[0].nodeValue !==
           e.target.ssc_roll1.value
         ) {
           toast.error("Invalid Data", {
@@ -841,50 +927,34 @@ const Application = () => {
                   </label>
                 </div>
                 <div className="relative md:col-span-2 z-0 w-full mb-6 group">
-                  <input
-                    type="text"
-                    name="ug-institution"
-                    id="ug-institution"
-                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                    placeholder=" "
-                    required
-                  />
-
-                  {/* <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button"> <svg className="w-4 h-4 ml-2" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg></button>
-<div id="dropdown" className="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-    <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
-                  {university.map(uni => {
-                    return(<li key={uni.id} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{uni.label}
-      </li>)
-                  })}
-    </ul> 
-</div>
-    */}
-
-                  <label
-                    htmlFor="ug-institution"
-                    className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75  peer-focus:-translate-y-7"
-                  >
-                    Institution
+                  <label for="underline_select4" class="sr-only">
+                    Underline select
                   </label>
+                  <select
+                    id="underline_select4"
+                    class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
+                  >
+                    <option selected>Institution</option>
+                    {universities.map((uni) => {
+                      return <option value={uni.id}>{uni.label}</option>;
+                    })}
+                  </select>
                 </div>
               </div>
               <div className="md:grid md:grid-cols-3 md:gap-5">
                 <div className="relative z-0 w-full mb-6 group">
-                  <input
-                    type="text"
-                    name="ug_subject"
-                    id="ug_subject"
-                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                    placeholder=" "
-                    required
-                  />
-                  <label
-                    htmlFor="ug_subject"
-                    className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75  peer-focus:-translate-y-7"
-                  >
-                    Subject
+                  <label for="underline_select5" class="sr-only">
+                    Underline select
                   </label>
+                  <select
+                    id="underline_select5"
+                    class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
+                  >
+                    <option selected>Subject</option>
+                    {subjects.map((sub) => {
+                      return <option value={sub.id}>{sub.label}</option>;
+                    })}
+                  </select>
                 </div>
                 <div className="relative z-0 w-full mb-6 group">
                   <input
