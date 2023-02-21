@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-no-target-blank */
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import Navbar from "../../components/Navbar";
 import api from "../../api";
@@ -8,7 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 const Submission = () => {
   return (
     <div className="bg-white dark:bg-gray-900 flex flex-col justify-center">
-      <Navbar />
+      <Navbar active="submission"/>
       <ToastContainer
         position="top-right"
         autoClose={5000}

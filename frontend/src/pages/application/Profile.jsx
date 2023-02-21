@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import Navbar from "../../components/Navbar";
 import api from "../../api";
@@ -6,15 +7,27 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 
-const Application = () => {
+const Profile = () => {
   const [page, setPage] = useState("1");
   const nav = useNavigate();
   const [university, setUniversity] = useState([]);
+  const [page1complete, setPage1Complete] = useState(false);
   const page1 = () => {
     setPage("1");
   };
   const page2 = () => {
-    setPage("2");
+    if (page1complete) setPage("2");
+    else
+      toast.warning("Please fill-up the current page", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        progress: undefined,
+        theme: "colored",
+      });
   };
   const page3 = () => {
     setPage("3");
@@ -172,11 +185,12 @@ const Application = () => {
   };
 
   const fetchSscHscData = (e) => {
-    console.log(e.target.ssc_roll1.value);
     e.preventDefault();
     // let hsid = 1311406473;
     let hsid =
-      "10" + e.target.hsc_year.value.slice(-2) + e.target.hsc_roll1.value;
+      "10" +
+      e.target.underline_select2.value.slice(-2) +
+      e.target.hsc_roll1.value;
     let requestBody = `<dupgwp>
     <header>
     <pgwkey>abcd</pgwkey>
@@ -248,7 +262,7 @@ const Application = () => {
               data.getElementsByTagName("ssc-gpa")[0].childNodes[0].nodeValue,
           });
 
-          page2();
+          setPage1Complete(true).then(() => page2());
         }
       })
       .catch((err) => {
@@ -270,7 +284,7 @@ const Application = () => {
   }, []);
   return (
     <div className="bg-white dark:bg-gray-900 flex flex-col justify-center">
-      <Navbar />
+      <Navbar active="profile" />
       <ToastContainer
         position="top-right"
         autoClose={5000}
@@ -354,33 +368,37 @@ const Application = () => {
                     </label>
                   </div>
                   <div className="relative z-0 w-full mb-6 group">
-                    <label for="underline_select" class="sr-only">
+                    <label htmlFor="underline_select" className="sr-only">
                       Underline select
                     </label>
                     <select
                       id="underline_select"
-                      class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
+                      className="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
                     >
-                      <option selected>Board</option>
-                      {boards.map((board) => {
-                        return <option value={board.code}>{board.name}</option>;
+                      <option defaultValue>Board</option>
+                      {boards.map((board, index) => {
+                        return (
+                          <option key={index} value={board.code}>
+                            {board.name}
+                          </option>
+                        );
                       })}
                     </select>
                   </div>
                   <div className="relative z-0 w-full mb-6 group">
-                    <label for="underline_select3" class="sr-only">
+                    <label htmlFor="underline_select3" className="sr-only">
                       Underline select
                     </label>
                     <select
                       id="underline_select3"
-                      class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
+                      className="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
                     >
-                      <option selected>Passing Year</option>
+                      <option defaultValue>Passing Year</option>
+                      <option value="13">2013</option>
+                      <option value="14">2014</option>
                       <option value="15">2015</option>
                       <option value="16">2016</option>
                       <option value="17">2017</option>
-                      <option value="18">2018</option>
-                      <option value="19">2019</option>
                     </select>
                   </div>
                 </div>
@@ -406,33 +424,37 @@ const Application = () => {
                     </label>
                   </div>
                   <div className="relative z-0 w-full mb-6 group">
-                    <label for="underline_select1" class="sr-only">
+                    <label htmlFor="underline_select1" className="sr-only">
                       Underline select
                     </label>
                     <select
                       id="underline_select1"
-                      class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
+                      className="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
                     >
-                      <option selected>Board</option>
-                      {boards.map((board) => {
-                        return <option value={board.code}>{board.name}</option>;
+                      <option defaultValue>Board</option>
+                      {boards.map((board, index) => {
+                        return (
+                          <option key={index} value={board.code}>
+                            {board.name}
+                          </option>
+                        );
                       })}
                     </select>
                   </div>
                   <div className="relative z-0 w-full mb-6 group">
-                    <label for="underline_select2" class="sr-only">
+                    <label htmlFor="underline_select2" className="sr-only">
                       Underline select
                     </label>
                     <select
                       id="underline_select2"
-                      class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
+                      className="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
                     >
-                      <option selected>Passing Year</option>
-                      <option value="13">2013</option>
-                      <option value="14">2014</option>
+                      <option defaultValue>Passing Year</option>
                       <option value="15">2015</option>
                       <option value="16">2016</option>
                       <option value="17">2017</option>
+                      <option value="18">2018</option>
+                      <option value="19">2019</option>
                     </select>
                   </div>
                 </div>
@@ -929,32 +951,40 @@ const Application = () => {
                   </label>
                 </div>
                 <div className="relative md:col-span-2 z-0 w-full mb-6 group">
-                  <label for="underline_select4" class="sr-only">
+                  <label htmlFor="underline_select4" className="sr-only">
                     Underline select
                   </label>
                   <select
                     id="underline_select4"
-                    class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
+                    className="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
                   >
-                    <option selected>Institution</option>
-                    {universities.map((uni) => {
-                      return <option value={uni.id}>{uni.label}</option>;
+                    <option defaultValue>Institution</option>
+                    {universities.map((uni, index) => {
+                      return (
+                        <option key={index} value={uni.id}>
+                          {uni.label}
+                        </option>
+                      );
                     })}
                   </select>
                 </div>
               </div>
               <div className="md:grid md:grid-cols-3 md:gap-5">
                 <div className="relative z-0 w-full mb-6 group">
-                  <label for="underline_select5" class="sr-only">
+                  <label htmlFor="underline_select5" className="sr-only">
                     Underline select
                   </label>
                   <select
                     id="underline_select5"
-                    class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
+                    className="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
                   >
-                    <option selected>Subject</option>
-                    {subjects.map((sub) => {
-                      return <option value={sub.id}>{sub.label}</option>;
+                    <option defaultValue>Subject</option>
+                    {subjects.map((sub, index) => {
+                      return (
+                        <option key={index} value={sub.id}>
+                          {sub.label}
+                        </option>
+                      );
                     })}
                   </select>
                 </div>
@@ -1026,4 +1056,4 @@ const Application = () => {
   );
 };
 
-export default Application;
+export default Profile;
