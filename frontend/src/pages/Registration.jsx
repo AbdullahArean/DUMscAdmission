@@ -3,8 +3,8 @@ import { useState, useEffect } from "react";
 import PhoneInput from "react-phone-number-input";
 import { useNavigate } from "react-router-dom";
 import "react-phone-number-input/style.css";
-import "../../index.css";
-import api from "../../api";
+import "../index.css";
+import api from "../api";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 

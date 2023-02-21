@@ -1,8 +1,8 @@
 /* eslint-disable react/jsx-no-target-blank */
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
-import Navbar from "../../components/Navbar";
-import api from "../../api";
+import Navbar from "../components/Navbar";
+import api from "../api";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

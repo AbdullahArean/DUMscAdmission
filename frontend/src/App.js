@@ -1,15 +1,15 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./pages/home/Home";
-import Forgot from "./pages/forgot/Forgot";
-import Login from "./pages/login/Login";
-import NotFound from "./pages/notFound/NotFound";
-import Registration from "./pages/registration/Registration";
-import Reset from "./pages/reset/Reset";
-import Verification from "./pages/verification/Verification";
-import Confirmation from "./pages/confirmation/Confirmation";
-import Submission from "./pages/submission/Submission";
-import Profile from "./pages/application/Profile";
+import Home from "./pages/Home";
+import Forgot from "./pages/Forgot";
+import Login from "./pages/Login";
+import NotFound from "./pages/NotFound";
+import Registration from "./pages/Registration";
+import Reset from "./pages/Reset";
+import Verification from "./pages/Verification";
+import Confirmation from "./pages/Confirmation";
+import Submission from "./pages/Submission";
+import Profile from "./pages/Profile";
 
 function App() {
   return (

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Navbar from "../../components/Navbar";
-import Notice from "../../components/Notice";
+import Navbar from "../components/Navbar";
+import Notice from "../components/Notice";
 import { RiArrowDownSLine } from "react-icons/ri";
 
 const Home = () => {
