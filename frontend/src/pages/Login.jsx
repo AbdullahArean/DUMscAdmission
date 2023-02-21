@@ -7,9 +7,12 @@ import { useState, useEffect } from "react";
 import api from "../api";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useGlobalState } from "../components/UserContext.jsx";
 
 const Login = () => {
   const nav = useNavigate();
+  const [user, setUser] = useGlobalState("user");
+  const [isLoggedIn, setIsLoggedIn] = useGlobalState("isLoggedIn");
   const [theme, setTheme] = useState(null);
   useEffect(() => {
     if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
@@ -54,6 +57,25 @@ const Login = () => {
       .then((res) => {
         console.log(res);
         if (res.status === 200) {
+          localStorage.setItem("jwt", res.data["jwt"]);
+
+          api
+            .get("/profile.php", {
+              headers: {
+                Authorization: res.data["jwt"],
+              },
+            })
+            .then((profileResponse) => {
+              let toUpdateKeys = ["id", "name", "phone", "mail", "role"];
+              let profile = profileResponse.data.message;
+              Object.keys(user).forEach((k) => {
+                if (toUpdateKeys.includes(k)) {
+                  user[k] = profile[k];
+                }
+              });
+              setUser(user);
+              setIsLoggedIn(true);
+            });
           toProfile();
         }
       })

@@ -12,8 +12,6 @@ if (isset($_SERVER['HTTP_ORIGIN'])) {
             header("Access-Control-Allow-Methods: *");
 }
 
-
-
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
@@ -62,11 +60,5 @@ if($_SERVER["REQUEST_METHOD"] == "GET"){
             ]);
        }
     }
-else {
-    http_response_code(401);
-    echo json_encode([
-        'status' => 0,
-        'message' => $e->getMessage()
-    ]);
-}
+
 ?>  

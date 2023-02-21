@@ -69,8 +69,15 @@ CREATE TABLE Users (
     modified_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE Applications (
-    app_id NUMBER(10) GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY NOT NULL,
+CREATE TABLE Department (
+    dept_id NUMBER(10) GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY NOT NULL,
+    dept_name varchar2(200) NOT NULL UNIQUE,
+    dept_notice varchar2(2000),
+    application_start TIMESTAMP,
+    application_end TIMESTAMP
+);
+
+CREATE TABLE Profile (
     
     u_id NUMBER(10) REFERENCES Users(u_id),
     a_name varchar2(200),
@@ -102,10 +109,21 @@ CREATE TABLE Applications (
     ug_pass_year NUMBER(10),
     ug_transcript_path VARCHAR2(200),
     
-    application_state NUMBER(1) DEFAULT 0,
-    submission_status NUMBER(1) DEFAULT 0,
-    payment_status NUMBER(1) DEFAULT 0,
+    profile_state NUMBER(1) DEFAULT 0,
     
+    created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    modified_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE Application(
+    app_id NUMBER(10) GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY NOT NULL,
+    dept_id NUMBER REFERENCES Department(dept_id),
+    u_id NUMBER REFERENCES Users(u_id),
+
+    app_verified NUMBER(1) DEFAULT 0,
+    app_admit NUMBER(1) DEFAULT 0,
+    app_payment NUMBER(1) DEFAULT 0,
+
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     modified_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -114,7 +132,7 @@ CREATE TABLE Applications (
 CREATE TABLE Payment(
     payment_id NUMBER(10) GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY NOT NULL,
     trx_id VARCHAR2(200),
-    app_id REFERENCES Applications(app_id),
+    app_id REFERENCES Application(app_id),
     amount NUMBER(10, 2),
     status VARCHAR(50) DEFAULT 'Pending',
     details VARCHAR(200),
