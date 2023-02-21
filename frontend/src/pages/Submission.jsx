@@ -9,8 +9,8 @@ import "react-toastify/dist/ReactToastify.css";
 
 const Submission = () => {
   return (
-    <div className="bg-white dark:bg-gray-900 flex flex-col justify-center">
-      <Navbar active="submission"/>
+    <div className="bg-white h-screen dark:bg-gray-900 flex flex-col">
+      <Navbar active="submission" />
       <ToastContainer
         position="top-right"
         autoClose={5000}
@@ -25,7 +25,7 @@ const Submission = () => {
       />
 
       <div class="relative overflow-x-auto">
-        <table class="w-full h-sc text-sm text-left text-gray-500 dark:text-gray-400 mt-24">
+        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 mt-24">
           <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
               <th scope="col" class="px-6 py-3">

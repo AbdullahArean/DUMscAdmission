@@ -12,13 +12,30 @@
   border: none;
 }
 
-
 .dark .PhoneInputCountrySelect {
-    background-color: rgb(55 65 81);
-    border: none;
-  }
-  
-  .PhoneInputCountrySelect {
-    background-color: rgb(249 250 251);
-    border: none;
-  }
+  background-color: rgb(55 65 81);
+  border: none;
+}
+
+.PhoneInputCountrySelect {
+  background-color: rgb(249 250 251);
+  border: none;
+}
+
+.ant-collapse-header {
+  font-size: large !important;
+}
+
+.dark .ant-collapse-header {
+  color: whitesmoke !important;
+  font-size: large !important;
+}
+
+.ant-collapse-content-box {
+  font-size: medium !important;
+}
+
+.dark .ant-collapse-content-box {
+  color: rgb(156 163 175) !important;
+  font-size: medium !important;
+}
