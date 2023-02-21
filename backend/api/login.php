@@ -1,8 +1,18 @@
 <?php
 // Include config file
 require_once "config.php";
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Headers: *");
+if (isset($_SERVER['HTTP_ORIGIN'])) {
+    // Decide if the origin in $_SERVER['HTTP_ORIGIN'] is one
+    // you want to allow, and if so:
+    header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
+    header('Access-Control-Allow-Credentials: true');
+    header('Access-Control-Max-Age: 86400');    // cache for 1 day
+    header("Access-Control-Allow-Headers: authorization");
+            
+    if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
+            header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+}
+
 
 use Firebase\JWT\JWT;
 

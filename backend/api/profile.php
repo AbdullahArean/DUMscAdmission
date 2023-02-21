@@ -1,8 +1,18 @@
 <?php
 // Include config file
 require_once "config.php";
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Headers: *");
+// Allow from any origin
+if (isset($_SERVER['HTTP_ORIGIN'])) {
+    header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
+    header('Access-Control-Allow-Credentials: true');
+    header('Access-Control-Max-Age: 86400');    // cache for 1 day
+    header("Access-Control-Allow-Headers: *");
+            
+    if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
+            header("Access-Control-Allow-Methods: *");
+}
+
+
 
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
@@ -44,6 +54,7 @@ if($_SERVER["REQUEST_METHOD"] == "GET"){
         }
        }
        catch(Exception $e){
+            
             http_response_code(400);
             echo json_encode([
                 'status' => 0,
@@ -51,12 +62,11 @@ if($_SERVER["REQUEST_METHOD"] == "GET"){
             ]);
        }
     }
-    else {
-        http_response_code(401);
-        echo json_encode([
-            'status' => 0,
-            'message' => 'Access Denied',
-        ]);
-    }
-
+else {
+    http_response_code(401);
+    echo json_encode([
+        'status' => 0,
+        'message' => $e->getMessage()
+    ]);
+}
 ?>  
