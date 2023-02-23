@@ -12,6 +12,7 @@ import Submission from "./pages/Submission";
 import Profile from "./pages/Profile";
 import Notice from "./pages/Notice";
 import ViewProfile from "./pages/ViewProfile";
+import Apply from "./pages/Apply";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
           <Route path="confirm" element={<Confirmation />} />
           <Route path="submission" element={<Submission />} />
           <Route path="notice" element={<Notice />} />
+          <Route path="application" element={<Apply />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

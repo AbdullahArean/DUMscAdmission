@@ -67,7 +67,7 @@ const Notice = () => {
               render={(_, record) => <Button>Delete</Button>}
             ></Column>
           ) : (
-            <></>
+            <div></div>
           )}
         </Table>
       </div>
