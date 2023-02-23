@@ -207,48 +207,44 @@ const Profile = () => {
   };
 
   const submitInformation = (e) => {
+    page3();
+  };
+
+  const submitProfile = (e) => {
     e.preventDefault();
-
-    let dataToPost = {
-      name: e.target.name.value,
-      fname: e.target.fname.value,
-      mname: e.target.mname.value,
-      email: e.target.email.value,
-      dob: e.target.dob.value,
-      phone: e.target.phone.value,
-      pic: e.target.pic.files[0],
-      sign: e.target.sign.files[0],
-      ssc_roll: e.target.ssc_roll.value,
-      ssc_board: e.target.ssc_board.value,
-      ssc_year: e.target.ssc_year.value,
-      ssc_result: e.target.ssc_result.value,
-      ssc_transcript: e.target.ssc_transcript.files[0],
-      hsc_roll: e.target.hsc_roll.value,
-      hsc_board: e.target.hsc_board.value,
-      hsc_year: e.target.hsc_year.value,
-      hsc_result: e.target.hsc_result.value,
-      hsc_transcript: e.target.hsc_transcript.files[0],
-    };
-
-    axios
-      .post(
-        "https://regservices.eis.du.ac.bd/edusections/preregistration/getboarddata",
-        dataToPost,
-        {
-          headers: {
-            "Content-Type": "text/xml",
-            Accept: "application/xml",
-          },
-        }
-      )
-      .then(() => {
-        setPage2Complete(true).then(() => page3());
+    let dataToPost = new FormData();
+    dataToPost.set("a_name", fetchedData.name);
+    dataToPost.set("f_name", fetchedData.fname);
+    dataToPost.set("m_name", fetchedData.mname);
+    dataToPost.set("a_dob", "02-Jan-2001");
+    dataToPost.set("a_phone", "01782267068");
+    dataToPost.set("a_mail", "iam.reduan@gmail.com");
+    dataToPost.set("ssc_roll", fetchedData.ssc_roll);
+    dataToPost.set("ssc_reg", 1410970171);
+    dataToPost.set("ssc_board", "Dhaka");
+    dataToPost.set("ssc_year", 2017);
+    dataToPost.set("ssc_result", fetchedData.ssc_result);
+    dataToPost.set("hsc_roll", fetchedData.hsc_roll);
+    dataToPost.set("hsc_reg", 1410970171);
+    dataToPost.set("hsc_board", "Dhaka");
+    dataToPost.set("hsc_year", 2019);
+    dataToPost.set("hsc_result", fetchedData.hsc_result);
+    dataToPost.set("ug_institution", 45);
+    dataToPost.set("ug_subject", 1);
+    dataToPost.set("ug_type", "Bsc");
+    dataToPost.set("ug_cgpa", 3.99);
+    dataToPost.set("ug_pass_year", 2023);
+    api
+      .post("/profile.php", dataToPost, {
+        headers: {
+          Authorization: localStorage.getItem("jwt"),
+        },
       })
-      .catch((err) => {
-        console.log(err);
-      });
 
-    console.log(dataToPost);
+      .then((res) => {
+        toast.success("Profile Submitted");
+        nav("/submission");
+      });
   };
 
   const fetchSscHscData = (e) => {
@@ -293,9 +289,12 @@ const Profile = () => {
       .then((res) => {
         const parser = new DOMParser();
         const data = parser.parseFromString(res.data, "application/xml");
-
+        console.log(
+          data.getElementsByTagName("ssc-roll")[0].childNodes[0].nodeValue !=
+            e.target.ssc_roll1.value
+        );
         if (
-          data.getElementsByTagName("ssc-roll")[0].childNodes[0].nodeValue !==
+          data.getElementsByTagName("ssc-roll")[0].childNodes[0].nodeValue !=
           e.target.ssc_roll1.value
         ) {
           toast.error("Invalid Data", {
@@ -309,6 +308,7 @@ const Profile = () => {
             theme: "colored",
           });
         } else {
+          console.log("HAERE");
           setFetchedData({
             name: data.getElementsByTagName("name")[0].childNodes[0].nodeValue,
             mname:
@@ -316,6 +316,11 @@ const Profile = () => {
             fname:
               data.getElementsByTagName("father")[0].childNodes[0].nodeValue,
             dob: data.getElementsByTagName("dob")[0].childNodes[0].nodeValue,
+
+            hsc_roll: e.target.hsc_roll1.value,
+            hsc_year: e.target.underline_select2.value,
+            hsc_board: "Dhaka",
+
             hsc_result:
               data.getElementsByTagName("hsc-gpa")[0].childNodes[0].nodeValue,
             ssc_roll:
@@ -329,10 +334,11 @@ const Profile = () => {
               data.getElementsByTagName("ssc-gpa")[0].childNodes[0].nodeValue,
           });
 
-          setPage1Complete(true).then(() => page2());
+          page2();
         }
       })
       .catch((err) => {
+        console.log(err);
         toast.error("Invalid Data", {
           position: "top-right",
           autoClose: 5000,
@@ -951,7 +957,10 @@ const Profile = () => {
       {/* Undergraduate */}
       {page === "3" ? (
         <div className="bg-white h-screen dark:bg-gray-900">
-          <form className="w-4/5 mx-auto mt-14 mb-10 md:mt-24 md:mb-20">
+          <form
+            onSubmit={submitProfile}
+            className="w-4/5 mx-auto mt-14 mb-10 md:mt-24 md:mb-20"
+          >
             <ul className="flex justify-evenly w-full">
               <li className="mr-2">
                 <button
@@ -1100,8 +1109,7 @@ const Profile = () => {
               </div>
               <div className="flex justify-center mt-16">
                 <button
-                  onClick={() => nav("/submission")}
-                  type="button"
+                  type="submit"
                   className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm md:text-lg w-full sm:w-auto px-5 py-2.5 md:px-10 md:py-5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                 >
                   Submit
