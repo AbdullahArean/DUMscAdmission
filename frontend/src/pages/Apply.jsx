@@ -21,13 +21,6 @@ const Apply = () => {
   const [modal2Open, setModal2Open] = useState(false);
 
   const [data, setData] = useState([]);
-  // const data = [
-  //   {
-  //     dept_name: "Computer Science and Engineering",
-  //     end_date: "10/6/23",
-  //     applied: false,
-  //   },
-  // ];
 
   const fetchData = () => {
     api.get("/department.php").then((res) => {
