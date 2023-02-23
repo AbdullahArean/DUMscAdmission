@@ -14,14 +14,18 @@ if (isset($_SERVER['HTTP_ORIGIN'])) {
 
 
 if($_SERVER["REQUEST_METHOD"] == "GET"){
-    $query = "SELECT uni_id, uni_name FROM SYS.Universities";
+    $query = "SELECT dept_id, dept_name, dept_notice, application_start, application_end FROM SYS.Department";
     $stmt = oci_parse($link, $query);
     if(oci_execute($stmt)){
         $response = array();
         while($row = oci_fetch_array($stmt, OCI_ASSOC)){
+
             $uni = array();
-            $uni["label"] = $row["UNI_NAME"];
-            $uni["id"] = $row["UNI_ID"];
+            $uni["application_end"] = $row["APPLICATION_END"];
+            $uni["application_start"] = $row["APPLICATION_START"];
+            $uni["name"] = $row["DEPT_NAME"];
+            $uni["notice"] = $row["DEPT_NOTICE"];
+            $uni["id"] = $row["DEPT_ID"];
 
             array_push($response, $uni);
         }
