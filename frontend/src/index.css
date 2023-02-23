@@ -39,3 +39,7 @@
   color: rgb(156 163 175) !important;
   font-size: medium !important;
 }
+
+.dark option {
+  color: black !important;
+}

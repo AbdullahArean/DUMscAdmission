@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import api from "../api";
+import "../index.css";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -12,12 +13,30 @@ const Profile = () => {
   const nav = useNavigate();
   const [university, setUniversity] = useState([]);
   const [page1complete, setPage1Complete] = useState(false);
+  const [page2complete, setPage2Complete] = useState(false);
+  const [fetchedData, setFetchedData] = useState({
+    name: "",
+    fname: "",
+    mname: "",
+    dob: "",
+    ssc_roll: "",
+    ssc_year: "",
+    ssc_board: "",
+    ssc_result: "",
+
+    hsc_roll: "",
+    hsc_year: "",
+    hsc_board: "",
+    hsc_result: "",
+  });
+
   const page1 = () => {
     setPage("1");
   };
+
   const page2 = () => {
-    if (page1complete) setPage("2");
-    else
+    /* if (page1complete) setPage("2");
+    else {
       toast.warning("Please fill-up the current page", {
         position: "top-right",
         autoClose: 5000,
@@ -28,8 +47,26 @@ const Profile = () => {
         progress: undefined,
         theme: "colored",
       });
+      setPage("1");
+    } */
+    setPage("2");
   };
+
   const page3 = () => {
+    /* if (page1complete && page2complete) setPage("3");
+    else {
+      toast.warning("Please fill-up the current page", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        progress: undefined,
+        theme: "colored",
+      });
+      setPage("1");
+    } */
     setPage("3");
   };
 
@@ -158,22 +195,6 @@ const Profile = () => {
     },
   ];
 
-  const [fetchedData, setFetchedData] = useState({
-    name: "",
-    fname: "",
-    mname: "",
-    dob: "",
-    ssc_roll: "",
-    ssc_year: "",
-    ssc_board: "",
-    ssc_result: "",
-
-    hsc_roll: "",
-    hsc_year: "",
-    hsc_board: "",
-    hsc_result: "",
-  });
-
   const uni = () => {
     api
       .get("/universities.php")
@@ -182,6 +203,51 @@ const Profile = () => {
         console.log(response.data);
       })
       .catch((err) => console.log(err));
+  };
+
+  const submitInformation = (e) => {
+    e.preventDefault();
+
+    let dataToPost = {
+      name: e.target.name.value,
+      fname: e.target.fname.value,
+      mname: e.target.mname.value,
+      email: e.target.email.value,
+      dob: e.target.dob.value,
+      phone: e.target.phone.value,
+      pic: e.target.pic.files[0],
+      sign: e.target.sign.files[0],
+      ssc_roll: e.target.ssc_roll.value,
+      ssc_board: e.target.ssc_board.value,
+      ssc_year: e.target.ssc_year.value,
+      ssc_result: e.target.ssc_result.value,
+      ssc_transcript: e.target.ssc_transcript.files[0],
+      hsc_roll: e.target.hsc_roll.value,
+      hsc_board: e.target.hsc_board.value,
+      hsc_year: e.target.hsc_year.value,
+      hsc_result: e.target.hsc_result.value,
+      hsc_transcript: e.target.hsc_transcript.files[0],
+    };
+
+    axios
+      .post(
+        "https://regservices.eis.du.ac.bd/edusections/preregistration/getboarddata",
+        dataToPost,
+        {
+          headers: {
+            "Content-Type": "text/xml",
+            Accept: "application/xml",
+          },
+        }
+      )
+      .then(() => {
+        setPage2Complete(true).then(() => page3());
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    console.log(dataToPost);
   };
 
   const fetchSscHscData = (e) => {
@@ -461,14 +527,6 @@ const Profile = () => {
                 <div></div>
               </div>
               <div className="flex justify-center mt-16">
-                {/* <button
-                  type="button"
-                  onClick={() => page2()}
-                  className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm md:text-lg w-full sm:w-auto px-5 py-2.5 md:px-10 md:py-5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                >
-                  Next Page
-                </button> */}
-
                 <button
                   type="submit"
                   className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm md:text-lg w-full sm:w-auto px-5 py-2.5 md:px-10 md:py-5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
@@ -486,7 +544,10 @@ const Profile = () => {
       {/*page 2 preview*/}
 
       {page === "2" ? (
-        <form className="w-4/5 mx-auto mt-14 mb-10 md:mt-24 md:mb-20">
+        <form
+          onSubmit={submitInformation}
+          className="w-4/5 mx-auto mt-14 mb-10 md:mt-24 md:mb-20"
+        >
           <ul className="flex justify-evenly w-full">
             <li className="mr-2">
               <button
@@ -538,7 +599,7 @@ const Profile = () => {
                 placeholder=" "
                 required
                 defaultValue={fetchedData.name}
-                disabled
+                disabled={fetchedData.name ? true : false}
               />
               <label
                 htmlFor="fullname"
@@ -556,7 +617,7 @@ const Profile = () => {
                 placeholder=" "
                 required
                 defaultValue={fetchedData.fname}
-                disabled
+                disabled={fetchedData.fname ? true : false}
               />
               <label
                 htmlFor="fname"
@@ -574,7 +635,7 @@ const Profile = () => {
                 placeholder=" "
                 required
                 defaultValue={fetchedData.mname}
-                disabled
+                disabled={fetchedData.mname ? true : false}
               />
               <label
                 htmlFor="mname"
@@ -609,7 +670,7 @@ const Profile = () => {
                   placeholder=" "
                   required
                   defaultValue={fetchedData.dob}
-                  disabled
+                  disabled={fetchedData.dob ? true : false}
                 />
                 <label
                   htmlFor="dob"
@@ -689,7 +750,7 @@ const Profile = () => {
                     placeholder=" "
                     required
                     defaultValue={fetchedData.ssc_roll}
-                    disabled
+                    disabled={fetchedData.ssc_roll ? true : false}
                   />
                   <label
                     htmlFor="ssc_roll"
@@ -707,7 +768,7 @@ const Profile = () => {
                     placeholder=" "
                     required
                     defaultValue={fetchedData.ssc_board}
-                    disabled
+                    disabled={fetchedData.ssc_board ? true : false}
                   />
                   <label
                     htmlFor="ssc_board1"
@@ -727,7 +788,7 @@ const Profile = () => {
                     placeholder=" "
                     required
                     defaultValue={fetchedData.ssc_year}
-                    disabled
+                    disabled={fetchedData.ssc_year ? true : false}
                   />
                   <label
                     htmlFor="ssc_year1"
@@ -745,7 +806,7 @@ const Profile = () => {
                     placeholder=" "
                     required
                     defaultValue={fetchedData.ssc_result}
-                    disabled
+                    disabled={fetchedData.ssc_result ? true : false}
                   />
                   <label
                     htmlFor="ssc_result"
@@ -789,7 +850,7 @@ const Profile = () => {
                     placeholder=" "
                     required
                     defaultValue={fetchedData.hsc_roll}
-                    disabled
+                    disabled={fetchedData.hsc_roll ? true : false}
                   />
                   <label
                     htmlFor="hsc_roll"
@@ -807,7 +868,7 @@ const Profile = () => {
                     placeholder=" "
                     required
                     defaultValue={fetchedData.hsc_board}
-                    disabled
+                    disabled={fetchedData.hsc_board ? true : false}
                   />
                   <label
                     htmlFor="hsc_board"
@@ -827,7 +888,7 @@ const Profile = () => {
                     placeholder=" "
                     required
                     defaultValue={fetchedData.hsc_year}
-                    disabled
+                    disabled={fetchedData.hsc_year ? true : false}
                   />
                   <label
                     htmlFor="hsc_year"
@@ -845,7 +906,7 @@ const Profile = () => {
                     placeholder=" "
                     required
                     defaultValue={fetchedData.hsc_result}
-                    disabled
+                    disabled={fetchedData.hsc_result ? true : false}
                   />
                   <label
                     htmlFor="hsc_result"
@@ -874,8 +935,7 @@ const Profile = () => {
             </div>
             <div className="flex justify-center mt-16">
               <button
-                type="button"
-                onClick={() => page3()}
+                type="submit"
                 className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm md:text-lg w-full sm:w-auto px-5 py-2.5 md:px-10 md:py-5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >
                 Next Page

@@ -11,6 +11,7 @@ import Confirmation from "./pages/Confirmation";
 import Submission from "./pages/Submission";
 import Profile from "./pages/Profile";
 import Notice from "./pages/Notice";
+import ViewProfile from "./pages/ViewProfile";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="forgot" element={<Forgot />} />
           <Route path="reset" element={<Reset />} />
           <Route path="profile" element={<Profile />} />
+          <Route path="viewprofile" element={<ViewProfile />} />
           <Route path="verify" element={<Verification />} />
           <Route path="confirm" element={<Confirmation />} />
           <Route path="submission" element={<Submission />} />
