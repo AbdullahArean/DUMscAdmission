@@ -39,8 +39,7 @@ const Submission = () => {
         theme="colored"
       />
 
-      <div class="mt-24 mx-10 relative overflow-x-auto">
-        <p className="text-white">{user.role}</p>
+      <div className="mt-24 mx-10 relative overflow-x-auto">
         <Table
           loading={loading}
           dataSource={data}
@@ -61,13 +60,13 @@ const Submission = () => {
                 <Space size="middle">
                   <button
                     onClick={() => {}}
-                    className="hover:underline text-white bg-green-500 px-2 py-1 rounded-lg font-medium"
+                    className="text-white bg-green-500 px-2 py-1 rounded-lg font-medium"
                   >
                     Approve
                   </button>
                   <button
                     onClick={() => {}}
-                    className="hover:underline text-white bg-red-500 px-2 py-1 rounded-lg font-medium"
+                    className="text-white bg-red-500 px-2 py-1 rounded-lg font-medium"
                   >
                     Reject
                   </button>

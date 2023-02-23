@@ -46,7 +46,7 @@ const Home = () => {
     <div className="bg-white dark:bg-gray-900 flex flex-col justify-center">
       <Navbar active={"home"} />
       <div className="bg-white h-full dark:bg-gray-900">
-        <div className="w-full px-2 md:px-0 md:w-4/5 text-gray-200 md:mx-auto mt-20 mb-10 md:mt-32 md:mb-20">
+        <div className="w-full px-2 md:px-0 md:w-4/5 md:mx-auto mt-20 mb-10 md:mt-32 md:mb-20">
           <div className="text-xl md:text-3xl text-center dark:text-white mb-5">
             Notice
           </div>
@@ -57,7 +57,7 @@ const Home = () => {
           </div>
         </div>
         {/* FAQ */}
-        <div className="w-4/5 mx-auto mt-14 mb-10 md:mt-24 md:mb-20">
+        <div className="w-full px-2 md:px-0 md:w-4/5 mx-auto mt-14 mb-10 md:mt-24 md:mb-20">
           <div className="text-xl mb-4 md:text-3xl text-center dark:text-white">
             Frequently Asked Questions
           </div>

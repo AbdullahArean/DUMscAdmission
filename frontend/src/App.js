@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import "./index.css";
 import Home from "./pages/Home";
 import Forgot from "./pages/Forgot";
 import Login from "./pages/Login";
@@ -13,29 +14,39 @@ import Profile from "./pages/Profile";
 import Notice from "./pages/Notice";
 import ViewProfile from "./pages/ViewProfile";
 import Apply from "./pages/Apply";
+import Sidebar from "./components/Sidebar";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/">
-          <Route index element={<Home />} />
-          <Route path="login" element={<Login />} />
-          <Route path="home" element={<Home />} />
-          <Route path="registration" element={<Registration />} />
-          <Route path="forgot" element={<Forgot />} />
-          <Route path="reset" element={<Reset />} />
-          <Route path="profile" element={<Profile />} />
-          <Route path="viewprofile" element={<ViewProfile />} />
-          <Route path="verify" element={<Verification />} />
-          <Route path="confirm" element={<Confirmation />} />
-          <Route path="submission" element={<Submission />} />
-          <Route path="notice" element={<Notice />} />
-          <Route path="application" element={<Apply />} />
-          <Route path="*" element={<NotFound />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <div className="App font-body" id="outer-container">
+      <div id="page-wrap">
+        <BrowserRouter>
+          <Sidebar
+            id="sidebar"
+            pageWrapId={"page-wrap"}
+            outerContainerId={"outer-container"}
+          />
+          <Routes>
+            <Route path="/">
+              <Route index element={<Home />} />
+              <Route path="home" element={<Home />} />
+              <Route path="profile" element={<Profile />} />
+              <Route path="viewprofile" element={<ViewProfile />} />
+              <Route path="submission" element={<Submission />} />
+              <Route path="notice" element={<Notice />} />
+              <Route path="application" element={<Apply />} />
+              <Route path="confirm" element={<Confirmation />} />
+              <Route path="verify" element={<Verification />} />
+              <Route path="forgot" element={<Forgot />} />
+              <Route path="reset" element={<Reset />} />
+              <Route path="registration" element={<Registration />} />
+              <Route path="login" element={<Login />} />
+              <Route path="*" element={<NotFound />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </div>
+    </div>
   );
 }
 
