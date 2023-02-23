@@ -205,6 +205,51 @@ const Profile = () => {
       .catch((err) => console.log(err));
   };
 
+  const submitInformation = (e) => {
+    e.preventDefault();
+
+    let dataToPost = {
+      name: e.target.name.value,
+      fname: e.target.fname.value,
+      mname: e.target.mname.value,
+      email: e.target.email.value,
+      dob: e.target.dob.value,
+      phone: e.target.phone.value,
+      pic: e.target.pic.files[0],
+      sign: e.target.sign.files[0],
+      ssc_roll: e.target.ssc_roll.value,
+      ssc_board: e.target.ssc_board.value,
+      ssc_year: e.target.ssc_year.value,
+      ssc_result: e.target.ssc_result.value,
+      ssc_transcript: e.target.ssc_transcript.files[0],
+      hsc_roll: e.target.hsc_roll.value,
+      hsc_board: e.target.hsc_board.value,
+      hsc_year: e.target.hsc_year.value,
+      hsc_result: e.target.hsc_result.value,
+      hsc_transcript: e.target.hsc_transcript.files[0],
+    };
+
+    axios
+      .post(
+        "https://regservices.eis.du.ac.bd/edusections/preregistration/getboarddata",
+        dataToPost,
+        {
+          headers: {
+            "Content-Type": "text/xml",
+            Accept: "application/xml",
+          },
+        }
+      )
+      .then(() => {
+        setPage2Complete(true).then(() => page3());
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    console.log(dataToPost);
+  };
+
   const fetchSscHscData = (e) => {
     e.preventDefault();
     // let hsid = 1311406473;
@@ -499,7 +544,10 @@ const Profile = () => {
       {/*page 2 preview*/}
 
       {page === "2" ? (
-        <form className="w-4/5 mx-auto mt-14 mb-10 md:mt-24 md:mb-20">
+        <form
+          onSubmit={submitInformation}
+          className="w-4/5 mx-auto mt-14 mb-10 md:mt-24 md:mb-20"
+        >
           <ul className="flex justify-evenly w-full">
             <li className="mr-2">
               <button
@@ -887,8 +935,7 @@ const Profile = () => {
             </div>
             <div className="flex justify-center mt-16">
               <button
-                type="button"
-                onClick={() => page3()}
+                type="submit"
                 className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm md:text-lg w-full sm:w-auto px-5 py-2.5 md:px-10 md:py-5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >
                 Next Page
