@@ -47,54 +47,25 @@ const Submission = () => {
           style={{ overflowX: "auto" }}
         >
           <Column title="Department" dataIndex="dept_name"></Column>
-          {user.role === "admin" ? (
-            <Column title="Subject" dataIndex="undergrad"></Column>
-          ) : (
-            <div></div>
-          )}
-
-          {user.role === "admin" ? (
-            <Column
-              title="Action"
-              dataIndex="id"
-              render={(id, record) => (
-                <Space size="middle" className="flex flex-col md:flex-row">
-                  <button
-                    onClick={() => {}}
-                    className="text-white bg-green-500 px-2 py-1 rounded-lg font-medium"
-                  >
-                    Approve
-                  </button>
-                  <button
-                    onClick={() => {}}
-                    className="text-white bg-red-500 px-2 py-1 rounded-lg font-medium"
-                  >
-                    Reject
-                  </button>
-                </Space>
-              )}
-            ></Column>
-          ) : (
-            <Column
-              title="Status"
-              dataIndex="approved"
-              render={(approved, record) => (
-                <div>
-                  {approved === true ? (
-                    <div className="flex gap-1 items-center">
-                      <FcOk />
-                      <p>Approved</p>
-                    </div>
-                  ) : (
-                    <div className="flex gap-1 items-center">
-                      <FcCancel />
-                      <p>Rejected</p>
-                    </div>
-                  )}
-                </div>
-              )}
-            ></Column>
-          )}
+          <Column
+            title="Status"
+            dataIndex="approved"
+            render={(approved, record) => (
+              <div>
+                {approved === true ? (
+                  <div className="flex gap-1 items-center">
+                    <FcOk />
+                    <p>Approved</p>
+                  </div>
+                ) : (
+                  <div className="flex gap-1 items-center">
+                    <FcCancel />
+                    <p>Rejected</p>
+                  </div>
+                )}
+              </div>
+            )}
+          ></Column>
         </Table>
       </div>
     </div>

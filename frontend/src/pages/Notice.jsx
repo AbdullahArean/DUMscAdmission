@@ -59,16 +59,6 @@ const Notice = () => {
           <Column title="Title" dataIndex="title" key="id"></Column>
           <Column title="Body" dataIndex="body" key="id"></Column>
           <Column title="Created By" dataIndex="created_by" key="id"></Column>
-          {user.role === "admin" ? (
-            <Column
-              title="Action"
-              dataIndex="id"
-              key="id"
-              render={(_, record) => <Button>Delete</Button>}
-            ></Column>
-          ) : (
-            <div></div>
-          )}
         </Table>
       </div>
     </div>

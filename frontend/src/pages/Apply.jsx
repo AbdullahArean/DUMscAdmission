@@ -83,7 +83,6 @@ const Apply = () => {
               </Space>
             )}
           ></Column>
-
           <Column
             title="Action"
             dataIndex="dept_id"
@@ -105,8 +104,7 @@ const Apply = () => {
           title="Application requirements"
           centered
           open={modalOpen}
-          okText="Confirm"
-          onOk={() => setModalOpen(false)}
+          cancelText={"Close"}
           onCancel={() => setModalOpen(false)}
         >
           <div>
@@ -136,9 +134,8 @@ const Apply = () => {
             the official admission circular on the Dhaka University website.
           </div>
         </Modal>
-
         <Modal
-          title="Application requirements"
+          title="Confirmation"
           centered
           open={modal2Open}
           okText="Confirm"
