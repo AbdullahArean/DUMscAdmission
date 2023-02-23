@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -5,6 +6,7 @@ import { MdDarkMode } from "react-icons/md";
 
 const Navbar = ({ active }) => {
   const nav = useNavigate();
+  const [profileComplete, setProfileComplete] = useState(false);
   const [theme, setTheme] = useState(null);
   useEffect(() => {
     if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
@@ -125,7 +127,9 @@ const Navbar = ({ active }) => {
             <li>
               <div
                 onClick={() => {
-                  nav("/profile");
+                  profileComplete === true
+                    ? nav("/viewprofile")
+                    : nav("/profile");
                 }}
                 className={
                   active === "profile"
