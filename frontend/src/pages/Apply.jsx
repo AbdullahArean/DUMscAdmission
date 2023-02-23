@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import api from "../api";
 import axios from "axios";
+import "../index.css";
 import { IoWarning } from "react-icons/io";
 import { FcOk, FcCancel } from "react-icons/fc";
 import { ToastContainer, toast } from "react-toastify";
@@ -21,7 +22,6 @@ const Apply = () => {
     {
       dept_name: "Computer Science and Engineering",
       end_date: "10/6/23",
-      approved: true,
       applied: false,
     },
   ];
@@ -40,7 +40,7 @@ const Apply = () => {
         pauseOnHover={false}
         theme="colored"
       />
-      <div className="mt-24 mx-10">
+      <div className="mt-24 mx-10 relative overflow-x-auto">
         <Table
           loading={loading}
           dataSource={data}
@@ -49,69 +49,39 @@ const Apply = () => {
           <Column title="Department" dataIndex="dept_name"></Column>
           <Column title="End Date" dataIndex="end_date"></Column>
           <Column
-            title="Status"
-            dataIndex="approved"
-            render={(approved, record) => (
-              <div>
-                {approved === true ? (
-                  <div className="flex gap-1 items-center">
-                    <FcOk />
-                    <p>Approved</p>
-                  </div>
+            title=""
+            dataIndex="applied"
+            render={(applied, record) => (
+              <Space size="middle">
+                {applied === false ? (
+                  <button
+                    onClick={() => {
+                      setModalOpen(true);
+                    }}
+                    className="hover:underline text-white bg-blue-500 px-4 py-1 rounded-lg font-medium"
+                  >
+                    Apply
+                  </button>
                 ) : (
                   <div className="flex gap-1 items-center">
-                    <FcCancel />
-                    <p>Rejected</p>
+                    <FcOk />
+                    <p>Applied</p>
                   </div>
                 )}
-              </div>
+              </Space>
             )}
           ></Column>
-          {user.role === "admin" ? (
-            <Column
-              title="Action"
-              dataIndex="id"
-              render={(id, record) => (
-                <Space size="middle">
-                  <button
-                    onClick={() => {}}
-                    className="hover:underline text-white bg-green-500 px-2 py-1 rounded-lg font-medium"
-                  >
-                    Approve
-                  </button>
-                  <button
-                    onClick={() => {}}
-                    className="hover:underline text-white bg-red-500 px-2 py-1 rounded-lg font-medium"
-                  >
-                    Reject
-                  </button>
-                </Space>
-              )}
-            ></Column>
-          ) : (
-            <Column
-              title="Action"
-              dataIndex="applied"
-              render={(applied, record) => (
-                <Space size="middle">
-                  {applied === false ? (
-                    <button
-                      onClick={() => {}}
-                      className="hover:underline text-white bg-blue-500 px-2 py-1 rounded-lg font-medium"
-                    >
-                      Apply
-                    </button>
-                  ) : (
-                    <div className="flex gap-1 items-center">
-                      <FcOk />
-                      <p>Applied</p>
-                    </div>
-                  )}
-                </Space>
-              )}
-            ></Column>
-          )}
         </Table>
+        <Modal
+          title="Application requirements"
+          centered
+          open={modalOpen}
+          okText="Confirm"
+          onOk={() => setModalOpen(false)}
+          onCancel={() => setModalOpen(false)}
+        >
+          <p>Minimum CGPA should be 3.25</p>
+        </Modal>
       </div>
     </div>
   );

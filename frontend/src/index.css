@@ -43,3 +43,7 @@
 .dark option {
   color: black !important;
 }
+
+.ant-btn-primary {
+  background-color: #3b82f6 !important;
+}
