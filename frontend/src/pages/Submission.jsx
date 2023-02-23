@@ -57,7 +57,7 @@ const Submission = () => {
               title="Action"
               dataIndex="id"
               render={(id, record) => (
-                <Space size="middle">
+                <Space size="middle" className="flex flex-col md:flex-row">
                   <button
                     onClick={() => {}}
                     className="text-white bg-green-500 px-2 py-1 rounded-lg font-medium"

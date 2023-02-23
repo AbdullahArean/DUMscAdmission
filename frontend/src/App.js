@@ -23,8 +23,6 @@ function App() {
         <BrowserRouter>
           <Sidebar
             id="sidebar"
-            pageWrapId={"page-wrap"}
-            outerContainerId={"outer-container"}
           />
           <Routes>
             <Route path="/">

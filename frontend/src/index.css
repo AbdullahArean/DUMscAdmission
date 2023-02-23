@@ -57,8 +57,16 @@
   top: 14px;
 }
 
+.hideButton {
+  display: none !important;
+}
+
 /* Color/shape of burger icon bars */
 .bm-burger-bars {
+  background: black;
+}
+
+.dark .bm-burger-bars {
   background: white;
 }
 
@@ -76,6 +84,10 @@
 
 /* Color/shape of close button cross */
 .bm-cross {
+  background: black;
+}
+
+.dark .bm-cross {
   background: white;
 }
 
@@ -90,7 +102,14 @@
 
 /* General sidebar styles */
 .bm-menu {
-  background: #1e212d;
+  background: whitesmoke;
+  padding: 2.5em 1.5em 0;
+  font-size: 1.15em;
+  width: screen/4;
+}
+
+.dark .bm-menu {
+  background: rgb(17 24 39);
   padding: 2.5em 1.5em 0;
   font-size: 1.15em;
   width: screen/4;
@@ -111,6 +130,16 @@
 .bm-item {
   display: inline-block;
   line-height: 3em;
+  color: black;
+  margin-bottom: 10px;
+  text-align: left;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.dark .bm-item {
+  display: inline-block;
+  line-height: 3em;
   color: #d1d1d1;
   margin-bottom: 10px;
   text-align: left;
@@ -118,9 +147,9 @@
   transition: color 0.2s;
 }
 
-.bm-item:hover {
+/* .bm-item:hover {
   color: #ffffff;
-}
+} */
 
 /* Styling of overlay */
 .bm-overlay {

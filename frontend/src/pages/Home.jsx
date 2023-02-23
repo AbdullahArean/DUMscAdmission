@@ -5,6 +5,7 @@ import Notice from "../components/Notice";
 import "../index.css";
 import { Collapse } from "antd";
 import { CaretRightOutlined } from "@ant-design/icons";
+import Sidebar from "../components/Sidebar";
 
 const Home = () => {
   const { Panel } = Collapse;
