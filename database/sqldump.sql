@@ -62,8 +62,10 @@ CREATE TABLE Users (
     u_phone varchar2(20),
     u_name varchar2(200),
     role_id NUMBER REFERENCES Roles(role_id),
+    dept_id NUMBER(10) REFERENCES Department(dept_id),
     student_nation VARCHAR2(50),
     u_verified NUMBER(1) DEFAULT 0,
+    student_profile NUMBER(1) DEFAULT 0,
     u_pic_path varchar2(200),
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     modified_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -78,8 +80,7 @@ CREATE TABLE Department (
 );
 
 CREATE TABLE Profile (
-    
-    u_id NUMBER(10) REFERENCES Users(u_id),
+    u_id NUMBER(10) REFERENCES Users(u_id) NOT NULL UNIQUE,
     a_name varchar2(200),
     f_name varchar2(200),
     m_name varchar2(200),
@@ -176,6 +177,37 @@ INSERT INTO "SYS"."ROLE_PERMISSIONS" (ROLE_PERMISSION_ID, ROLE_ID, PERMISSION_ID
 INSERT INTO "SYS"."ROLE_PERMISSIONS" (ROLE_PERMISSION_ID, ROLE_ID, PERMISSION_ID) VALUES (2, 2, 1);
 INSERT INTO "SYS"."ROLE_PERMISSIONS" (ROLE_PERMISSION_ID, ROLE_ID, PERMISSION_ID) VALUES (3, 2, 3);
 INSERT INTO "SYS"."ROLE_PERMISSIONS" (ROLE_PERMISSION_ID, ROLE_ID, PERMISSION_ID) VALUES (4, 2, 4);
+
+
+/* DEPARTMENT */
+INSERT INTO Department(dept_name, dept_notice, application_start, application_end) VALUES ('Computer Sciend And Engineering', 'Dhaka University Masters Admission Circular 2023-2024
+Program: Computer Science and Engineering (CSE)
+
+
+Admission Requirements:
+
+Candidates must have a four-year Bachelors degree in Computer Science and Engineering (CSE) or a related field from a recognized university.
+Candidates must have a minimum GPA of 3.00 (out of 4.00) or a First Class/Division in their Bachelors degree.
+Candidates must pass the admission test with a minimum qualifying score.
+Bachelors Degree Requirements:
+To be eligible for admission to the CSE Masters program, candidates must have completed a Bachelors degree in one of the following fields:
+
+Computer Science and Engineering
+Computer Science
+Information Technology
+Electrical and Electronic Engineering (EEE) with a major or concentration in Computer Science
+Telecommunication Engineering with a major or concentration in Computer Science
+Mathematics, Physics or any other relevant field with a strong background in Computer Science and Mathematics.
+
+Application Procedure:
+Interested candidates can apply online through the Dhaka University website (www.du.ac.bd) during the application period. The application form must be filled out completely and accurately, and all required documents must be submitted with the application. The application fee can be paid online or in person at the designated bank branches.
+
+Important Dates:
+Application Deadline: March 31, 2023
+Admission Test: May 14, 2023
+
+For more information and detailed instructions, please refer to the official admission circular on the Dhaka University website.', '30-JAN-2023', '30-MAR-2023');
+
 
 /* Triggres */
 
