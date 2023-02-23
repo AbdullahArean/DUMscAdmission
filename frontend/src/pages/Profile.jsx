@@ -14,6 +14,7 @@ const Profile = () => {
   const [university, setUniversity] = useState([]);
   const [page1complete, setPage1Complete] = useState(false);
   const [page2complete, setPage2Complete] = useState(false);
+  const [previewData, setPreviewData] = useState({});
   const [fetchedData, setFetchedData] = useState({
     name: "",
     fname: "",
