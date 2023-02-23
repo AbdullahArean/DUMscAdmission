@@ -6,7 +6,7 @@ const userState = {
     jwt: "",
     id: null,
     name: "",
-    role: "",
+    role: "admin",
   },
 };
 

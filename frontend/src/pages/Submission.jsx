@@ -40,6 +40,7 @@ const Submission = () => {
       />
 
       <div class="mt-24 mx-10 relative overflow-x-auto">
+        <p className="text-white">{user.role}</p>
         <Table
           loading={loading}
           dataSource={data}
@@ -47,10 +48,11 @@ const Submission = () => {
         >
           <Column title="Department" dataIndex="dept_name"></Column>
           {user.role === "admin" ? (
-            <Column title="Action" dataIndex="undergrad"></Column>
+            <Column title="Subject" dataIndex="undergrad"></Column>
           ) : (
             <div></div>
           )}
+
           {user.role === "admin" ? (
             <Column
               title="Action"

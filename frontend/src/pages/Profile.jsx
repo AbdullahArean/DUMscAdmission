@@ -243,7 +243,7 @@ const Profile = () => {
 
       .then((res) => {
         toast.success("Profile Submitted");
-        nav("/submission");
+        nav("/application");
       });
   };
 

@@ -18,13 +18,32 @@ const Apply = () => {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useGlobalState("user");
   const [modalOpen, setModalOpen] = useState(false);
-  const data = [
-    {
-      dept_name: "Computer Science and Engineering",
-      end_date: "10/6/23",
-      applied: false,
-    },
-  ];
+  const [modal2Open, setModal2Open] = useState(false);
+
+  const [data, setData] = useState([]);
+  // const data = [
+  //   {
+  //     dept_name: "Computer Science and Engineering",
+  //     end_date: "10/6/23",
+  //     applied: false,
+  //   },
+  // ];
+
+  const fetchData = () => {
+    api.get("/department.php").then((res) => {
+      setData(res.data);
+    });
+  };
+
+  const apply = () => {
+    setModal2Open(false);
+    toast.success("Application Succesful");
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <div className="bg-white h-screen dark:bg-gray-900 flex flex-col">
       <Navbar />
@@ -46,28 +65,38 @@ const Apply = () => {
           dataSource={data}
           style={{ overflowX: "auto" }}
         >
-          <Column title="Department" dataIndex="dept_name"></Column>
-          <Column title="End Date" dataIndex="end_date"></Column>
+          <Column title="Department" dataIndex="name"></Column>
+          <Column title="End Date" dataIndex="application_end"></Column>
           <Column
-            title=""
-            dataIndex="applied"
+            title="Notice"
+            dataIndex="dept_id"
             render={(applied, record) => (
               <Space size="middle">
-                {applied === false ? (
-                  <button
-                    onClick={() => {
-                      setModalOpen(true);
-                    }}
-                    className="hover:underline text-white bg-blue-500 px-4 py-1 rounded-lg font-medium"
-                  >
-                    Apply
-                  </button>
-                ) : (
-                  <div className="flex gap-1 items-center">
-                    <FcOk />
-                    <p>Applied</p>
-                  </div>
-                )}
+                <button
+                  onClick={() => {
+                    setModalOpen(true);
+                  }}
+                  className="hover:underline text-white bg-blue-500 px-4 py-1 rounded-lg font-medium"
+                >
+                  View
+                </button>
+              </Space>
+            )}
+          ></Column>
+
+          <Column
+            title="Action"
+            dataIndex="dept_id"
+            render={(applied, record) => (
+              <Space size="middle">
+                <button
+                  onClick={() => {
+                    setModal2Open(true);
+                  }}
+                  className="hover:underline text-white bg-blue-500 px-4 py-1 rounded-lg font-medium"
+                >
+                  Apply
+                </button>
               </Space>
             )}
           ></Column>
@@ -80,7 +109,43 @@ const Apply = () => {
           onOk={() => setModalOpen(false)}
           onCancel={() => setModalOpen(false)}
         >
-          <p>Minimum CGPA should be 3.25</p>
+          <div>
+            Dhaka University Masters Admission Circular 2023-2024 Program:
+            Computer Science and Engineering (CSE) Admission Requirements:
+            Candidates must have a four-year Bachelors degree in Computer
+            Science and Engineering (CSE) or a related field from a recognized
+            university. Candidates must have a minimum GPA of 3.00 (out of 4.00)
+            or a First Class/Division in their Bachelors degree. Candidates must
+            pass the admission test with a minimum qualifying score. Bachelors
+            Degree Requirements: To be eligible for admission to the CSE Masters
+            program, candidates must have completed a Bachelors degree in one of
+            the following fields: Computer Science and Engineering Computer
+            Science Information Technology Electrical and Electronic Engineering
+            (EEE) with a major or concentration in Computer Science
+            Telecommunication Engineering with a major or concentration in
+            Computer Science Mathematics, Physics or any other relevant field
+            with a strong background in Computer Science and Mathematics.
+            Application Procedure: Interested candidates can apply online
+            through the Dhaka University website (www.du.ac.bd) during the
+            application period. The application form must be filled out
+            completely and accurately, and all required documents must be
+            submitted with the application. The application fee can be paid
+            online or in person at the designated bank branches. Important
+            Dates: Application Deadline: March 31, 2023 Admission Test: May 14,
+            2023 For more information and detailed instructions, please refer to
+            the official admission circular on the Dhaka University website.
+          </div>
+        </Modal>
+
+        <Modal
+          title="Application requirements"
+          centered
+          open={modal2Open}
+          okText="Confirm"
+          onOk={() => apply()}
+          onCancel={() => setModal2Open(false)}
+        >
+          <div>Are you sure want to apply?</div>
         </Modal>
       </div>
     </div>
