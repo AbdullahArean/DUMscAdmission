@@ -165,3 +165,7 @@
     display: block;
   }
 }
+
+.dark .ant-pagination-item-link {
+  color: white !important;
+}

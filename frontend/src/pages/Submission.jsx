@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import api from "../api";
+import "../index.css";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { FcOk, FcCancel } from "react-icons/fc";
