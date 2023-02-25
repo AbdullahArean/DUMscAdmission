@@ -5,7 +5,6 @@ import Notice from "../components/Notice";
 import "../index.css";
 import { Collapse } from "antd";
 import { CaretRightOutlined } from "@ant-design/icons";
-import Sidebar from "../components/Sidebar";
 
 const Home = () => {
   const { Panel } = Collapse;
@@ -15,7 +14,7 @@ const Home = () => {
       title: "Payment Deadline Approaching",
       body: `If you have not yet submitted your payment, please do so as soon as possible to secure yourspot in our program. Any payments received after the deadline may result in a delay in processing your application.`,
       notice_file: "https://www.africau.edu/images/default/sample.pdf",
-      type: "error",
+      type: "",
       created_by: "Admin",
       created_on: "02/02/23",
     },
@@ -26,7 +25,7 @@ const Home = () => {
       plagiarized will be immediately disqualified from
       consideration.`,
       notice_file: "https://www.africau.edu/images/default/sample.pdf",
-      type: "warning",
+      type: "",
       created_by: "Admin",
       created_on: "02/02/23",
     },
@@ -37,7 +36,7 @@ const Home = () => {
       week. The issues have now been resolved, and all users should
       be able to access the site without any problems.`,
       notice_file: "https://www.africau.edu/images/default/sample.pdf",
-      type: "success",
+      type: "",
       created_by: "Admin",
       created_on: "02/02/23",
     },
@@ -47,6 +46,7 @@ const Home = () => {
     <div className="bg-white dark:bg-gray-900 flex flex-col justify-center">
       <Navbar active={"home"} />
       <div className="bg-white h-full dark:bg-gray-900">
+        {/* Notice */}
         <div className="w-full px-2 md:px-0 md:w-4/5 md:mx-auto mt-20 mb-10 md:mt-32 md:mb-20">
           <div className="text-xl md:text-3xl text-center dark:text-white mb-5">
             Notice

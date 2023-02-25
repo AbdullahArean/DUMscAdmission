@@ -21,6 +21,7 @@ const Submission = () => {
       dept_name: "Computer Science and Engineering",
       undergrad: "EEE",
       approved: true,
+      payment: true,
     },
   ];
 
@@ -48,7 +49,7 @@ const Submission = () => {
         >
           <Column title="Department" dataIndex="dept_name"></Column>
           <Column
-            title="Status"
+            title="Payment"
             dataIndex="approved"
             render={(approved, record) => (
               <div>
@@ -61,6 +62,29 @@ const Submission = () => {
                   <div className="flex gap-1 items-center">
                     <FcCancel />
                     <p>Rejected</p>
+                  </div>
+                )}
+              </div>
+            )}
+          ></Column>
+          <Column
+            title="Status"
+            dataIndex="payment"
+            render={(payment, record) => (
+              <div>
+                {payment === true ? (
+                  <div className="flex gap-1 items-center">
+                    <FcOk />
+                    <p>Paid</p>
+                  </div>
+                ) : (
+                  <div className="">
+                    <button
+                      onClick={() => {}}
+                      className="hover:underline text-white bg-blue-500 px-4 py-1 rounded-lg font-medium"
+                    >
+                      Pay now
+                    </button>
                   </div>
                 )}
               </div>

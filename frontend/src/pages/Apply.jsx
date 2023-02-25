@@ -1,18 +1,17 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/jsx-no-target-blank */
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import api from "../api";
-import axios from "axios";
 import "../index.css";
-import { IoWarning } from "react-icons/io";
-import { FcOk, FcCancel } from "react-icons/fc";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Modal } from "antd";
 import { Space, Table } from "antd";
 import Column from "antd/es/table/Column";
 import { useGlobalState } from "../components/UserContext";
+import { useNavigate } from "react-router-dom";
 
 const Apply = () => {
   const [loading, setLoading] = useState(false);
@@ -21,6 +20,14 @@ const Apply = () => {
   const [modal2Open, setModal2Open] = useState(false);
 
   const [data, setData] = useState([]);
+
+  const toProfile = () => {
+    navigate(`/profile`, {state: "incomplete"});
+  };
+
+  const navigate = useNavigate();
+
+  const profileComplete = false;
 
   const fetchData = () => {
     api.get("/department.php").then((res) => {
@@ -35,6 +42,9 @@ const Apply = () => {
 
   useEffect(() => {
     fetchData();
+    if (profileComplete === false) {
+      toProfile();
+    }
   }, []);
 
   return (

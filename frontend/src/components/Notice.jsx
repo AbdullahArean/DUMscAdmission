@@ -11,7 +11,7 @@ const Notice = ({ notice }) => {
           ? "text-yellow-800 border-yellow-300 bg-yellow-50 dark:text-yellow-300 dark:border-yellow-800"
           : notice.type === "success"
           ? "text-green-800 border-green-300 bg-green-50 dark:text-green-400 dark:border-green-800"
-          : "border-gray-300 bg-gray-50 dark:bg-gray-800 dark:border-gray-600"
+          : "border-gray-300 bg-gray-50 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300"
       }`}
       role="alert"
     >

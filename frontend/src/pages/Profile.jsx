@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable eqeqeq */
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
@@ -7,10 +8,11 @@ import "../index.css";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const [page, setPage] = useState("1");
+  const incomplete = useLocation();
   const nav = useNavigate();
   const [university, setUniversity] = useState([]);
   const [page1complete, setPage1Complete] = useState(false);
@@ -355,6 +357,18 @@ const Profile = () => {
 
   useEffect(() => {
     uni();
+    if (incomplete.state === "incomplete") {
+      toast.error("Please complete your profile", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        progress: undefined,
+        theme: "colored",
+      });
+    }
   }, []);
   return (
     <div className="bg-white dark:bg-gray-900 flex flex-col justify-center">
