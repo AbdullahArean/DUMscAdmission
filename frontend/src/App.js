@@ -27,7 +27,7 @@ function App() {
 
   useEffect(() => {
     if (localStorage.getItem("jwt")) {
-      setLoading(false);
+      setLoading(true);
       api
         .get("/account.php", {
           headers: {
@@ -53,10 +53,11 @@ function App() {
           setUser(user);
           setIsLoggedIn(true);
           setJwt(localStorage.getItem("jwt"));
+          setLoading(false);
         })
         .catch((err) => {
           console.log(err);
-          setLoading(true);
+          setLoading(false);
         });
     }
   }, []);

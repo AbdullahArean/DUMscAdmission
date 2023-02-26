@@ -98,6 +98,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 // phone doesn't exist, display a generic error message
                 $login_err = "Invalid phone or password.";
                 $error["login"] = $login_err;
+                http_response_code(400);
             }
         } else{
             http_response_code(400);

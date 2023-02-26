@@ -42,38 +42,20 @@ const Profile = () => {
   };
 
   const page2 = () => {
-    /* if (page1complete) setPage("2");
-    else {
-      toast.warning("Please fill-up the current page", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: false,
-        progress: undefined,
-        theme: "colored",
-      });
-      setPage("1");
-    } */
+    // if (page1complete) setPage("2");
+    // else {
+    //   toast.warning("Please fill-up the current page");
+    //   setPage("1");
+    // }
     setPage("2");
   };
 
   const page3 = () => {
-    /* if (page1complete && page2complete) setPage("3");
-    else {
-      toast.warning("Please fill-up the current page", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: false,
-        progress: undefined,
-        theme: "colored",
-      });
-      setPage("1");
-    } */
+    // if (page1complete && page2complete) setPage("3");
+    // else {
+    //   toast.warning("Please fill-up the current page");
+    //   setPage("1");
+    // }
     setPage("3");
   };
 
@@ -118,11 +100,7 @@ const Profile = () => {
 
   const getSubjects = () => {
     api
-      .get("/subjects.php", {
-        headers: {
-          Authorization: localStorage.getItem("jwt"),
-        },
-      })
+      .get("/subjects.php")
       .then((response) => {
         setSubjects(response.data);
       })
@@ -265,6 +243,7 @@ const Profile = () => {
               data.getElementsByTagName("ssc-gpa")[0].childNodes[0].nodeValue,
           });
 
+          // setPage1Complete(true);
           page2();
         }
       })
@@ -284,11 +263,14 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    getUniversities();
-    getSubjects();
-    console.log(subjects);
-    if (incomplete.state === "incomplete") {
-      toast.error("Please complete your profile");
+    if (user.profile == "1") nav("/viewprofile");
+    else {
+      getUniversities();
+      getSubjects();
+      console.log(subjects);
+      if (incomplete.state === "incomplete") {
+        toast.error("Please complete your profile");
+      }
     }
   }, []);
   return (
@@ -914,7 +896,7 @@ const Profile = () => {
               </li>
               <li className="">
                 <button
-                  onClick={() => setPage("2")}
+                  onClick={() => page2()}
                   className={
                     page === "2"
                       ? "inline-block text-xs md:text-lg p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg dark:text-blue-500 dark:border-blue-500  transition-all duration-200 ease-in-out"
@@ -926,7 +908,7 @@ const Profile = () => {
               </li>
               <li className="">
                 <button
-                  onClick={() => setPage("3")}
+                  onClick={() => page3()}
                   className={
                     page === "3"
                       ? "inline-block text-xs md:text-lg p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg dark:text-blue-500 dark:border-blue-500  transition-all duration-200 ease-in-out"

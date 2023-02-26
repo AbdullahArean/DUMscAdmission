@@ -2,9 +2,15 @@
 
 // Include config file
 require_once "config.php";
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Headers: *");
-    
+if (isset($_SERVER['HTTP_ORIGIN'])) {
+    header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
+    header('Access-Control-Allow-Credentials: true');
+    header('Access-Control-Max-Age: 86400');    // cache for 1 day
+    header("Access-Control-Allow-Headers: *");
+            
+    if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
+            header("Access-Control-Allow-Methods: *");
+}
 // Define variables and initialize with empty values
 $name = $phone = $email = $password = $confirm_password = $student_type = "";
 $name_err = $phone_err = $email_err = $password_err = $confirm_password_err = $student_type_err = "";

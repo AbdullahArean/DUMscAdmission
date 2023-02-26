@@ -15,6 +15,7 @@ const Navbar = ({ active }) => {
   const [modal2Open, setModal2Open] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [user, setUser] = useGlobalState("user");
+  const [isLoggedIn, setIsLoggedIn] = useGlobalState("isLoggedIn");
 
   // const toggleTheme = () => {
   //   console.log(localStorage.getItem("theme"));
@@ -54,6 +55,7 @@ const Navbar = ({ active }) => {
       setIsDarkMode(false);
     }
   };
+
   useEffect(() => {
     setTheme();
   }, []);
@@ -109,7 +111,7 @@ const Navbar = ({ active }) => {
             <li>
               <div
                 onClick={() => {
-                  user.profile === 0 ? nav("/viewprofile") : nav("/profile");
+                  user.profile === "1" ? nav("/viewprofile") : nav("/profile");
                 }}
                 className={
                   active === "profile"
@@ -121,7 +123,7 @@ const Navbar = ({ active }) => {
               </div>
             </li>
 
-            {localStorage.getItem("jwt") !== "" ? (
+            {isLoggedIn ? (
               <li>
                 <div
                   onClick={() => setModal2Open(true)}

@@ -301,6 +301,13 @@ else if($_SERVER["REQUEST_METHOD"] == "POST"){
                     }
                     else{
                         // DONE 
+
+                        /* SET PROFILE COMPLETED */
+                        $query = "UPDATE USERS SET STUDENT_PROFILE = 1 WHERE U_ID = ".$data->{'id'};
+                        $s = oci_parse($link, $query);
+                        $r = oci_execute($s, OCI_NO_AUTO_COMMIT);
+                        $r = oci_commit($link);
+
                         http_response_code(201);
                         echo json_encode([
                             'status' => 1,

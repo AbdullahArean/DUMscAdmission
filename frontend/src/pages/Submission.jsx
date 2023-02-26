@@ -7,23 +7,49 @@ import "../index.css";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { FcOk, FcCancel } from "react-icons/fc";
+import { GiSandsOfTime } from "react-icons/gi";
 import "react-toastify/dist/ReactToastify.css";
 import { Space, Table } from "antd";
 import Column from "antd/es/table/Column";
 import { useGlobalState } from "../components/UserContext";
+import { useLocation } from "react-router-dom";
 
 const Submission = () => {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useGlobalState("user");
+  const { state } = useLocation();
+  const [data, setData] = useState([]);
 
-  const data = [
-    {
-      dept_name: "Computer Science and Engineering",
-      undergrad: "EEE",
-      approved: true,
-      payment: true,
-    },
-  ];
+  // const data = [
+  //   {
+  //     dept_name: "Computer Science and Engineering",
+  //     undergrad: "EEE",
+  //     approved: true,
+  //     payment: true,
+  //   },
+  // ];
+
+  const fetchData = () => {
+    api
+      .get("/applications.php", {
+        headers: {
+          Authorization: localStorage.getItem("jwt"),
+        },
+      })
+      .then((res) => {
+        setData(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Failed to load data");
+      });
+  };
+
+  useEffect(() => {
+    if (state === "applied") toast.success("Application Successful.");
+
+    fetchData();
+  }, []);
 
   return (
     <div className="bg-white h-screen dark:bg-gray-900 flex flex-col">
@@ -47,28 +73,41 @@ const Submission = () => {
           dataSource={data}
           style={{ overflowX: "auto" }}
         >
-          <Column title="Department" dataIndex="dept_name"></Column>
+          <Column title="Department" dataIndex="DEPT_NAME"></Column>
+
           <Column
-            title="Payment"
-            dataIndex="approved"
+            title="Applied at"
+            dataIndex="CREATED_ON"
+            render={(approved, record) => (
+              <div>{record.CREATED_ON.slice(0, 9)}</div>
+            )}
+          ></Column>
+          <Column
+            title="Status"
+            dataIndex="APP_VERIFIED"
             render={(approved, record) => (
               <div>
-                {approved === true ? (
+                {record.APP_VERIFIED === "0" ? (
+                  <div className="flex gap-1 items-center">
+                    <GiSandsOfTime />
+                    <p>Pending</p>
+                  </div>
+                ) : record.APP_ADMIT === "0" ? (
                   <div className="flex gap-1 items-center">
                     <FcOk />
                     <p>Approved</p>
                   </div>
                 ) : (
                   <div className="flex gap-1 items-center">
-                    <FcCancel />
-                    <p>Rejected</p>
+                    <FcOk />
+                    <p>Download Admit</p>
                   </div>
                 )}
               </div>
             )}
           ></Column>
           <Column
-            title="Status"
+            title="Payment"
             dataIndex="payment"
             render={(payment, record) => (
               <div>

@@ -19,9 +19,10 @@ const Apply = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [modal2Open, setModal2Open] = useState(false);
   const [data, setData] = useState([]);
+  const [selectedDept, setSelectedDept] = useState(null);
 
   const toProfile = () => {
-    navigate(`/profile`, {state: "incomplete"});
+    navigate(`/profile`, { state: "incomplete" });
   };
 
   const navigate = useNavigate();
@@ -33,13 +34,30 @@ const Apply = () => {
   };
 
   const apply = () => {
-    setModal2Open(false);
-    toast.success("Application Succesful");
+    let dataToPost = new FormData();
+
+    dataToPost.set("dept_id", selectedDept);
+    api
+      .post("/applications.php", dataToPost, {
+        headers: {
+          Authorization: localStorage.getItem("jwt"),
+        },
+      })
+      .then((res) => {
+        setModal2Open(false);
+        toast.success("Application Successful");
+        navigate("/submission", { state: "applied" });
+      })
+      .catch((err) => {
+        console.log(err);
+        setModal2Open(false);
+        toast.error(err.response.data.message);
+      });
   };
 
   useEffect(() => {
     fetchData();
-    if (user.profile === 0) {
+    if (user.profile === "0") {
       toProfile();
     }
   }, []);
@@ -91,6 +109,7 @@ const Apply = () => {
                 <button
                   onClick={() => {
                     setModal2Open(true);
+                    setSelectedDept(record.id);
                   }}
                   className="hover:underline text-white bg-blue-500 px-4 py-1 rounded-lg font-medium"
                 >
@@ -108,30 +127,48 @@ const Apply = () => {
           onCancel={() => setModalOpen(false)}
         >
           <div>
-            Dhaka University Masters Admission Circular 2023-2024 Program:
-            Computer Science and Engineering (CSE) Admission Requirements:
+            <b>Dhaka University Masters Admission Circular 2023-2024 Program</b>
+            <br />
+            Computer Science and Engineering (CSE)
+            <br />
+            Admission Requirements:
+            <br />
             Candidates must have a four-year Bachelors degree in Computer
             Science and Engineering (CSE) or a related field from a recognized
-            university. Candidates must have a minimum GPA of 3.00 (out of 4.00)
-            or a First Class/Division in their Bachelors degree. Candidates must
-            pass the admission test with a minimum qualifying score. Bachelors
-            Degree Requirements: To be eligible for admission to the CSE Masters
-            program, candidates must have completed a Bachelors degree in one of
-            the following fields: Computer Science and Engineering Computer
-            Science Information Technology Electrical and Electronic Engineering
-            (EEE) with a major or concentration in Computer Science
-            Telecommunication Engineering with a major or concentration in
-            Computer Science Mathematics, Physics or any other relevant field
-            with a strong background in Computer Science and Mathematics.
+            university.
+            <br />
+            Candidates must have a minimum GPA of 3.00 (out of 4.00) or a First
+            Class/Division in their Bachelors degree.
+            <br />
+            Candidates must pass the admission test with a minimum qualifying
+            score. <br /> <br />
+            Bachelors Degree Requirements: To be eligible for admission to the
+            CSE Masters program, candidates must have completed a Bachelors
+            degree in one of the following fields:
+            <br />
+            Computer Science and Engineering Computer Science Information
+            Technology Electrical and Electronic Engineering (EEE) with a major
+            or concentration in Computer Science Telecommunication Engineering
+            with a major or concentration in Computer Science Mathematics,
+            Physics or any other relevant field with a strong background in
+            Computer Science and Mathematics.
+            <br />
+            <br />
             Application Procedure: Interested candidates can apply online
             through the Dhaka University website (www.du.ac.bd) during the
-            application period. The application form must be filled out
-            completely and accurately, and all required documents must be
-            submitted with the application. The application fee can be paid
-            online or in person at the designated bank branches. Important
-            Dates: Application Deadline: March 31, 2023 Admission Test: May 14,
-            2023 For more information and detailed instructions, please refer to
-            the official admission circular on the Dhaka University website.
+            application period.
+            <br />
+            The application form must be filled out completely and accurately,
+            and all required documents must be submitted with the application.
+            <br />
+            The application fee can be paid online or in person at the
+            designated bank branches.
+            <br />
+            <br />
+            Important Dates: Application Deadline: March 31, 2023 Admission
+            Test: May 14, 2023 For more information and detailed instructions,
+            please refer to the official admission circular on the Dhaka
+            University website.
           </div>
         </Modal>
         <Modal

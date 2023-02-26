@@ -52,7 +52,7 @@ if($method == "GET"){
             if($user_data->data->{'role'} == 3){
 
                 $app_id = 4;
-                $query = "SELECT * FROM Application, Users WHERE Application.U_ID = ".$data->{'id'}." AND USERS.U_ID = ".$data->{'id'}." ";
+                $query = "SELECT * FROM Application NATURAL JOIN DEPARTMENT WHERE Application.U_ID = ".$data->{'id'}." AND Application.U_ID = ".$data->{'id'}." ";
             }
             // Admin
             else if($user_data->data->{'role'} == 2) {
@@ -67,6 +67,7 @@ if($method == "GET"){
                     $application = array();
                     $application["APP_ID"] = $row["APP_ID"];
                     $application["DEPT_ID"] = $row["DEPT_ID"];
+                    $application["DEPT_NAME"] = $row["DEPT_NAME"];
                     $application["U_ID"] = $row["U_ID"];
                     $application["APP_VERIFIED"] = $row["APP_VERIFIED"];
                     $application["APP_ADMIT"] = $row["APP_ADMIT"];
@@ -126,32 +127,57 @@ else if ($method == "POST"){
                 $dept_id = trim($_POST["dept_id"]);
             }
 
-            if(empty($dept_id_err)){
-                
-                $query = "INSERT INTO SYS.Application (DEPT_ID, U_ID) VALUES (".$dept_id.", ".$user_data->data->{'id'}.")";
-                $s = oci_parse($link, $query);
+            $query = "SELECT * FROM APPLICATION WHERE DEPT_ID = ".$dept_id." AND U_ID = ".$user_data->data->{'id'};
+            $stmt = oci_parse($link, $query);
+            if(oci_execute($stmt)){
+                $row = oci_fetch_array($stmt, OCI_ASSOC);
+            }
 
-                $r = oci_execute($s, OCI_NO_AUTO_COMMIT);
-                if (!$r) {    
-                    $e = oci_error($s);
-                    oci_rollback($link);  // rollback changes
-                    trigger_error(htmlentities($e['message']), E_USER_ERROR);
-                }
-                else{
-                    // Commit the changes 
-                    $r = oci_commit($link);
-                    if (!$r) {
-                        $e = oci_error($link);
-                        trigger_error(htmlentities($e['message']), E_USER_ERROR);
-                    }
-                    else{
-                        // DONE 
-                        http_response_code(200);
+            
+
+            if(empty($dept_id_err)){
+
+                if(oci_execute($stmt)){
+                    $row = oci_fetch_array($stmt, OCI_ASSOC);
+                    if($row){
+                        http_response_code(400);
                         echo json_encode([
                             'status' => 1,
-                            'message' => "Successful",
+                            'message' => "Already Applied",
                         ]);
                     }
+                    else{
+                
+                        $query = "INSERT INTO SYS.Application (DEPT_ID, U_ID) VALUES (".$dept_id.", ".$user_data->data->{'id'}.")";
+                        $s = oci_parse($link, $query);
+    
+                        $r = oci_execute($s, OCI_NO_AUTO_COMMIT);
+                        if (!$r) {    
+                            $e = oci_error($s);
+                            oci_rollback($link);  // rollback changes
+                            trigger_error(htmlentities($e['message']), E_USER_ERROR);
+                        }
+                        else{
+                            // Commit the changes 
+                            $r = oci_commit($link);
+                            if (!$r) {
+                                $e = oci_error($link);
+                                trigger_error(htmlentities($e['message']), E_USER_ERROR);
+                            }
+                            else{
+                                // DONE 
+                                http_response_code(200);
+                                echo json_encode([
+                                    'status' => 1,
+                                    'message' => "Successful",
+                                ]);
+                            }
+                        }
+                    }
+                }
+                else {
+                    http_response_code(400);
+                    echo json_encode($error);
                 }
             }
            // Validation Failed

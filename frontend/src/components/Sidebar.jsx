@@ -5,13 +5,16 @@ import "../index.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { MdDarkMode } from "react-icons/md";
+import { useGlobalState } from "./UserContext";
 
 const Sidebar = () => {
+  //TODO : Sidebar opening by default
   const navigate = useNavigate();
   let location = useLocation();
+  const [user, setUser] = useGlobalState("user");
+
   const [isOpen, setOpen] = useState(false);
   const [theme, setTheme] = useState(null);
-  const [profileComplete, setProfileComplete] = useState(false);
 
   useEffect(() => {
     if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
@@ -38,9 +41,9 @@ const Sidebar = () => {
     navigate(`/${address}`);
   };
 
-  const signout = () => {
+  const logout = () => {
+    localStorage.removeItem("jwt");
     navigate("/login");
-    setOpen(false);
   };
 
   return (
@@ -70,18 +73,15 @@ const Sidebar = () => {
           My Submissions
         </div>
         <div
-          onClick={() =>
-            to(`${profileComplete === true ? "viewprofile" : "profile"}`)
-          }
+          onClick={() => {
+            user.profile === "1" ? to("viewprofile") : to("profile");
+          }}
           className="menu-item"
         >
           Profile
         </div>
-        <div onClick={() => to("notice")} className="menu-item">
-          Notice
-        </div>
         {localStorage.getItem("jwt") !== "" ? (
-          <div onClick={signout} className="menu-item">
+          <div onClick={logout} className="menu-item">
             Logout
           </div>
         ) : (
