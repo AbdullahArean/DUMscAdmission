@@ -6,12 +6,14 @@ import "../index.css";
 import { Collapse } from "antd";
 import { CaretRightOutlined } from "@ant-design/icons";
 import { useGlobalState } from "../components/UserContext";
+import api from "../api";
 
 const Home = () => {
   const { Panel } = Collapse;
   const [user, setUser] = useGlobalState("user");
   const [isLoggedIn, setIsLoggedIn] = useGlobalState("isLoggedIn");
   const [jwt, setJwt] = useGlobalState("jwt");
+  const [notices, setNotices] = useState([]);
 
   const notice = [
     {
@@ -46,9 +48,26 @@ const Home = () => {
     },
   ];
 
+  const getNotice = () => {
+    api
+      .get("/notice.php", {
+        headers: {
+          Authorization: localStorage.getItem("jwt"),
+        },
+      })
+      .then((response) => {
+        setNotices(response.data);
+      })
+      .catch((err) => console.log(err));
+  };
+
   const log = () => {
     console.log(user, isLoggedIn, jwt);
   };
+
+  useEffect(() => {
+    getNotice();
+  }, []);
 
   return (
     <div className="bg-white dark:bg-gray-900 flex flex-col justify-center">
@@ -60,7 +79,7 @@ const Home = () => {
             Notice
           </div>
           <div>
-            {notice.map((notice, index) => {
+            {notices.map((notice, index) => {
               return <Notice key={index} notice={notice} />;
             })}
           </div>
