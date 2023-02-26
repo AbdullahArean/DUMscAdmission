@@ -15,24 +15,51 @@ import Notice from "./pages/Notice";
 import ViewProfile from "./pages/ViewProfile";
 import Apply from "./pages/Apply";
 import Sidebar from "./components/Sidebar";
+import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
   return (
     <div className="App font-body" id="outer-container">
       <div id="page-wrap">
         <BrowserRouter>
-          <Sidebar
-            id="sidebar"
-          />
+          <Sidebar id="sidebar" />
           <Routes>
             <Route path="/">
               <Route index element={<Home />} />
               <Route path="home" element={<Home />} />
-              <Route path="profile" element={<Profile />} />
-              <Route path="viewprofile" element={<ViewProfile />} />
-              <Route path="submission" element={<Submission />} />
+              <Route
+                path="profile"
+                element={
+                  <PrivateRoute>
+                    <Profile />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="viewprofile"
+                element={
+                  <PrivateRoute>
+                    <ViewProfile />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="submission"
+                element={
+                  <PrivateRoute>
+                    <Submission />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="application"
+                element={
+                  <PrivateRoute>
+                    <Apply />
+                  </PrivateRoute>
+                }
+              />
               <Route path="notice" element={<Notice />} />
-              <Route path="application" element={<Apply />} />
               <Route path="confirm" element={<Confirmation />} />
               <Route path="verify" element={<Verification />} />
               <Route path="forgot" element={<Forgot />} />

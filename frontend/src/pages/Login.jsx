@@ -2,7 +2,7 @@
 /* eslint-disable no-lone-blocks */
 /* eslint-disable no-unused-vars */
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import api from "../api";
 import { ToastContainer, toast } from "react-toastify";
@@ -11,6 +11,7 @@ import { useGlobalState } from "../components/UserContext.jsx";
 
 const Login = () => {
   const nav = useNavigate();
+  const { state } = useLocation();
   const [user, setUser] = useGlobalState("user");
   const [isLoggedIn, setIsLoggedIn] = useGlobalState("isLoggedIn");
   const [theme, setTheme] = useState(null);
@@ -19,6 +20,9 @@ const Login = () => {
       setTheme("dark");
     } else {
       setTheme("light");
+    }
+    if (state === "redirected") {
+      toast.warning("Please login to view the page");
     }
   }, []);
 
