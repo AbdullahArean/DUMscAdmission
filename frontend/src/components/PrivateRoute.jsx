@@ -1,10 +1,11 @@
 /* eslint-disable no-unused-vars */
-import React, { useContext, useEffect } from "react";
+import React from "react";
 import { Navigate } from "react-router-dom";
+import { useGlobalState } from "./UserContext";
 
 const PrivateRoute = ({ children }) => {
-  const loggedIn = false;
-  if (loggedIn === true) {
+  const [isLoggedIn, setIsLoggedIn] = useGlobalState("isLoggedIn");
+  if (isLoggedIn) {
     return children;
   } else return <Navigate to="/login" state={"redirected"}></Navigate>;
 };

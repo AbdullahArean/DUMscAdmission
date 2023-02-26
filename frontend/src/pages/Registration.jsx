@@ -51,7 +51,6 @@ const Registration = () => {
       .post("/registration.php", dataToPost)
       .then((res) => {
         console.log(res);
-        // SRIZON SUCCESSFUL TOAST
         toLogin();
       })
       .catch((err) => {
@@ -167,7 +166,7 @@ const Registration = () => {
                     Confirm Password
                   </label>
                   <input
-                    type="confirm-password"
+                    type="password"
                     name="confirm_password"
                     id="confirm-password"
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -180,7 +179,7 @@ const Registration = () => {
                       id="terms"
                       aria-describedby="terms"
                       type="checkbox"
-                      className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800"
+                      className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-0 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800"
                       required=""
                     />
                   </div>

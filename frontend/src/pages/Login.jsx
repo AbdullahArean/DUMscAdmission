@@ -13,6 +13,7 @@ const Login = () => {
   const nav = useNavigate();
   const { state } = useLocation();
   const [user, setUser] = useGlobalState("user");
+  const [jwt, setJwt] = useGlobalState("user");
   const [isLoggedIn, setIsLoggedIn] = useGlobalState("isLoggedIn");
   const [theme, setTheme] = useState(null);
   useEffect(() => {
@@ -22,7 +23,7 @@ const Login = () => {
       setTheme("light");
     }
     if (state === "redirected") {
-      toast.warning("Please login to view the page");
+      toast.warning("Please log in to view the page");
     }
   }, []);
 
@@ -64,14 +65,22 @@ const Login = () => {
           localStorage.setItem("jwt", res.data["jwt"]);
 
           api
-            .get("/profile.php", {
+            .get("/account.php", {
               headers: {
-                Authorization: res.data["jwt"],
+                Authorization: localStorage.getItem("jwt"),
               },
             })
-            .then((profileResponse) => {
-              let toUpdateKeys = ["id", "name", "phone", "mail", "role"];
-              let profile = profileResponse.data.message;
+            .then((res) => {
+              let toUpdateKeys = [
+                "id",
+                "name",
+                "phone",
+                "mail",
+                "verified",
+                "role",
+                "profile",
+              ];
+              let profile = res.data.message;
               Object.keys(user).forEach((k) => {
                 if (toUpdateKeys.includes(k)) {
                   user[k] = profile[k];
@@ -79,6 +88,10 @@ const Login = () => {
               });
               setUser(user);
               setIsLoggedIn(true);
+              setJwt(localStorage.getItem("jwt"));
+            })
+            .catch((err) => {
+              console.log(err);
             });
           toProfile();
         }

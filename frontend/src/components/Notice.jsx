@@ -32,7 +32,7 @@ const Notice = ({ notice }) => {
           <div className="flex justify-between">
             <div className="text-md md:text-lg">{notice.title}</div>
             {/* <div>{notice.created_by}</div> */}
-            <div>date: {notice.created_on}</div>
+            <div>{notice.created_on}</div>
           </div>
           {notice.body}
         </div>

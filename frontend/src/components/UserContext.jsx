@@ -1,12 +1,16 @@
 import { createGlobalState } from "react-hooks-global-state";
 const userState = {
   isLoggedIn: false,
+  jwt: "",
   user: {
     accessToken: "",
-    jwt: "",
     id: null,
     name: "",
-    role: "admin",
+    mail: "",
+    phone: "",
+    verified: "",
+    role: "student",
+    profile: 0,
   },
 };
 

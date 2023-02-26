@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./index.css";
 import Home from "./pages/Home";
@@ -11,13 +11,52 @@ import Verification from "./pages/Verification";
 import Confirmation from "./pages/Confirmation";
 import Submission from "./pages/Submission";
 import Profile from "./pages/Profile";
-import Notice from "./pages/Notice";
 import ViewProfile from "./pages/ViewProfile";
 import Apply from "./pages/Apply";
 import Sidebar from "./components/Sidebar";
 import PrivateRoute from "./components/PrivateRoute";
+import api from "./api";
+import { useGlobalState } from "./components/UserContext";
 
 function App() {
+  const [user, setUser] = useGlobalState("user");
+  const [isLoggedIn, setIsLoggedIn] = useGlobalState("isLoggedIn");
+  const [jwt, setJwt] = useGlobalState("jwt");
+
+  useEffect(() => {
+    if (localStorage.getItem("jwt")) {
+      api
+        .get("/account.php", {
+          headers: {
+            Authorization: localStorage.getItem("jwt"),
+          },
+        })
+        .then((res) => {
+          let toUpdateKeys = [
+            "id",
+            "name",
+            "phone",
+            "mail",
+            "verified",
+            "role",
+            "profile",
+          ];
+          let profile = res.data.message;
+          Object.keys(user).forEach((k) => {
+            if (toUpdateKeys.includes(k)) {
+              user[k] = profile[k];
+            }
+          });
+          setUser(user);
+          setIsLoggedIn(true);
+          setJwt(localStorage.getItem("jwt"));
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, []);
+
   return (
     <div className="App font-body" id="outer-container">
       <div id="page-wrap">
@@ -59,7 +98,6 @@ function App() {
                   </PrivateRoute>
                 }
               />
-              <Route path="notice" element={<Notice />} />
               <Route path="confirm" element={<Confirmation />} />
               <Route path="verify" element={<Verification />} />
               <Route path="forgot" element={<Forgot />} />

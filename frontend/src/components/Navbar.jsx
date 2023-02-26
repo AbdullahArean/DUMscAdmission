@@ -5,34 +5,60 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { MdDarkMode } from "react-icons/md";
 import Logo from "../resources/logo.png";
+import { Modal } from "antd";
 
 const Navbar = ({ active }) => {
   const nav = useNavigate();
   var mobile = window.matchMedia("(max-width: 700px)");
 
   const [profileComplete, setProfileComplete] = useState(false);
-  const [theme, setTheme] = useState(null);
+  const [modal2Open, setModal2Open] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
-  useEffect(() => {
-    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-      setTheme("dark");
+  // const toggleTheme = () => {
+  //   console.log(localStorage.getItem("theme"));
+  //   console.log("HERE");
+  //   document.documentElement.classList.toggle("dark");
+
+  //   if (localStorage.getItem("theme") === "dark") {
+  //     localStorage.setItem("theme", "light");
+  //     setTheme("light");
+  //   } else {
+  //     localStorage.setItem("theme", "dark");
+  //     setTheme("dark");
+  //   }
+  //   console.log(localStorage.getItem("theme"));
+  // };
+
+  const toggleTheme = () => {
+    if (localStorage.theme == "dark") {
+      localStorage.theme = "light";
     } else {
-      setTheme("light");
+      localStorage.theme = "dark";
     }
-  }, []);
 
-  useEffect(() => {
-    if (theme === "dark") {
+    setTheme();
+  };
+
+  const setTheme = () => {
+    if (
+      localStorage.theme === "dark" ||
+      (!("theme" in localStorage) &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches)
+    ) {
       document.documentElement.classList.add("dark");
+      setIsDarkMode(true);
     } else {
       document.documentElement.classList.remove("dark");
+      setIsDarkMode(false);
     }
-  }, [theme]);
-
-  const handleThemeSwitch = () => {
-    setTheme(theme === "dark" ? "light" : "dark");
   };
-  const signout = () => {
+  useEffect(() => {
+    setTheme();
+  }, []);
+
+  const logout = () => {
+    localStorage.removeItem("jwt")
     nav("/login");
   };
   let location = useLocation();
@@ -95,24 +121,11 @@ const Navbar = ({ active }) => {
                 Profile
               </div>
             </li>
-            <li>
-              <div
-                onClick={() => {
-                  nav("/notice");
-                }}
-                className={
-                  active === "notice"
-                    ? "block cursor-pointer py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white"
-                    : "block cursor-pointer py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-                }
-              >
-                Notice
-              </div>
-            </li>
+
             {localStorage.getItem("jwt") !== "" ? (
               <li>
                 <div
-                  onClick={signout}
+                  onClick={() => setModal2Open(true)}
                   className="block cursor-pointer py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
                 >
                   Logout
@@ -121,6 +134,16 @@ const Navbar = ({ active }) => {
             ) : (
               <li></li>
             )}
+            <Modal
+              title="Confirmation"
+              centered
+              open={modal2Open}
+              okText={"Log out"}
+              onOk={logout}
+              onCancel={() => setModal2Open(false)}
+            >
+              <div>Are you sure you want to log out?</div>
+            </Modal>
             <li className="block py-2 md:mt-1 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
               <label className="relative inline-flex items-center cursor-pointer">
                 <input
@@ -128,8 +151,8 @@ const Navbar = ({ active }) => {
                   id="themeSwitch"
                   value=""
                   className="sr-only peer"
-                  checked={theme === "dark" ? "checked" : ""}
-                  onChange={handleThemeSwitch}
+                  checked={isDarkMode}
+                  onChange={toggleTheme}
                 />
                 <span className="text-gray-900 mr-2 dark:text-gray-300">
                   <MdDarkMode className="h-4 w-4" />

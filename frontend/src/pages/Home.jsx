@@ -1,13 +1,17 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import Notice from "../components/Notice";
 import "../index.css";
 import { Collapse } from "antd";
 import { CaretRightOutlined } from "@ant-design/icons";
+import { useGlobalState } from "../components/UserContext";
 
 const Home = () => {
   const { Panel } = Collapse;
+  const [user, setUser] = useGlobalState("user");
+  const [isLoggedIn, setIsLoggedIn] = useGlobalState("isLoggedIn");
+  const [jwt, setJwt] = useGlobalState("jwt");
 
   const notice = [
     {
@@ -42,10 +46,14 @@ const Home = () => {
     },
   ];
 
+  const log = () => {
+    console.log(user, isLoggedIn, jwt);
+  };
+
   return (
     <div className="bg-white dark:bg-gray-900 flex flex-col justify-center">
       <Navbar active={"home"} />
-      <div className="bg-white h-full dark:bg-gray-900">
+      <div className="bg-white min-h-screen h-full dark:bg-gray-900">
         {/* Notice */}
         <div className="w-full px-2 md:px-0 md:w-4/5 md:mx-auto mt-20 mb-10 md:mt-32 md:mb-20">
           <div className="text-xl md:text-3xl text-center dark:text-white mb-5">
@@ -56,6 +64,10 @@ const Home = () => {
               return <Notice key={index} notice={notice} />;
             })}
           </div>
+        </div>
+
+        <div>
+          <button onClick={log}>Log</button>
         </div>
         {/* FAQ */}
         <div className="w-full px-2 md:px-0 md:w-4/5 mx-auto mt-14 mb-10 md:mt-24 md:mb-20">
