@@ -18,7 +18,6 @@ const Apply = () => {
   const [user, setUser] = useGlobalState("user");
   const [modalOpen, setModalOpen] = useState(false);
   const [modal2Open, setModal2Open] = useState(false);
-
   const [data, setData] = useState([]);
 
   const toProfile = () => {
@@ -26,8 +25,6 @@ const Apply = () => {
   };
 
   const navigate = useNavigate();
-
-  const profileComplete = false;
 
   const fetchData = () => {
     api.get("/department.php").then((res) => {
@@ -42,7 +39,7 @@ const Apply = () => {
 
   useEffect(() => {
     fetchData();
-    if (profileComplete === false) {
+    if (user.profile === 0) {
       toProfile();
     }
   }, []);

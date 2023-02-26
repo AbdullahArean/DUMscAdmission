@@ -9,12 +9,15 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useGlobalState } from "../components/UserContext";
 
 const Profile = () => {
   const [page, setPage] = useState("1");
   const incomplete = useLocation();
   const nav = useNavigate();
+  const [user, setUser] = useGlobalState("user");
   const [university, setUniversity] = useState([]);
+  const [subjects, setSubjects] = useState([]);
   const [page1complete, setPage1Complete] = useState(false);
   const [page2complete, setPage2Complete] = useState(false);
   const [previewData, setPreviewData] = useState({});
@@ -74,8 +77,6 @@ const Profile = () => {
     setPage("3");
   };
 
-  const subjects = [{ label: "Computer Engineering", id: "1" }];
-
   const boards = [
     {
       name: "Dhaka",
@@ -115,96 +116,24 @@ const Profile = () => {
     },
   ];
 
-  const universities = [
-    { label: "Bangladesh Agricultural University", id: "45" },
-    { label: "Bangladesh University of Engineering Technology", id: "46" },
-    { label: "University of Chittagong", id: "47" },
-    { label: "Jahangirnagar University", id: "48" },
-    { label: "Islamic University, Bangladesh", id: "49" },
-    { label: "Shahjalal University of Science Technology", id: "50" },
-    { label: "Khulna University", id: "51" },
-    { label: "National University", id: "52" },
-    { label: "Bangladesh Open University", id: "53" },
-    { label: "Bangabandhu Sheikh Mujib Medical University", id: "54" },
-    {
-      label: "Bangabandhu Sheikh Mujibur Rahman Agricultural University",
-      id: "55",
-    },
-    { label: "Hajee Mohammad Danesh Science Technology University", id: "56" },
-    { label: "Mawlana Bhashani Science Technology University", id: "57" },
-    { label: "Patuakhali Science And Technology University", id: "58" },
-    { label: "Sher-e-Bangla Agricultural University", id: "59" },
-    { label: "Chittagong University of Engineering Technology", id: "60" },
-    { label: "Rajshahi University of Engineering Technology", id: "61" },
-    { label: "Khulna University of Engineering Technology", id: "62" },
-    { label: "Dhaka University of Engineering Technology", id: "63" },
-    { label: "Noakhali Science Technology University", id: "64" },
-    { label: "Jagannath University", id: "65" },
-    { label: "Comilla University", id: "66" },
-    { label: "Jatiya Kabi Kazi Nazrul Islam University", id: "67" },
-    { label: "Chittagong Veterinary and Animal Sciences University", id: "68" },
-    { label: "Sylhet Agricultural University", id: "69" },
-    { label: "Jessore University of Science Technology", id: "70" },
-    { label: "Pabna University of Science and Technology", id: "71" },
-    { label: "Begum Rokeya University, Rangpur", id: "72" },
-    { label: "Bangladesh University of Professionals", id: "73" },
-    {
-      label: "Bangabandhu Sheikh Mujibur Rahman Science Technology University",
-      id: "74",
-    },
-    { label: "Bangladesh University of Textiles", id: "75" },
-    { label: "University of Barishal", id: "76" },
-    { label: "Rangamati Science and Technology University", id: "77" },
-    {
-      label:
-        "Bangabandhu Sheikh Mujibur Rahman Maritime University, Bangladesh",
-      id: "78",
-    },
-    { label: "Islamic Arabic University", id: "79" },
-    { label: "Chittagong Medical University", id: "80" },
-    { label: "Rajshahi Medical University", id: "81" },
-    { label: "Rabindra University,Bangladesh", id: "82" },
-    {
-      label: "Bangabandhu Sheikh Mujibur Rahman Digital University,Bangladesh",
-      id: "83",
-    },
-    { label: "Sheikh Hasina University", id: "84" },
-    { label: "Khulna Agricultural University", id: "85" },
-    { label: "University of Dhaka", id: "43" },
-    { label: "University of Rajshahi", id: "44" },
-    {
-      label:
-        "Bangamata Sheikh Fojilatunnesa Mujib Science and Technology University",
-      id: "86",
-    },
-    { label: "Sylhet Medical University", id: "87" },
-    {
-      label:
-        "Bangabandhu Sheikh Mujibur Rahman Aviation And Aerospace University (BSMRAAU)",
-      id: "88",
-    },
-    { label: "Chandpur Science and Technology University", id: "89" },
-    {
-      label: "Bangabandhu Sheikh Mujibur Rahman University, Kishoreganj",
-      id: "90",
-    },
-    { label: "Hobiganj Agricultural University", id: "91" },
-    { label: "Sheikh Hasina Medical University, Khulna", id: "92" },
-    { label: "Kurigram Agricultural University", id: "93" },
-    { label: "Sunamganj Science and Technology University", id: "94" },
-    {
-      label:
-        "Bangabandhu Sheikh Mujibur Rahman Science Technology University,Pirojpur",
-      id: "95",
-    },
-  ];
+  const getSubjects = () => {
+    api
+      .get("/subjects.php", {
+        headers: {
+          Authorization: localStorage.getItem("jwt"),
+        },
+      })
+      .then((response) => {
+        setSubjects(response.data);
+      })
+      .catch((err) => console.log(err));
+  };
 
-  const uni = () => {
+  const getUniversities = () => {
     api
       .get("/universities.php")
       .then((response) => {
         setUniversity(response.data);
-        console.log(response.data);
       })
       .catch((err) => console.log(err));
   };
@@ -311,7 +240,6 @@ const Profile = () => {
             theme: "colored",
           });
         } else {
-          console.log("HAERE");
           setFetchedData({
             name: data.getElementsByTagName("name")[0].childNodes[0].nodeValue,
             mname:
@@ -356,18 +284,11 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    uni();
+    getUniversities();
+    getSubjects();
+    console.log(subjects);
     if (incomplete.state === "incomplete") {
-      toast.error("Please complete your profile", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: false,
-        progress: undefined,
-        theme: "colored",
-      });
+      toast.error("Please complete your profile");
     }
   }, []);
   return (
@@ -673,6 +594,7 @@ const Profile = () => {
                 id="email"
                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
+                defaultValue={user.mail}
                 required
               />
               <label
@@ -708,6 +630,7 @@ const Profile = () => {
                   id="phone"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
+                  defaultValue={user.phone}
                   required
                 />
                 <label
@@ -1044,7 +967,7 @@ const Profile = () => {
                     className="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
                   >
                     <option defaultValue>Institution</option>
-                    {universities.map((uni, index) => {
+                    {university.map((uni, index) => {
                       return (
                         <option key={index} value={uni.id}>
                           {uni.label}

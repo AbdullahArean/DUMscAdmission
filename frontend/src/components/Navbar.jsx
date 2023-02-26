@@ -6,14 +6,15 @@ import { useState, useEffect } from "react";
 import { MdDarkMode } from "react-icons/md";
 import Logo from "../resources/logo.png";
 import { Modal } from "antd";
+import { useGlobalState } from "./UserContext";
 
 const Navbar = ({ active }) => {
   const nav = useNavigate();
   var mobile = window.matchMedia("(max-width: 700px)");
 
-  const [profileComplete, setProfileComplete] = useState(false);
   const [modal2Open, setModal2Open] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [user, setUser] = useGlobalState("user");
 
   // const toggleTheme = () => {
   //   console.log(localStorage.getItem("theme"));
@@ -58,7 +59,7 @@ const Navbar = ({ active }) => {
   }, []);
 
   const logout = () => {
-    localStorage.removeItem("jwt")
+    localStorage.removeItem("jwt");
     nav("/login");
   };
   let location = useLocation();
@@ -108,9 +109,7 @@ const Navbar = ({ active }) => {
             <li>
               <div
                 onClick={() => {
-                  profileComplete === true
-                    ? nav("/viewprofile")
-                    : nav("/profile");
+                  user.profile === 0 ? nav("/viewprofile") : nav("/profile");
                 }}
                 className={
                   active === "profile"

@@ -5,7 +5,7 @@ import { useGlobalState } from "./UserContext";
 
 const PrivateRoute = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useGlobalState("isLoggedIn");
-  if (isLoggedIn) {
+  if (isLoggedIn === true) {
     return children;
   } else return <Navigate to="/login" state={"redirected"}></Navigate>;
 };

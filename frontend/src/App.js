@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./index.css";
 import Home from "./pages/Home";
@@ -17,14 +17,17 @@ import Sidebar from "./components/Sidebar";
 import PrivateRoute from "./components/PrivateRoute";
 import api from "./api";
 import { useGlobalState } from "./components/UserContext";
+import Spinner from "./components/Spinner";
 
 function App() {
   const [user, setUser] = useGlobalState("user");
+  const [loading, setLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useGlobalState("isLoggedIn");
   const [jwt, setJwt] = useGlobalState("jwt");
 
   useEffect(() => {
     if (localStorage.getItem("jwt")) {
+      setLoading(false);
       api
         .get("/account.php", {
           headers: {
@@ -53,64 +56,72 @@ function App() {
         })
         .catch((err) => {
           console.log(err);
+          setLoading(true);
         });
     }
   }, []);
 
-  return (
-    <div className="App font-body" id="outer-container">
-      <div id="page-wrap">
-        <BrowserRouter>
-          <Sidebar id="sidebar" />
-          <Routes>
-            <Route path="/">
-              <Route index element={<Home />} />
-              <Route path="home" element={<Home />} />
-              <Route
-                path="profile"
-                element={
-                  <PrivateRoute>
-                    <Profile />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="viewprofile"
-                element={
-                  <PrivateRoute>
-                    <ViewProfile />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="submission"
-                element={
-                  <PrivateRoute>
-                    <Submission />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="application"
-                element={
-                  <PrivateRoute>
-                    <Apply />
-                  </PrivateRoute>
-                }
-              />
-              <Route path="confirm" element={<Confirmation />} />
-              <Route path="verify" element={<Verification />} />
-              <Route path="forgot" element={<Forgot />} />
-              <Route path="reset" element={<Reset />} />
-              <Route path="registration" element={<Registration />} />
-              <Route path="login" element={<Login />} />
-              <Route path="*" element={<NotFound />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
+  if (loading === true)
+    return (
+      <div>
+        <Spinner />
       </div>
-    </div>
-  );
+    );
+  else
+    return (
+      <div className="App font-body" id="outer-container">
+        <div id="page-wrap">
+          <BrowserRouter>
+            <Sidebar id="sidebar" />
+            <Routes>
+              <Route path="/">
+                <Route index element={<Home />} />
+                <Route path="home" element={<Home />} />
+                <Route
+                  path="profile"
+                  element={
+                    <PrivateRoute>
+                      <Profile />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="viewprofile"
+                  element={
+                    <PrivateRoute>
+                      <ViewProfile />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="submission"
+                  element={
+                    <PrivateRoute>
+                      <Submission />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="application"
+                  element={
+                    <PrivateRoute>
+                      <Apply />
+                    </PrivateRoute>
+                  }
+                />
+                <Route path="confirm" element={<Confirmation />} />
+                <Route path="verify" element={<Verification />} />
+                <Route path="forgot" element={<Forgot />} />
+                <Route path="reset" element={<Reset />} />
+                <Route path="registration" element={<Registration />} />
+                <Route path="login" element={<Login />} />
+                <Route path="*" element={<NotFound />} />
+              </Route>
+            </Routes>
+          </BrowserRouter>
+        </div>
+      </div>
+    );
 }
 
 export default App;

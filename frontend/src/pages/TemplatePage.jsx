@@ -11,6 +11,8 @@ import { useGlobalState } from "../components/UserContext";
 const TemplatePage = () => {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useGlobalState("user");
+  const [isLoggedIn, setIsLoggedIn] = useGlobalState("isLoggedIn");
+  const [jwt, setJwt] = useGlobalState("jwt");
 
   return (
     <div className="bg-white h-screen dark:bg-gray-900 flex flex-col">

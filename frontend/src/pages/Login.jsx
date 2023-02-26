@@ -60,7 +60,6 @@ const Login = () => {
     api
       .post("/login.php", dataToPost)
       .then((res) => {
-        console.log(res);
         if (res.status === 200) {
           localStorage.setItem("jwt", res.data["jwt"]);
 
