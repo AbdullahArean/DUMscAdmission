@@ -21,15 +21,6 @@ const Submission = () => {
   const { state } = useLocation();
   const [data, setData] = useState([]);
 
-  // const data = [
-  //   {
-  //     dept_name: "Computer Science and Engineering",
-  //     undergrad: "EEE",
-  //     approved: true,
-  //     payment: true,
-  //   },
-  // ];
-
   const fetchData = () => {
     api
       .get("/applications.php", {

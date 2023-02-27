@@ -12,7 +12,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useGlobalState } from "../components/UserContext";
 import { Modal } from "antd";
 
-
 const Profile = () => {
   const [page, setPage] = useState("1");
   const [modal2Open, setModal2Open] = useState(false);
@@ -157,6 +156,7 @@ const Profile = () => {
       .then((res) => {
         toast.success("Profile Submitted");
         nav("/application");
+        setPage2Complete(true);
       });
   };
 
