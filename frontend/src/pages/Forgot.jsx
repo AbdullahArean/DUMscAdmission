@@ -4,26 +4,36 @@ import { useNavigate } from "react-router-dom";
 
 const Forgot = () => {
   const nav = useNavigate();
-  const [theme, setTheme] = useState(null);
-  useEffect(() => {
-    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-      setTheme("dark");
-    } else {
-      setTheme("light");
-    }
-  }, []);
+  const [isDarkMode, setIsDarkMode] = useState();
 
-  useEffect(() => {
-    if (theme === "dark") {
+  const toggleTheme = () => {
+    if (localStorage.theme === "dark") {
+      localStorage.theme = "light";
+    } else {
+      localStorage.theme = "dark";
+    }
+
+    setTheme();
+  };
+
+  const setTheme = () => {
+    if (
+      localStorage.theme === "dark" ||
+      (!("theme" in localStorage) &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches)
+    ) {
       document.documentElement.classList.add("dark");
+      setIsDarkMode(true);
     } else {
       document.documentElement.classList.remove("dark");
+      setIsDarkMode(false);
     }
-  }, [theme]);
-
-  const handleThemeSwitch = () => {
-    setTheme(theme === "dark" ? "light" : "dark");
   };
+
+  useEffect(() => {
+    setTheme();
+  }, [isDarkMode]);
+
   const toReset = () => {
     nav("/reset");
   };
@@ -71,8 +81,8 @@ const Forgot = () => {
             id="themeSwitch"
             value=""
             className="sr-only peer"
-            checked={theme === "dark" ? "checked" : ""}
-            onChange={handleThemeSwitch}
+            checked={isDarkMode === true ? "checked" : ""}
+            onChange={toggleTheme}
           />
           <div className="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-0 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
           <span className="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">

@@ -13,24 +13,9 @@ const Navbar = ({ active }) => {
   var mobile = window.matchMedia("(max-width: 700px)");
 
   const [modal2Open, setModal2Open] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState();
   const [user, setUser] = useGlobalState("user");
   const [isLoggedIn, setIsLoggedIn] = useGlobalState("isLoggedIn");
-
-  // const toggleTheme = () => {
-  //   console.log(localStorage.getItem("theme"));
-  //   console.log("HERE");
-  //   document.documentElement.classList.toggle("dark");
-
-  //   if (localStorage.getItem("theme") === "dark") {
-  //     localStorage.setItem("theme", "light");
-  //     setTheme("light");
-  //   } else {
-  //     localStorage.setItem("theme", "dark");
-  //     setTheme("dark");
-  //   }
-  //   console.log(localStorage.getItem("theme"));
-  // };
 
   const toggleTheme = () => {
     if (localStorage.theme === "dark") {
@@ -58,7 +43,7 @@ const Navbar = ({ active }) => {
 
   useEffect(() => {
     setTheme();
-  }, []);
+  }, [isDarkMode]);
 
   const logout = () => {
     localStorage.removeItem("jwt");
@@ -75,7 +60,7 @@ const Navbar = ({ active }) => {
             alt="CSEDU Logo"
           />
           <span className="self-center text-xl font-semibold whitespace-nowrap cursor-pointer dark:text-white">
-            M.Sc Admission
+            MS Admission
           </span>
         </div>
         <div className="items-center justify-between hidden w-full md:flex md:w-auto">
@@ -159,7 +144,7 @@ const Navbar = ({ active }) => {
                   id="themeSwitch"
                   value=""
                   className="sr-only peer"
-                  checked={isDarkMode}
+                  checked={isDarkMode === true ? "checked" : ""}
                   onChange={toggleTheme}
                 />
                 <span className="text-gray-900 mr-2 dark:text-gray-300">
