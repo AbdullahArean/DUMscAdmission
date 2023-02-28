@@ -29,7 +29,7 @@ elseif(isset($_SERVER["HTTP_ACCESS_CONTROL_REQUEST_METHOD"])){
 }
 
 
-if ($method == "GET"){
+if ($method == "POST"){
 
     $query = "UPDATE PAYMENT SET STATUS = 'SUCCESS' WHERE TRX_ID = '".$_GET['tran']."'";
     $s = oci_parse($link, $query);
@@ -70,7 +70,10 @@ if ($method == "GET"){
                     http_response_code(400);
                 }
                 else{
+                    header("Location: https://msadmission.cse.du.ac.bd/submission");
+                    echo'<script> window.location="https://msadmission.cse.du.ac.bd/submission"; </script> ';
                     http_response_code(200);        
+                    exit();
                 }
             }
         }

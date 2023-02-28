@@ -12,7 +12,6 @@ if (isset($_SERVER['HTTP_ORIGIN'])) {
             header("Access-Control-Allow-Methods: *");
 }
 
-
 if($_SERVER["REQUEST_METHOD"] == "GET"){
     $query = "SELECT dept_id, dept_name, fee, dept_notice, application_start, application_end FROM SYS.Department";
     $stmt = oci_parse($link, $query);

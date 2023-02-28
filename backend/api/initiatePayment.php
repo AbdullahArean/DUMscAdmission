@@ -83,8 +83,10 @@ if ($method == "POST"){
                 $post_data['total_amount'] = $amount;
                 $post_data['currency'] = "BDT";
                 $post_data['tran_id'] = $tran_id;
-                $post_data['success_url'] = $_SERVER['REQUEST_SCHEME'] . "://$frontendURL/success?tran=".$tran_id;
-                $post_data['fail_url'] = $_SERVER['REQUEST_SCHEME'] . "://$frontendURL/failed?tran=".$tran_id;
+                // $post_data['success_url'] = $_SERVER['REQUEST_SCHEME'] . "://$frontendURL/success?tran=".$tran_id;
+                $post_data['success_url'] = "https://msadmission.cse.du.ac.bd/api/paymentSuccess.php?tran=".$tran_id;
+                $post_data['fail_url'] = "https://msadmission.cse.du.ac.bd/api/paymentFailed.php?tran=".$tran_id;
+                // $post_data['fail_url'] = $_SERVER['HTTP_HOST'] . "/api/failed?tran=".$tran_id;
                 $post_data['cancel_url'] = $_SERVER['REQUEST_SCHEME'] . "://$frontendURL/submissions";
 
                 # EMI INFO
