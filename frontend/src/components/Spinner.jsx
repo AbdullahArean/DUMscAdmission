@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React from "react";
-import { useState, CSSProperties } from "react";
+import { useState } from "react";
 import SyncLoader from "react-spinners/SyncLoader";
 
 function Spinner() {

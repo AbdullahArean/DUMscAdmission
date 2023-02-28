@@ -10,7 +10,6 @@ import NotFound from "./pages/NotFound";
 import Registration from "./pages/Registration";
 import Reset from "./pages/Reset";
 import Verification from "./pages/Verification";
-import Confirmation from "./pages/Confirmation";
 import Submission from "./pages/Submission";
 import Profile from "./pages/Profile";
 import ViewProfile from "./pages/ViewProfile";
@@ -112,7 +111,6 @@ function App() {
                     </PrivateRoute>
                   }
                 />
-                <Route path="confirm" element={<Confirmation />} />
                 <Route path="verify" element={<Verification />} />
                 <Route path="forgot" element={<Forgot />} />
                 <Route path="reset" element={<Reset />} />

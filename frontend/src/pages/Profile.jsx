@@ -12,6 +12,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useGlobalState } from "../components/UserContext";
 import { Modal } from "antd";
 
+//TODO: fix logic
+
 const Profile = () => {
   const [page, setPage] = useState("1");
   const [modal2Open, setModal2Open] = useState(false);
@@ -165,7 +167,7 @@ const Profile = () => {
   const fetchSscHscData = (e) => {
     e.preventDefault();
     let hsid =
-      "10" +
+      e.target.underline_select1.value +
       e.target.underline_select2.value.slice(-2) +
       e.target.hsc_roll1.value;
     let requestBody = `<dupgwp>
@@ -211,16 +213,7 @@ const Profile = () => {
           data.getElementsByTagName("ssc-roll")[0].childNodes[0].nodeValue !=
           e.target.ssc_roll1.value
         ) {
-          toast.error("Invalid Data", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: false,
-            progress: undefined,
-            theme: "colored",
-          });
+          toast.error("Invalid Data");
         } else {
           setFetchedData({
             name: data.getElementsByTagName("name")[0].childNodes[0].nodeValue,
