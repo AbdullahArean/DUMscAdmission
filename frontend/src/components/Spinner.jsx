@@ -1,12 +1,12 @@
 /* eslint-disable no-unused-vars */
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import SyncLoader from "react-spinners/SyncLoader";
 
 function Spinner() {
-  let [color, setColor] = useState("#111827");
+  let [color, setColor] = useState("#2563EB");
   return (
-    <div className="w-screen h-screen flex items-center justify-center">
+    <div className="w-screen h-screen dark:bg-gray-900 flex items-center justify-center">
       <SyncLoader
         color={color}
         size={15}
