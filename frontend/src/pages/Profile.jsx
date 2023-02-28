@@ -10,9 +10,11 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useGlobalState } from "../components/UserContext";
+import { Modal } from "antd";
 
 const Profile = () => {
   const [page, setPage] = useState("1");
+  const [modal2Open, setModal2Open] = useState(false);
   const incomplete = useLocation();
   const nav = useNavigate();
   const [user, setUser] = useGlobalState("user");
@@ -154,12 +156,12 @@ const Profile = () => {
       .then((res) => {
         toast.success("Profile Submitted");
         nav("/application");
+        setPage2Complete(true);
       });
   };
 
   const fetchSscHscData = (e) => {
     e.preventDefault();
-    // let hsid = 1311406473;
     let hsid =
       "10" +
       e.target.underline_select2.value.slice(-2) +
@@ -249,16 +251,7 @@ const Profile = () => {
       })
       .catch((err) => {
         console.log(err);
-        toast.error("Invalid Data", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          progress: undefined,
-          theme: "colored",
-        });
+        toast.error("Invalid Data");
       });
   };
 
@@ -267,7 +260,6 @@ const Profile = () => {
     else {
       getUniversities();
       getSubjects();
-      console.log(subjects);
       if (incomplete.state === "incomplete") {
         toast.error("Please complete your profile");
       }
@@ -1030,10 +1022,21 @@ const Profile = () => {
               <div className="flex justify-center mt-16">
                 <button
                   type="submit"
+                  onClick={() => setModal2Open(true)}
                   className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm md:text-lg w-full sm:w-auto px-5 py-2.5 md:px-10 md:py-5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                 >
                   Submit
                 </button>
+                <Modal
+                  title="Confirmation"
+                  centered
+                  open={modal2Open}
+                  okText={"Submit"}
+                  onOk={() => setModal2Open(false)}
+                  onCancel={() => setModal2Open(false)}
+                >
+                  <div>Are you sure you want to submit?</div>
+                </Modal>
               </div>
             </div>
           </form>

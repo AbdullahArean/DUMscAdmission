@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/jsx-no-target-blank */
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
@@ -19,15 +20,6 @@ const Submission = () => {
   const [user, setUser] = useGlobalState("user");
   const { state } = useLocation();
   const [data, setData] = useState([]);
-
-  // const data = [
-  //   {
-  //     dept_name: "Computer Science and Engineering",
-  //     undergrad: "EEE",
-  //     approved: true,
-  //     payment: true,
-  //   },
-  // ];
 
   const fetchData = () => {
     api

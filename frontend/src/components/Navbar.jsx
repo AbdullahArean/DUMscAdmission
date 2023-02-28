@@ -33,7 +33,7 @@ const Navbar = ({ active }) => {
   // };
 
   const toggleTheme = () => {
-    if (localStorage.theme == "dark") {
+    if (localStorage.theme === "dark") {
       localStorage.theme = "light";
     } else {
       localStorage.theme = "dark";
