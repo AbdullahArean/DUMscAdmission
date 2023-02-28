@@ -15,39 +15,6 @@ const Home = () => {
   const [jwt, setJwt] = useGlobalState("jwt");
   const [notices, setNotices] = useState([]);
 
-  const notice = [
-    {
-      title: "Payment Deadline Approaching",
-      body: `If you have not yet submitted your payment, please do so as soon as possible to secure yourspot in our program. Any payments received after the deadline may result in a delay in processing your application.`,
-      notice_file: "https://www.africau.edu/images/default/sample.pdf",
-      type: "",
-      created_by: "Admin",
-      created_on: "02/02/23",
-    },
-    {
-      title: "Plagiarism Will Not Be Tolerated",
-      body: `All applications are subject
-      to thorough plagiarism checks, and any applicant found to have
-      plagiarized will be immediately disqualified from
-      consideration.`,
-      notice_file: "https://www.africau.edu/images/default/sample.pdf",
-      type: "",
-      created_by: "Admin",
-      created_on: "02/02/23",
-    },
-    {
-      title: "Technical Issues Resolved",
-      body: `We apologize for any inconvenience
-      caused by the technical issues on our website earlier this
-      week. The issues have now been resolved, and all users should
-      be able to access the site without any problems.`,
-      notice_file: "https://www.africau.edu/images/default/sample.pdf",
-      type: "",
-      created_by: "Admin",
-      created_on: "02/02/23",
-    },
-  ];
-
   const getNotice = () => {
     api
       .get("/notice.php", {
@@ -106,7 +73,7 @@ const Home = () => {
               <p className="pl-6">
                 First, you'll need to create a user account and log in. Then,
                 navigate to the admission application section and fill in your
-                exam information. Once you've completed that section, you'll be
+                exam information.Once you've completed that section, you'll be
                 prompted to provide additional information before submitting
                 your application.
               </p>
