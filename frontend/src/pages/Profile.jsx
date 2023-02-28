@@ -18,6 +18,8 @@ const Profile = () => {
   const incomplete = useLocation();
   const nav = useNavigate();
   const [user, setUser] = useGlobalState("user");
+  const [isLoggedIn, setIsLoggedIn] = useGlobalState("isLoggedIn");
+
   const [university, setUniversity] = useState([]);
   const [subjects, setSubjects] = useState([]);
   const [page1complete, setPage1Complete] = useState(false);
@@ -256,7 +258,9 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    if (user.profile == "1") nav("/viewprofile");
+    if (!isLoggedIn) nav("/login");
+    else if (user.verified == "0") nav("/verify");
+    else if (user.profile == "1") nav("/viewprofile");
     else {
       getUniversities();
       getSubjects();

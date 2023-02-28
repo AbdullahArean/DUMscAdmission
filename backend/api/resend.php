@@ -40,7 +40,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $row = oci_fetch_array($stmt, OCI_ASSOC);
             if($row){
 
-                if($row["U_VERIFIED"] == 0){
+                if($row["U_VERIFIED"] == 0 || $row["U_VERIFIED"] == '0' ){
                     $current_timestamp = time();
                     $future_timestamp = $current_timestamp + (60 * 5);
                     $oracle_timestamp = "FROM_TZ(TO_TIMESTAMP('1970-01-01 00:00:00', 'YYYY-MM-DD HH24:MI:SS') + NUMTODSINTERVAL(" . $future_timestamp . ", 'SECOND'), 'UTC')";
@@ -56,11 +56,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             
                     sendmail($row["U_MAIL"], $code);
                 }
-                http_response_code(400);
-                echo json_encode([
-                    'status' => 0,
-                    'message' => 'Already verified',
-                ]);
+                else{
+                    http_response_code(400);
+                    echo json_encode([
+                        'status' => 0,
+                        'message' => 'Already verified'.$row["U_VERIFIED"],
+                    ]);
+                }
             }
             else{
                 http_response_code(400);
