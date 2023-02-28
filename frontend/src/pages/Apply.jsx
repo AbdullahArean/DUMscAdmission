@@ -110,8 +110,12 @@ const Apply = () => {
           okText={"Apply"}
           cancelText={"Close"}
           onOk={() => {
-            setModal2Open(true);
-            setModalOpen(false);
+            if (document.getElementById("agreement").checked) {
+              setModal2Open(true);
+              setModalOpen(false);
+            } else {
+              toast.error("Requirements must be accepted");
+            }
           }}
           onCancel={() => setModalOpen(false)}
         >
@@ -158,6 +162,28 @@ const Apply = () => {
             Test: May 14, 2023 For more information and detailed instructions,
             please refer to the official admission circular on the Dhaka
             University website.
+          </div>
+          <div className="flex items-start">
+            <div className="flex items-center h-5">
+              <input
+                id="agreement"
+                aria-describedby="agreement"
+                type="checkbox"
+                className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-0 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800"
+                required
+              />
+            </div>
+            <div className="ml-3 text-sm">
+              <label
+                htmlFor="agreement"
+                className="font-light text-gray-500 dark:text-gray-300"
+              >
+                I have read and accepted the requirements and declare that the
+                information I provided is true and correct. I also understand
+                that any willful dishonesty may render for refusal of this
+                application
+              </label>
+            </div>
           </div>
         </Modal>
         <Modal
