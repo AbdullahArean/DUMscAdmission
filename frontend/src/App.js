@@ -64,13 +64,13 @@ function App() {
     }
   }, []);
 
-  if (loading === true)
+ /*  if (loading === true)
     return (
       <div>
         <Spinner />
       </div>
     );
-  else
+  else */
     return (
       <div className="App font-body" id="outer-container">
         <div id="page-wrap">
