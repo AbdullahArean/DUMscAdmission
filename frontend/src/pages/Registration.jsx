@@ -7,11 +7,15 @@ import "../index.css";
 import api from "../api";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useGlobalState } from "../components/UserContext.jsx";
 
 const Registration = () => {
   const nav = useNavigate();
   const [theme, setTheme] = useState(null);
   const [value, setValue] = useState();
+  const [user, setUser] = useGlobalState("user");
+  const [jwt, setJwt] = useGlobalState("user");
+  const [isLoggedIn, setIsLoggedIn] = useGlobalState("isLoggedIn");
   useEffect(() => {
     if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
       setTheme("dark");
@@ -49,9 +53,66 @@ const Registration = () => {
 
     api
       .post("/registration.php", dataToPost)
-      .then((res) => {
-        console.log(res);
-        toLogin();
+      .then((resReg) => {
+        console.log(resReg);
+        // toLogin();
+        // Log the user in
+        api
+          .post("/login.php", dataToPost)
+          .then((res) => {
+            if (res.status === 200) {
+              localStorage.setItem("jwt", res.data["jwt"]);
+
+              api
+                .get("/account.php", {
+                  headers: {
+                    Authorization: localStorage.getItem("jwt"),
+                  },
+                })
+                .then((resAcc) => {
+                  let toUpdateKeys = [
+                    "id",
+                    "name",
+                    "phone",
+                    "mail",
+                    "verified",
+                    "role",
+                    "profile",
+                  ];
+                  let profile = resAcc.data.message;
+                  Object.keys(user).forEach((k) => {
+                    if (toUpdateKeys.includes(k)) {
+                      user[k] = profile[k];
+                    }
+                  });
+                  setUser(user);
+                  setIsLoggedIn(true);
+                  setJwt(localStorage.getItem("jwt"));
+
+                  // if verified toProfile
+                  if (resAcc.data.message.verified == "1") nav("/home");
+                  else nav("/verify");
+                })
+                .catch((err) => {
+                  console.log(err);
+                });
+
+              // toProfile();
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+            toast.error("Login Failed!", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: false,
+              draggable: false,
+              progress: undefined,
+              theme: "colored",
+            });
+          });
       })
       .catch((err) => {
         console.log(err);

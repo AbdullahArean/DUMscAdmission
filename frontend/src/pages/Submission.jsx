@@ -13,11 +13,13 @@ import "react-toastify/dist/ReactToastify.css";
 import { Space, Table } from "antd";
 import Column from "antd/es/table/Column";
 import { useGlobalState } from "../components/UserContext";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Submission = () => {
+  const nav = useNavigate();
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useGlobalState("user");
+  const [isLoggedIn, setIsLoggedIn] = useGlobalState("isLoggedIn");
   const { state } = useLocation();
   const [data, setData] = useState([]);
 
@@ -38,7 +40,9 @@ const Submission = () => {
   };
 
   useEffect(() => {
-    if (state === "applied") toast.success("Application Successful");
+    if (!isLoggedIn) nav("/login");
+    else if (user.verified === "0") nav("/verify");
+    if (state === "applied") toast.success("Application Successful.");
 
     fetchData();
   }, []);
