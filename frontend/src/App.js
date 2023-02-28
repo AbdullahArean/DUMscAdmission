@@ -23,7 +23,7 @@ import Confirmation from "./pages/Confirmation";
 
 function App() {
   const [user, setUser] = useGlobalState("user");
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useGlobalState("isLoggedIn");
   const [jwt, setJwt] = useGlobalState("jwt");
 

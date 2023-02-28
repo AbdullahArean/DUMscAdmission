@@ -131,55 +131,26 @@ if($method == "POST"){
 
 else if($method == "GET"){
 
-    try{
-        $allheaders=getallheaders();
+    $query = "SELECT NOTICE_ID, NOTICE_TITLE, NOTICE_BODY, NOTICE_FILE_PATH, CREATED_BY FROM Notice";
+    $stmt = oci_parse($link, $query);
 
-        if(isset($allheaders['Authorization'])){
-        $jwt=$allheaders['Authorization'];
-        }
-        else{
-            http_response_code(401);
-            echo json_encode([
-                'status' => 401,
-            ]);
-            exit();
-        }
-    
-        $secret_key = "shhhhhhhhhh";
-        // $user_data=JWT::decode($jwt, $secret_key, 'HS256');
-        $user_data = JWT::decode($jwt, new Key($secret_key, 'HS256'));
-        $data=$user_data->data;
+    if(oci_execute($stmt)){
+        $response = array();
 
-
-        $query = "SELECT NOTICE_ID, NOTICE_TITLE, NOTICE_BODY, NOTICE_FILE_PATH, CREATED_BY FROM Notice";
-        $stmt = oci_parse($link, $query);
-
-        if(oci_execute($stmt)){
-            $response = array();
-
-            while($row = oci_fetch_array($stmt, OCI_ASSOC)){
-                $notice = array();
-                $notice["id"] = $row["NOTICE_ID"];
-                $notice["title"] = $row["NOTICE_TITLE"];
-                $notice["body"] = $row["NOTICE_BODY"];
-                if(isset($row["NOTICE_FILE_PATH"])) $notice["file"] = $row["NOTICE_FILE_PATH"];
-                $notice["created_by"] = $row["CREATED_BY"];
-                
-                array_push($response, $notice);
-            }
-
-            echo json_encode(
-                $response
-            );
-        }
-       }
-     catch(Exception $e){
+        while($row = oci_fetch_array($stmt, OCI_ASSOC)){
+            $notice = array();
+            $notice["id"] = $row["NOTICE_ID"];
+            $notice["title"] = $row["NOTICE_TITLE"];
+            $notice["body"] = $row["NOTICE_BODY"];
+            if(isset($row["NOTICE_FILE_PATH"])) $notice["file"] = $row["NOTICE_FILE_PATH"];
+            $notice["created_by"] = $row["CREATED_BY"];
             
-        http_response_code(400);
-        echo json_encode([
-            'status' => 0,
-            'message' => $e->getMessage(),
-        ]);
+            array_push($response, $notice);
+        }
+
+        echo json_encode(
+            $response
+        );
     }
 }
 
