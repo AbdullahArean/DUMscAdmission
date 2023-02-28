@@ -86,29 +86,13 @@ const Apply = () => {
           <Column title="Department" dataIndex="name"></Column>
           <Column title="End Date" dataIndex="application_end"></Column>
           <Column
-            title="Notice"
+            title=""
             dataIndex="dept_id"
             render={(applied, record) => (
               <Space size="middle">
                 <button
                   onClick={() => {
                     setModalOpen(true);
-                  }}
-                  className="hover:underline text-white bg-blue-500 px-4 py-1 rounded-lg font-medium"
-                >
-                  View
-                </button>
-              </Space>
-            )}
-          ></Column>
-          <Column
-            title="Action"
-            dataIndex="dept_id"
-            render={(applied, record) => (
-              <Space size="middle">
-                <button
-                  onClick={() => {
-                    setModal2Open(true);
                     setSelectedDept(record.id);
                   }}
                   className="hover:underline text-white bg-blue-500 px-4 py-1 rounded-lg font-medium"
@@ -123,7 +107,12 @@ const Apply = () => {
           title="Application requirements"
           centered
           open={modalOpen}
+          okText={"Apply"}
           cancelText={"Close"}
+          onOk={() => {
+            setModal2Open(true);
+            setModalOpen(false);
+          }}
           onCancel={() => setModalOpen(false)}
         >
           <div>
@@ -179,7 +168,7 @@ const Apply = () => {
           onOk={() => apply()}
           onCancel={() => setModal2Open(false)}
         >
-          <div>Are you sure want to apply?</div>
+          <div>Are you sure you want to apply?</div>
         </Modal>
       </div>
     </div>
