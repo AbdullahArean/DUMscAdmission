@@ -1,6 +1,8 @@
 <?php
 // Include config file
 require_once "config.php";
+require_once "file.php";
+
 // Allow from any origin
 if (isset($_SERVER['HTTP_ORIGIN'])) {
     header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
@@ -18,6 +20,14 @@ use Firebase\JWT\Key;
 require_once "jwt/JWT.php";
 require_once "jwt/Key.php";
 $JWT = new JWT;
+
+
+function getFileUrl($SERVER, $FILES, $field, $random){
+    $url = $SERVER['REQUEST_SCHEME'] . "://$SERVER[HTTP_HOST]$SERVER[REQUEST_URI]";
+    $url = htmlspecialchars($url, ENT_QUOTES, 'UTF-8');
+    $filename = $random.basename($FILES[$field]["name"]);
+    return substr($url, 0, -11)."transcripts/$filename";
+}
 
 if($_SERVER["REQUEST_METHOD"] == "GET"){
 
@@ -205,20 +215,7 @@ else if($_SERVER["REQUEST_METHOD"] == "POST"){
                 $hsc_result = trim($_POST["hsc_result"]);
             }
 
-            // Files ------------------
-
-            if(isset($_POST["a_picpath"]) && !empty(trim($_POST["a_picpath"]))){
-                $a_picpath = trim($_POST["a_picpath"]);
-            } 
-            if(isset($_POST["a_sigpath"]) && !empty(trim($_POST["a_sigpath"]))){
-                $a_sigpath = trim($_POST["a_sigpath"]);
-            } 
-            if(isset($_POST["ssc_transcript_path"]) && !empty(trim($_POST["ssc_transcript_path"]))){
-                $ssc_transcript_path = trim($_POST["ssc_transcript_path"]);
-            } 
-            if(isset($_POST["hsc_transcript_path"]) && !empty(trim($_POST["hsc_transcript_path"]))){
-                $hsc_transcript_path = trim($_POST["hsc_transcript_path"]);
-            } 
+            
 
             // Undergrad -------------
 
@@ -257,9 +254,41 @@ else if($_SERVER["REQUEST_METHOD"] == "POST"){
                 $ug_pass_year = trim($_POST["ug_pass_year"]);
             }
 
-            if(isset($_POST["ug_transcript_path"]) && !empty(trim($_POST["ug_transcript_path"]))){
-                $ug_transcript_path = trim($_POST["ug_transcript_path"]);
+            // Files ------------------
+            
+            if(isset($_FILES["a_pic"])){
+            
+                $random = vsprintf('%s%s%s%s%s%s%s%s', str_split(bin2hex(random_bytes(16)), 4));
+                $file_err = saveFile($_SERVER, $_FILES, "a_pic", $random);
+                if(empty($file_err)) $a_picpath = getFileUrl($_SERVER, $_FILES, "a_pic", $random);
+                
+                
             } 
+            if(isset($_FILES["a_sig"])){
+                $random = vsprintf('%s%s%s%s%s%s%s%s', str_split(bin2hex(random_bytes(16)), 4));
+                $file_err = saveFile($_SERVER, $_FILES, "a_sig", $random);
+                if(empty($file_err)) $a_sigpath = getFileUrl($_SERVER, $_FILES, "a_sig", $random);
+            } 
+            if(isset($_FILES["ssc_transcript"])){
+                $random = vsprintf('%s%s%s%s%s%s%s%s', str_split(bin2hex(random_bytes(16)), 4));
+                $file_err = saveFile($_SERVER, $_FILES, "ssc_transcript", $random);
+                if(empty($file_err)) $ssc_transcript_path = getFileUrl($_SERVER, $_FILES, "ssc_transcript", $random);
+            } 
+            if(isset($_FILES["hsc_transcript"])){
+                $random = vsprintf('%s%s%s%s%s%s%s%s', str_split(bin2hex(random_bytes(16)), 4));
+                
+                $file_err = saveFile($_SERVER, $_FILES, "hsc_transcript", $random);
+                if(empty($file_err)) $hsc_transcript_path = getFileUrl($_SERVER, $_FILES, "hsc_transcript", $random);
+            } 
+
+            if(isset($_FILES["ug_transcript"])){
+                $random = vsprintf('%s%s%s%s%s%s%s%s', str_split(bin2hex(random_bytes(16)), 4));
+                
+                $file_err = saveFile($_SERVER, $_FILES, "ug_transcript", $random);
+                if(empty($file_err)) $ug_transcript_path = getFileUrl($_SERVER, $_FILES, "ug_transcript", $random);    
+            } 
+
+            // echo $a_picpath;
 
 
             // Request -------------

@@ -75,6 +75,7 @@ CREATE TABLE Department (
     dept_id NUMBER(10) GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY NOT NULL,
     dept_name varchar2(200) NOT NULL UNIQUE,
     dept_notice varchar2(2000),
+    Fee NUMBER,
     application_start TIMESTAMP,
     application_end TIMESTAMP
 );
@@ -133,6 +134,7 @@ CREATE TABLE Application(
 CREATE TABLE Payment(
     payment_id NUMBER(10) GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY NOT NULL,
     trx_id VARCHAR2(200),
+    sessionkey varchar2(200),
     app_id REFERENCES Application(app_id),
     amount NUMBER(10, 2),
     status VARCHAR(50) DEFAULT 'Pending',
@@ -207,6 +209,49 @@ Application Deadline: March 31, 2023
 Admission Test: May 14, 2023
 
 For more information and detailed instructions, please refer to the official admission circular on the Dhaka University website.', '30-JAN-2023', '30-MAR-2023');
+
+
+
+/* SUBJECTS */
+
+
+
+INSERT INTO Subjects (sub_name) VALUES ('Computer Engineering');
+INSERT INTO Subjects (sub_name) VALUES ('Computer Science');
+INSERT INTO Subjects (sub_name) VALUES ('Computer Science and Engineering');
+INSERT INTO Subjects (sub_name) VALUES ('Electrical and Electronics Engineering');
+INSERT INTO Subjects (sub_name) VALUES ('Electronic and Telecommunication Engineering');
+INSERT INTO Subjects (sub_name) VALUES ('Physics');
+INSERT INTO Subjects (sub_name) VALUES ('Mathematics');
+INSERT INTO Subjects (sub_name) VALUES ('Chemistry');
+INSERT INTO Subjects (sub_name) VALUES ('Statistics');
+INSERT INTO Subjects (sub_name) VALUES ('Applied Mathematics');
+INSERT INTO Subjects (sub_name) VALUES ('Applied Chemistry and Chemistry');
+INSERT INTO Subjects (sub_name) VALUES ('Nuclear engineering');
+INSERT INTO Subjects (sub_name) VALUES ('Robotics and Mechanics Engineering');
+INSERT INTO Subjects (sub_name) VALUES ('Statistics Institute');
+INSERT INTO Subjects (sub_name) VALUES ('Applied statistics');
+INSERT INTO Subjects (sub_name) VALUES ('Software engineering');
+INSERT INTO Subjects (sub_name) VALUES ('Architecture');
+INSERT INTO Subjects (sub_name) VALUES ('Chemical Engineering & Polymer Science');
+INSERT INTO Subjects (sub_name) VALUES ('Civil & Environmental Engineering');
+INSERT INTO Subjects (sub_name) VALUES ('Civil Engineering');
+INSERT INTO Subjects (sub_name) VALUES ('Water Resources Engineering');
+INSERT INTO Subjects (sub_name) VALUES ('Food Engineering & Tea Technology');
+INSERT INTO Subjects (sub_name) VALUES ('Industrial & Production Engineering');
+INSERT INTO Subjects (sub_name) VALUES ('Mechanical Engineering');
+INSERT INTO Subjects (sub_name) VALUES ('Petroleum & Mining Engineering');
+INSERT INTO Subjects (sub_name) VALUES ('Chemical Engineering');
+INSERT INTO Subjects (sub_name) VALUES ('Urban and Regional Planning');
+INSERT INTO Subjects (sub_name) VALUES ('Naval Architecture and Marine Engineering');
+INSERT INTO Subjects (sub_name) VALUES ('Biomedical Engineering');
+INSERT INTO Subjects (sub_name) VALUES ('Materials and Metallurgical Engineering');
+INSERT INTO Subjects (sub_name) VALUES ('Building Engineering and Construction Management');
+INSERT INTO Subjects (sub_name) VALUES ('Electrical & Computer Engineering');
+INSERT INTO Subjects (sub_name) VALUES ('Glass and Ceramic Engineering');
+INSERT INTO Subjects (sub_name) VALUES ('Mechatronics Engineering');
+INSERT INTO Subjects (sub_name) VALUES ('Materials Science & Engineering');
+INSERT INTO Subjects (sub_name) VALUES ('Chemical and Food Process Engineering');
 
 
 /* Triggres */

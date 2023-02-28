@@ -2,6 +2,9 @@
 
 // Include config file
 require_once "config.php";
+require_once "sendmail.php";
+
+// CORS
 if (isset($_SERVER['HTTP_ORIGIN'])) {
     header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
     header('Access-Control-Allow-Credentials: true');
@@ -17,7 +20,6 @@ $name_err = $phone_err = $email_err = $password_err = $confirm_password_err = $s
 $error = array();
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
-    
     // Validation
 
     // Validate username not null
@@ -149,6 +151,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 
                 http_response_code(200);
                 echo json_encode(array("status"=>"Succesful"));
+
+                sendmail($email, $code);
             }
         }
 
