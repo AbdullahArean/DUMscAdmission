@@ -28,4 +28,26 @@ function sendmail($to, $code) {
     $mail->send();
 }
 
+
+
+function sendPaymentSuccess($to, $amount) {
+    $mail = new PHPMailer(true);
+
+    $mail->isSMTP();
+    $mail->Host = 'mail.alvereduan.me';
+    $mail->SMTPAuth = true;
+    $mail->Username = 'dumscadmission@alvereduan.me';
+    $mail->Password = '@(qKL};+m-YA';
+    $mail->SMTPSecure = 'ssl';
+    $mail->Port = 465;
+
+    $mail->setFrom("dumscadmission@alvereduan.me");
+    $mail->addAddress($to);
+
+    $mail->Subject = 'Master Admission Email Verification';
+    $mail->Body = 'Payment Recieved of TK '.$amount;
+
+    $mail->send();
+}
+
 ?>

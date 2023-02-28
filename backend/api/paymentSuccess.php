@@ -47,9 +47,32 @@ if ($method == "GET"){
             $e = oci_error($link);
             // trigger_error(htmlentities($e['message']), E_USER_ERROR);
             http_response_code(400);
+            
         }
         else{
-            http_response_code(200);        
+            
+            // PAYMENT FLAG UPDATE
+            $query = "UPDATE APPLICATION SET APP_PAYMENT = 1 WHERE APP_ID = (SELECT APP_ID FROM PAYMENT WHERE TRX_ID = '".$_GET['tran']."')";
+            $s = oci_parse($link, $query);
+            $r = oci_execute($s, OCI_NO_AUTO_COMMIT);
+            if (!$r) {    
+                $e = oci_error($s);
+                oci_rollback($link);  // rollback changes
+                // trigger_error(htmlentities($e['message']), E_USER_ERROR);
+                http_response_code(400);
+            }
+            else{
+                // Commit the changes 
+                $r = oci_commit($link);
+                if (!$r) {
+                    $e = oci_error($link);
+                    // trigger_error(htmlentities($e['message']), E_USER_ERROR);
+                    http_response_code(400);
+                }
+                else{
+                    http_response_code(200);        
+                }
+            }
         }
     }
     
