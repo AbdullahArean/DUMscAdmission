@@ -41,7 +41,7 @@ const Submission = () => {
 
   useEffect(() => {
     if (!isLoggedIn) nav("/login");
-    else if (user.verified == "0") nav("/verify");
+    else if (user.verified === "0") nav("/verify");
     if (state === "applied") toast.success("Application Successful.");
 
     fetchData();
@@ -107,7 +107,7 @@ const Submission = () => {
             dataIndex="payment"
             render={(payment, record) => (
               <div>
-                {payment === true ? (
+                {record.APP_PAYMENT === "1" ? (
                   <div className="flex gap-1 items-center">
                     <FcOk />
                     <p>Paid</p>
@@ -116,7 +116,7 @@ const Submission = () => {
                   <div className="">
                     <button
                       onClick={() => {}}
-                      className="hover:underline text-white bg-blue-500 px-4 py-1 rounded-lg font-medium"
+                      className="text-white bg-blue-500 px-4 py-1 rounded-lg font-medium"
                     >
                       Pay now
                     </button>
