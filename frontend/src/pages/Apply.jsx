@@ -57,7 +57,7 @@ const Apply = () => {
 
   useEffect(() => {
     fetchData();
-    if (user.profile === "0") {
+    if (user.profile !== "1") {
       toProfile();
     }
   }, []);
@@ -163,7 +163,7 @@ const Apply = () => {
             please refer to the official admission circular on the Dhaka
             University website.
           </div>
-          <div className="flex items-start">
+          <div className="flex items-start mt-4">
             <div className="flex items-center h-5">
               <input
                 id="agreement"
@@ -174,10 +174,7 @@ const Apply = () => {
               />
             </div>
             <div className="ml-3 text-sm">
-              <label
-                htmlFor="agreement"
-                className="font-light text-gray-500 dark:text-gray-300"
-              >
+              <label htmlFor="agreement" className="font-light text-black">
                 I have read and accepted the requirements and declare that the
                 information I provided is true and correct. I also understand
                 that any willful dishonesty may render for refusal of this

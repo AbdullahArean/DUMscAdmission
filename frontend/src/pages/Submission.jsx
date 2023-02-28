@@ -14,14 +14,36 @@ import { Space, Table } from "antd";
 import Column from "antd/es/table/Column";
 import { useGlobalState } from "../components/UserContext";
 import { useLocation, useNavigate } from "react-router-dom";
+import { CgSpinner } from "react-icons/cg";
 
 const Submission = () => {
   const nav = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [apiLoading, setApiLoading] = useState(false);
   const [user, setUser] = useGlobalState("user");
   const [isLoggedIn, setIsLoggedIn] = useGlobalState("isLoggedIn");
   const { state } = useLocation();
   const [data, setData] = useState([]);
+
+  const toPayment = (app_id) => {
+    let dataToPost = new FormData();
+    setApiLoading(true);
+    dataToPost.set("app_id", app_id);
+    api
+      .post("/initiatePayment.php", dataToPost, {
+        headers: {
+          Authorization: localStorage.getItem("jwt"),
+        },
+      })
+      .then((res) => {
+        setApiLoading(false);
+        window.location.replace(`${res.data}`);
+      })
+      .catch((err) => {
+        setApiLoading(false)
+        console.log(err);
+      });
+  };
 
   const fetchData = () => {
     api
@@ -115,10 +137,18 @@ const Submission = () => {
                 ) : (
                   <div className="">
                     <button
-                      onClick={() => {}}
+                      onClick={() => {
+                        toPayment(record.APP_ID);
+                      }}
                       className="text-white bg-blue-500 px-4 py-1 rounded-lg font-medium"
                     >
-                      Pay now
+                      <div className="flex justify-center">
+                        {apiLoading === true ? (
+                          <CgSpinner className="animate-spin h-5 w-5 self-center" />
+                        ) : (
+                          <p>Pay now</p>
+                        )}
+                      </div>
                     </button>
                   </div>
                 )}

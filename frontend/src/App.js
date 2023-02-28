@@ -19,6 +19,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import api from "./api";
 import { useGlobalState } from "./components/UserContext";
 import Spinner from "./components/Spinner";
+import Confirmation from "./pages/Confirmation";
 
 function App() {
   const [user, setUser] = useGlobalState("user");
@@ -111,6 +112,7 @@ function App() {
                     </PrivateRoute>
                   }
                 />
+                <Route path="success" element={<Confirmation />} />
                 <Route path="verify" element={<Verification />} />
                 <Route path="forgot" element={<Forgot />} />
                 <Route path="reset" element={<Reset />} />

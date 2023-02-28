@@ -43,6 +43,41 @@ const Profile = () => {
     hsc_result: "",
   });
 
+  const [firstFormData, setFirstFormData] = useState({
+    ssc_roll: "",
+    ssc_year: "",
+    ssc_board: "",
+    hsc_roll: "",
+    hsc_year: "",
+    hsc_board: "",
+  });
+
+  const [secondFormData, setSecondFormData] = useState({
+    a_name: "", //fullname
+    f_name: "", // fname
+    m_name: "",
+    a_pic: "",
+    a_sig: "",
+    a_dob: "",
+    a_phone: "",
+    a_mail: "",
+    ssc_result: "",
+    ssc_reg: "",
+    hsc_reg: "",
+    hsc_result: "",
+    ssc_transcript: "",
+    hsc_transcript: "",
+  });
+
+  const [thirdFormData, setThirdFormData] = useState({
+    ug_type: "",
+    ug_institution: "", // underline_select4
+    ug_subject: "", // underline_select5
+    ug_pass_year: "",
+    ug_cgpa: "",
+    ug_transcript: "",
+  });
+
   const page1 = () => {
     setPage("1");
   };
@@ -72,35 +107,35 @@ const Profile = () => {
     },
     {
       name: "Rajshahi",
-      code: "10",
+      code: "11",
     },
     {
       name: "Comilla",
-      code: "10",
+      code: "12",
     },
     {
       name: "Jessore",
-      code: "10",
+      code: "13",
     },
     {
       name: "Chittagong",
-      code: "10",
+      code: "14",
     },
     {
       name: "Barisal",
-      code: "10",
+      code: "15",
     },
     {
       name: "Sylhet",
-      code: "10",
+      code: "16",
     },
     {
       name: "Dinajpur",
-      code: "10",
+      code: "17",
     },
     {
       name: "Mymensingh",
-      code: "10",
+      code: "19",
     },
   ];
 
@@ -122,34 +157,71 @@ const Profile = () => {
       .catch((err) => console.log(err));
   };
 
-  const submitInformation = (e) => {
+  const page2Donee = (e) => {
+    e.preventDefault();
+
+    setSecondFormData({
+      a_name: e.target.fullname.value, //fullname
+      f_name: e.target.fname.value, // fname
+      m_name: e.target.mname.value,
+      a_pic: e.target.pic.files[0], // #TODO
+      a_sig: e.target.sign.files[0],
+      a_dob: e.target.dob.value,
+      a_phone: e.target.phone.value,
+      a_mail: e.target.email.value,
+      ssc_result: e.target.ssc_result.value,
+      ssc_reg: e.target.ssc_roll.value,
+      hsc_reg: e.target.hsc_roll.value,
+      hsc_result: e.target.hsc_result.value,
+      ssc_transcript: e.target.ssc_transcript.files[0],
+      hsc_transcript: e.target.hsc_transcript.files[0],
+    });
+
     page3();
   };
 
-  const submitProfile = (e) => {
+  const page3Donee = (e) => {
     e.preventDefault();
+    setThirdFormData({
+      ug_type: e.target.ug_type.value,
+      ug_institution: e.target.underline_select4.value, // underline_select4
+      ug_subject: e.target.underline_select5.value, // underline_select5
+      ug_pass_year: e.target.ug_pass_year.value,
+      ug_cgpa: e.target.ug_cgpa.value,
+      ug_transcript: e.target.ug_transcript.files[0],
+    });
+  };
+
+  const submitProfile = (e) => {
+    // e.preventDefault();
     let dataToPost = new FormData();
-    dataToPost.set("a_name", fetchedData.name);
-    dataToPost.set("f_name", fetchedData.fname);
-    dataToPost.set("m_name", fetchedData.mname);
-    dataToPost.set("a_dob", "02-Jan-2001");
-    dataToPost.set("a_phone", "01782267068");
-    dataToPost.set("a_mail", "iam.reduan@gmail.com");
-    dataToPost.set("ssc_roll", fetchedData.ssc_roll);
-    dataToPost.set("ssc_reg", 1410970171);
-    dataToPost.set("ssc_board", "Dhaka");
-    dataToPost.set("ssc_year", 2017);
-    dataToPost.set("ssc_result", fetchedData.ssc_result);
-    dataToPost.set("hsc_roll", fetchedData.hsc_roll);
-    dataToPost.set("hsc_reg", 1410970171);
-    dataToPost.set("hsc_board", "Dhaka");
-    dataToPost.set("hsc_year", 2019);
-    dataToPost.set("hsc_result", fetchedData.hsc_result);
-    dataToPost.set("ug_institution", 45);
-    dataToPost.set("ug_subject", 1);
-    dataToPost.set("ug_type", "Bsc");
-    dataToPost.set("ug_cgpa", 3.99);
-    dataToPost.set("ug_pass_year", 2023);
+    dataToPost.set("a_name", secondFormData.a_name);
+    dataToPost.set("f_name", secondFormData.f_name);
+    dataToPost.set("m_name", secondFormData.m_name);
+    dataToPost.set("a_dob", secondFormData.a_dob);
+    dataToPost.set("a_phone", secondFormData.a_phone);
+    dataToPost.set("a_mail", secondFormData.a_mail);
+    dataToPost.set("ssc_roll", firstFormData.ssc_roll);
+    dataToPost.set("ssc_reg", firstFormData.ssc_roll);
+    dataToPost.set("ssc_board", firstFormData.ssc_board);
+    dataToPost.set("ssc_year", firstFormData.ssc_year);
+    dataToPost.set("ssc_result", secondFormData.ssc_result);
+    dataToPost.set("hsc_roll", firstFormData.hsc_roll);
+    dataToPost.set("hsc_reg", firstFormData.hsc_roll);
+    dataToPost.set("hsc_board", firstFormData.hsc_board);
+    dataToPost.set("hsc_year", firstFormData.hsc_year);
+    dataToPost.set("hsc_result", secondFormData.hsc_result);
+    dataToPost.set("ug_institution", thirdFormData.ug_institution);
+    dataToPost.set("ug_subject", thirdFormData.ug_subject);
+    dataToPost.set("ug_type", thirdFormData.ug_type);
+    dataToPost.set("ug_cgpa", thirdFormData.ug_cgpa);
+    dataToPost.set("ug_pass_year", thirdFormData.ug_pass_year);
+
+    dataToPost.set("a_pic", secondFormData.a_pic);
+    dataToPost.set("a_sig", secondFormData.a_sig);
+    dataToPost.set("ssc_transcript", secondFormData.ssc_transcript);
+    dataToPost.set("hsc_transcript", secondFormData.hsc_transcript);
+    dataToPost.set("ug_transcript", thirdFormData.ug_transcript);
     api
       .post("/profile.php", dataToPost, {
         headers: {
@@ -157,15 +229,57 @@ const Profile = () => {
         },
       })
 
-      .then((res) => {
-        toast.success("Profile Submitted");
-        nav("/application");
-        setPage2Complete(true);
+      .then((ress) => {
+        api
+          .get("/account.php", {
+            headers: {
+              Authorization: localStorage.getItem("jwt"),
+            },
+          })
+          .then((res) => {
+            let toUpdateKeys = [
+              "id",
+              "name",
+              "phone",
+              "mail",
+              "verified",
+              "role",
+              "profile",
+            ];
+            let profile = res.data.message;
+            Object.keys(user).forEach((k) => {
+              if (toUpdateKeys.includes(k)) {
+                user[k] = profile[k];
+              }
+            });
+            setUser(user);
+            setIsLoggedIn(true);
+            toast.success("Profile Submitted");
+            window.location.replace("/application");
+            // nav("/application");
+            setModal2Open(false);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+
+        // setPage2Complete(true);
       });
   };
 
   const fetchSscHscData = (e) => {
     e.preventDefault();
+
+    setFirstFormData({
+      ssc_roll: e.target.ssc_roll1.value,
+      ssc_year: e.target.underline_select3.value,
+      ssc_board: e.target.underline_select.value,
+      hsc_roll: e.target.hsc_roll1.value,
+      hsc_year: e.target.underline_select2.value,
+      hsc_board: e.target.underline_select1.value,
+    });
+
+    /* RETRIEVE DATA */
     let hsid =
       e.target.underline_select1.value +
       e.target.underline_select2.value.slice(-2) +
@@ -374,11 +488,33 @@ const Profile = () => {
                       className="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
                     >
                       <option defaultValue>Passing Year</option>
-                      <option value="13">2013</option>
-                      <option value="14">2014</option>
-                      <option value="15">2015</option>
-                      <option value="16">2016</option>
                       <option value="17">2017</option>
+                      <option value="16">2016</option>
+                      <option value="15">2015</option>
+                      <option value="14">2014</option>
+                      <option value="13">2013</option>
+                      <option value="12">2012</option>
+                      <option value="11">2011</option>
+                      <option value="10">2010</option>
+                      <option value="09">2009</option>
+                      <option value="08">2008</option>
+                      <option value="07">2007</option>
+                      <option value="06">2006</option>
+                      <option value="05">2005</option>
+                      <option value="04">2004</option>
+                      <option value="03">2003</option>
+                      <option value="02">2002</option>
+                      <option value="01">2001</option>
+                      <option value="00">2000</option>
+                      <option value="99">1999</option>
+                      <option value="98">1998</option>
+                      <option value="97">1997</option>
+                      <option value="96">1996</option>
+                      <option value="95">1995</option>
+                      <option value="94">1994</option>
+                      <option value="93">1993</option>
+                      <option value="92">1992</option>
+                      <option value="91">1991</option>
                     </select>
                   </div>
                 </div>
@@ -430,11 +566,35 @@ const Profile = () => {
                       className="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
                     >
                       <option defaultValue>Passing Year</option>
-                      <option value="15">2015</option>
-                      <option value="16">2016</option>
-                      <option value="17">2017</option>
-                      <option value="18">2018</option>
                       <option value="19">2019</option>
+                      <option value="18">2018</option>
+                      <option value="17">2017</option>
+                      <option value="16">2016</option>
+                      <option value="15">2015</option>
+                      <option value="14">2014</option>
+                      <option value="13">2013</option>
+                      <option value="12">2012</option>
+                      <option value="11">2011</option>
+                      <option value="10">2010</option>
+                      <option value="09">2009</option>
+                      <option value="08">2008</option>
+                      <option value="07">2007</option>
+                      <option value="06">2006</option>
+                      <option value="05">2005</option>
+                      <option value="04">2004</option>
+                      <option value="03">2003</option>
+                      <option value="02">2002</option>
+                      <option value="01">2001</option>
+                      <option value="00">2000</option>
+                      <option value="99">1999</option>
+                      <option value="98">1998</option>
+                      <option value="97">1997</option>
+                      <option value="96">1996</option>
+                      <option value="95">1995</option>
+                      <option value="94">1994</option>
+                      <option value="93">1993</option>
+                      <option value="92">1992</option>
+                      <option value="91">1991</option>
                     </select>
                   </div>
                 </div>
@@ -459,7 +619,7 @@ const Profile = () => {
 
       {page === "2" ? (
         <form
-          onSubmit={submitInformation}
+          onSubmit={page2Donee}
           className="w-4/5 mx-auto mt-14 mb-10 md:mt-24 md:mb-20"
         >
           <ul className="flex justify-evenly w-full">
@@ -867,7 +1027,7 @@ const Profile = () => {
       {page === "3" ? (
         <div className="bg-white h-screen dark:bg-gray-900">
           <form
-            onSubmit={submitProfile}
+            onSubmit={page3Donee}
             className="w-4/5 mx-auto mt-14 mb-10 md:mt-24 md:mb-20"
           >
             <ul className="flex justify-evenly w-full">
@@ -931,7 +1091,7 @@ const Profile = () => {
                 </div>
                 <div className="relative md:col-span-2 z-0 w-full mb-6 group">
                   <label htmlFor="underline_select4" className="sr-only">
-                    Underline select
+                    Institution
                   </label>
                   <select
                     id="underline_select4"
@@ -951,7 +1111,7 @@ const Profile = () => {
               <div className="md:grid md:grid-cols-3 md:gap-5">
                 <div className="relative z-0 w-full mb-6 group">
                   <label htmlFor="underline_select5" className="sr-only">
-                    Underline select
+                    Subject
                   </label>
                   <select
                     id="underline_select5"
@@ -1029,7 +1189,7 @@ const Profile = () => {
                   centered
                   open={modal2Open}
                   okText={"Submit"}
-                  onOk={() => setModal2Open(false)}
+                  onOk={submitProfile}
                   onCancel={() => setModal2Open(false)}
                 >
                   <div>Are you sure you want to submit?</div>

@@ -42,6 +42,7 @@ const Login = () => {
   };
 
   useEffect(() => {
+    if (isLoggedIn) nav("/home");
     setTheme();
   }, [isDarkMode]);
 
@@ -95,11 +96,11 @@ const Login = () => {
               setUser(user);
               setIsLoggedIn(true);
               setJwt(localStorage.getItem("jwt"));
+              toProfile();
             })
             .catch((err) => {
               console.log(err);
             });
-          toProfile();
         }
       })
       .catch((err) => {

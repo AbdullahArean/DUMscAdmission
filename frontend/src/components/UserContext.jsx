@@ -10,7 +10,7 @@ const userState = {
     phone: "",
     verified: "",
     role: "student",
-    profile: 0,
+    profile: "0",
   },
 };
 
