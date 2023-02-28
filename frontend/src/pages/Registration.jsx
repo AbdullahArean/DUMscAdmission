@@ -1,8 +1,10 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
 import { useState, useEffect } from "react";
 import PhoneInput from "react-phone-number-input";
 import { useNavigate } from "react-router-dom";
 import "react-phone-number-input/style.css";
+import { CgSpinner } from "react-icons/cg";
 import "../index.css";
 import api from "../api";
 import { ToastContainer, toast } from "react-toastify";
@@ -16,6 +18,7 @@ const Registration = () => {
   const [user, setUser] = useGlobalState("user");
   const [jwt, setJwt] = useGlobalState("user");
   const [isLoggedIn, setIsLoggedIn] = useGlobalState("isLoggedIn");
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
       setTheme("dark");
@@ -41,7 +44,7 @@ const Registration = () => {
 
   const handleRegister = (e) => {
     e.preventDefault();
-    // console.log(e.target.fullname.value);
+    setLoading(true);
 
     let dataToPost = new FormData();
     dataToPost.set("name", e.target.fullname.value);
@@ -62,7 +65,7 @@ const Registration = () => {
           .then((res) => {
             if (res.status === 200) {
               localStorage.setItem("jwt", res.data["jwt"]);
-
+              setLoading(false);
               api
                 .get("/account.php", {
                   headers: {
@@ -70,6 +73,8 @@ const Registration = () => {
                   },
                 })
                 .then((resAcc) => {
+                  setLoading(false);
+                  
                   let toUpdateKeys = [
                     "id",
                     "name",
@@ -90,11 +95,12 @@ const Registration = () => {
                   setJwt(localStorage.getItem("jwt"));
 
                   // if verified toProfile
-                  if (resAcc.data.message.verified == "1") nav("/home");
+                  if (resAcc.data.message.verified === "1") nav("/home");
                   else nav("/verify");
                 })
                 .catch((err) => {
                   console.log(err);
+                  setLoading(false);
                 });
 
               // toProfile();
@@ -102,30 +108,14 @@ const Registration = () => {
           })
           .catch((err) => {
             console.log(err);
-            toast.error("Login Failed!", {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: false,
-              draggable: false,
-              progress: undefined,
-              theme: "colored",
-            });
+            toast.error("Login Failed!");
+            setLoading(false);
           });
       })
       .catch((err) => {
         console.log(err);
-        toast.error("Registration Failed!", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          progress: undefined,
-          theme: "colored",
-        });
+        toast.error("Registration Failed!");
+        setLoading(false);
       });
   };
   return (
@@ -165,7 +155,7 @@ const Registration = () => {
                     name="fullname"
                     id="fullname"
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    required=""
+                    required
                   />
                 </div>
                 <div className="flex flex-col items-start justify-center">
@@ -176,11 +166,11 @@ const Registration = () => {
                     Email
                   </label>
                   <input
-                    type="text"
+                    type="email"
                     name="email"
                     id="email"
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    required=""
+                    required
                   />
                 </div>
                 <div className="flex flex-col items-start justify-center">
@@ -216,7 +206,7 @@ const Registration = () => {
                     name="password"
                     id="password"
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    required=""
+                    required
                   />
                 </div>
                 <div className="flex flex-col items-start justify-center">
@@ -231,7 +221,7 @@ const Registration = () => {
                     name="confirm_password"
                     id="confirm-password"
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    required=""
+                    required
                   />
                 </div>
                 <div className="flex items-start">
@@ -241,7 +231,7 @@ const Registration = () => {
                       aria-describedby="terms"
                       type="checkbox"
                       className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-0 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800"
-                      required=""
+                      required
                     />
                   </div>
                   <div className="ml-3 text-sm">
@@ -261,9 +251,15 @@ const Registration = () => {
                 </div>
                 <button
                   type="submit"
-                  className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800  transition-all duration-200 ease-in-out"
+                  className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 transition-all duration-300 ease-in-out"
                 >
-                  Create account
+                  <div className="flex justify-center">
+                    {loading === true ? (
+                      <CgSpinner className="animate-spin h-5 w-5 self-center" />
+                    ) : (
+                      <p>Create account</p>
+                    )}
+                  </div>
                 </button>
                 <div className="flex justify-between">
                   <p className="text-sm font-light text-gray-500 dark:text-gray-400">

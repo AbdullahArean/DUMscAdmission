@@ -11,6 +11,7 @@ const Verification = () => {
   const [theme, setTheme] = useState(null);
   const [user, setUser] = useGlobalState("user");
   const [jwt, setJwt] = useGlobalState("user");
+  const [loading, setLoading] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useGlobalState("isLoggedIn");
   const toProfile = () => {
     nav("/home");
@@ -18,6 +19,8 @@ const Verification = () => {
 
   const verify = (e) => {
     e.preventDefault();
+    setLoading(true);
+
     let dataToPost = new FormData();
     dataToPost.set("code", e.target.code.value);
     api
@@ -29,6 +32,8 @@ const Verification = () => {
 
       .then((res) => {
         if (res.status === 200) {
+          setLoading(false);
+
           api
             .get("/account.php", {
               headers: {
@@ -36,6 +41,8 @@ const Verification = () => {
               },
             })
             .then((resAcc) => {
+              setLoading(false);
+
               let toUpdateKeys = [
                 "id",
                 "name",
@@ -58,13 +65,15 @@ const Verification = () => {
             })
             .catch((err) => {
               console.log(err);
+              setLoading(false);
             });
         }
       })
 
       .catch((err) => {
         console.log(err);
-        toast.error("Try Again");
+        toast.error("Verification failed");
+        setLoading(false);
       });
   };
 
@@ -81,7 +90,7 @@ const Verification = () => {
       )
       .then((res) => {
         console.log("REDD");
-        toast.success("Email Sent");
+        toast.success("Email sent");
       })
       .catch((err) => {
         console.log(err);
