@@ -29,9 +29,9 @@ const Profile = () => {
   const [previewData, setPreviewData] = useState({});
   const [fetchedData, setFetchedData] = useState({
     name: "",
-    fname: "",
-    mname: "",
-    dob: "",
+    f_name: "",
+    m_name: "",
+    a_dob: "",
     ssc_roll: "",
     ssc_year: "",
     ssc_board: "",
@@ -53,8 +53,8 @@ const Profile = () => {
   });
 
   const [secondFormData, setSecondFormData] = useState({
-    a_name: "", //fullname
-    f_name: "", // fname
+    a_name: "", //a_name
+    f_name: "", // f_name
     m_name: "",
     a_pic: "",
     a_sig: "",
@@ -71,8 +71,8 @@ const Profile = () => {
 
   const [thirdFormData, setThirdFormData] = useState({
     ug_type: "",
-    ug_institution: "", // underline_select4
-    ug_subject: "", // underline_select5
+    ug_institution: "", // ug_institution
+    ug_subject: "", // ug_subject
     ug_pass_year: "",
     ug_cgpa: "",
     ug_transcript: "",
@@ -161,14 +161,14 @@ const Profile = () => {
     e.preventDefault();
 
     setSecondFormData({
-      a_name: e.target.fullname.value, //fullname
-      f_name: e.target.fname.value, // fname
-      m_name: e.target.mname.value,
-      a_pic: e.target.pic.files[0], // #TODO
-      a_sig: e.target.sign.files[0],
-      a_dob: e.target.dob.value,
-      a_phone: e.target.phone.value,
-      a_mail: e.target.email.value,
+      a_name: e.target.a_name.value,
+      f_name: e.target.f_name.value,
+      m_name: e.target.m_name.value,
+      a_pic: e.target.a_pic.files[0],
+      a_sig: e.target.a_sig.files[0],
+      a_dob: e.target.a_dob.value,
+      a_phone: e.target.a_phone.value,
+      a_mail: e.target.a_mail.value,
       ssc_result: e.target.ssc_result.value,
       ssc_reg: e.target.ssc_roll.value,
       hsc_reg: e.target.hsc_roll.value,
@@ -184,8 +184,8 @@ const Profile = () => {
     e.preventDefault();
     setThirdFormData({
       ug_type: e.target.ug_type.value,
-      ug_institution: e.target.underline_select4.value, // underline_select4
-      ug_subject: e.target.underline_select5.value, // underline_select5
+      ug_institution: e.target.ug_institution.value, // ug_institution
+      ug_subject: e.target.ug_subject.value, // ug_subject
       ug_pass_year: e.target.ug_pass_year.value,
       ug_cgpa: e.target.ug_cgpa.value,
       ug_transcript: e.target.ug_transcript.files[0],
@@ -229,7 +229,7 @@ const Profile = () => {
         },
       })
 
-      .then((ress) => {
+      .then((res) => {
         api
           .get("/account.php", {
             headers: {
@@ -240,7 +240,7 @@ const Profile = () => {
             let toUpdateKeys = [
               "id",
               "name",
-              "phone",
+              "a_phone",
               "mail",
               "verified",
               "role",
@@ -272,17 +272,17 @@ const Profile = () => {
 
     setFirstFormData({
       ssc_roll: e.target.ssc_roll1.value,
-      ssc_year: e.target.underline_select3.value,
-      ssc_board: e.target.underline_select.value,
+      ssc_year: e.target.ssc_year.value,
+      ssc_board: e.target.ssc_board.value,
       hsc_roll: e.target.hsc_roll1.value,
-      hsc_year: e.target.underline_select2.value,
-      hsc_board: e.target.underline_select1.value,
+      hsc_year: e.target.hsc_year.value,
+      hsc_board: e.target.hsc_board.value,
     });
 
     /* RETRIEVE DATA */
     let hsid =
-      e.target.underline_select1.value +
-      e.target.underline_select2.value.slice(-2) +
+      e.target.hsc_board.value +
+      e.target.hsc_year.value.slice(-2) +
       e.target.hsc_roll1.value;
     let requestBody = `<dupgwp>
     <header>
@@ -331,15 +331,15 @@ const Profile = () => {
         } else {
           setFetchedData({
             name: data.getElementsByTagName("name")[0].childNodes[0].nodeValue,
-            mname:
+            m_name:
               data.getElementsByTagName("mother")[0].childNodes[0].nodeValue,
-            fname:
+            f_name:
               data.getElementsByTagName("father")[0].childNodes[0].nodeValue,
-            dob: data.getElementsByTagName("dob")[0].childNodes[0].nodeValue,
+            a_dob: data.getElementsByTagName("a_dob")[0].childNodes[0].nodeValue,
 
             hsc_roll: e.target.hsc_roll1.value,
-            hsc_year: e.target.underline_select2.value,
-            hsc_board: "Dhaka",
+            hsc_year: e.target.hsc_year.value,
+            hsc_board: e.target.hsc_board.value,
 
             hsc_result:
               data.getElementsByTagName("hsc-gpa")[0].childNodes[0].nodeValue,
@@ -462,11 +462,11 @@ const Profile = () => {
                     </label>
                   </div>
                   <div className="relative z-0 w-full mb-6 group">
-                    <label htmlFor="underline_select" className="sr-only">
+                    <label htmlFor="ssc_board" className="sr-only">
                       Underline select
                     </label>
                     <select
-                      id="underline_select"
+                      id="ssc_board"
                       className="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
                     >
                       <option defaultValue>Board</option>
@@ -480,11 +480,11 @@ const Profile = () => {
                     </select>
                   </div>
                   <div className="relative z-0 w-full mb-6 group">
-                    <label htmlFor="underline_select3" className="sr-only">
+                    <label htmlFor="ssc_year" className="sr-only">
                       Underline select
                     </label>
                     <select
-                      id="underline_select3"
+                      id="ssc_year"
                       className="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
                     >
                       <option defaultValue>Passing Year</option>
@@ -540,11 +540,11 @@ const Profile = () => {
                     </label>
                   </div>
                   <div className="relative z-0 w-full mb-6 group">
-                    <label htmlFor="underline_select1" className="sr-only">
+                    <label htmlFor="hsc_board" className="sr-only">
                       Underline select
                     </label>
                     <select
-                      id="underline_select1"
+                      id="hsc_board"
                       className="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
                     >
                       <option defaultValue>Board</option>
@@ -558,11 +558,11 @@ const Profile = () => {
                     </select>
                   </div>
                   <div className="relative z-0 w-full mb-6 group">
-                    <label htmlFor="underline_select2" className="sr-only">
+                    <label htmlFor="hsc_year" className="sr-only">
                       Underline select
                     </label>
                     <select
-                      id="underline_select2"
+                      id="hsc_year"
                       className="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
                     >
                       <option defaultValue>Passing Year</option>
@@ -667,8 +667,8 @@ const Profile = () => {
             <div className="relative z-0 w-full mb-6 group">
               <input
                 type="text"
-                name="fullname"
-                id="fullname"
+                name="a_name"
+                id="a_name"
                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
                 required
@@ -676,7 +676,7 @@ const Profile = () => {
                 disabled={fetchedData.name ? true : false}
               />
               <label
-                htmlFor="fullname"
+                htmlFor="a_name"
                 className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75  peer-focus:-translate-y-7"
               >
                 Full Name
@@ -685,16 +685,16 @@ const Profile = () => {
             <div className="relative z-0 w-full mb-6 group">
               <input
                 type="text"
-                name="fname"
-                id="fname"
+                name="f_name"
+                id="f_name"
                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
                 required
-                defaultValue={fetchedData.fname}
-                disabled={fetchedData.fname ? true : false}
+                defaultValue={fetchedData.f_name}
+                disabled={fetchedData.f_name ? true : false}
               />
               <label
-                htmlFor="fname"
+                htmlFor="f_name"
                 className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75  peer-focus:-translate-y-7"
               >
                 Father's Name
@@ -703,16 +703,16 @@ const Profile = () => {
             <div className="relative z-0 w-full mb-6 group">
               <input
                 type="text"
-                name="mname"
-                id="mname"
+                name="m_name"
+                id="m_name"
                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
                 required
-                defaultValue={fetchedData.mname}
-                disabled={fetchedData.mname ? true : false}
+                defaultValue={fetchedData.m_name}
+                disabled={fetchedData.m_name ? true : false}
               />
               <label
-                htmlFor="mname"
+                htmlFor="m_name"
                 className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75  peer-focus:-translate-y-7"
               >
                 Mother's Name
@@ -721,15 +721,15 @@ const Profile = () => {
             <div className="relative z-0 w-full mb-6 group">
               <input
                 type="email"
-                name="email"
-                id="email"
+                name="a_mail"
+                id="a_mail"
                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
                 defaultValue={user.mail}
                 required
               />
               <label
-                htmlFor="email"
+                htmlFor="a_mail"
                 className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75  peer-focus:-translate-y-7"
               >
                 Email address
@@ -739,16 +739,16 @@ const Profile = () => {
               <div className="relative z-0 w-full mb-6 group">
                 <input
                   type="text"
-                  name="dob"
-                  id="dob"
+                  name="a_dob"
+                  id="a_dob"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
                   required
-                  defaultValue={fetchedData.dob}
-                  disabled={fetchedData.dob ? true : false}
+                  defaultValue={fetchedData.a_dob}
+                  disabled={fetchedData.a_dob ? true : false}
                 />
                 <label
-                  htmlFor="dob"
+                  htmlFor="a_dob"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-7"
                 >
                   Date of Birth
@@ -757,15 +757,15 @@ const Profile = () => {
               <div className="relative z-0 w-full mb-6 group">
                 <input
                   type="text"
-                  name="phone"
-                  id="phone"
+                  name="a_phone"
+                  id="a_phone"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
-                  defaultValue={user.phone}
+                  defaultValue={user.a_phone}
                   required
                 />
                 <label
-                  htmlFor="phone"
+                  htmlFor="a_phone"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75  peer-focus:-translate-y-7"
                 >
                   Phone
@@ -776,14 +776,14 @@ const Profile = () => {
               <div className="relative z-0 w-full mb-6 group">
                 <input
                   type="file"
-                  name="pic"
-                  id="pic"
+                  name="a_pic"
+                  id="a_pic"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
                   required
                 />
                 <label
-                  htmlFor="pic"
+                  htmlFor="a_pic"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75  peer-focus:-translate-y-7"
                 >
                   Picture (Passport Size)
@@ -792,14 +792,14 @@ const Profile = () => {
               <div className="relative z-0 w-full mb-6 group">
                 <input
                   type="file"
-                  name="sign"
-                  id="sign"
+                  name="a_sig"
+                  id="a_sig"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
                   required
                 />
                 <label
-                  htmlFor="sign"
+                  htmlFor="a_sig"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75  peer-focus:-translate-y-7"
                 >
                   Signature
@@ -1090,11 +1090,11 @@ const Profile = () => {
                   </label>
                 </div>
                 <div className="relative md:col-span-2 z-0 w-full mb-6 group">
-                  <label htmlFor="underline_select4" className="sr-only">
+                  <label htmlFor="ug_institution" className="sr-only">
                     Institution
                   </label>
                   <select
-                    id="underline_select4"
+                    id="ug_institution"
                     className="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
                   >
                     <option defaultValue>Institution</option>
@@ -1110,11 +1110,11 @@ const Profile = () => {
               </div>
               <div className="md:grid md:grid-cols-3 md:gap-5">
                 <div className="relative z-0 w-full mb-6 group">
-                  <label htmlFor="underline_select5" className="sr-only">
+                  <label htmlFor="ug_subject" className="sr-only">
                     Subject
                   </label>
                   <select
-                    id="underline_select5"
+                    id="ug_subject"
                     className="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
                   >
                     <option defaultValue>Subject</option>

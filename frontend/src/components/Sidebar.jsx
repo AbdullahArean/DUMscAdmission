@@ -14,27 +14,35 @@ const Sidebar = () => {
   const [user, setUser] = useGlobalState("user");
 
   const [isOpen, setOpen] = useState(false);
-  const [theme, setTheme] = useState(null);
+  const [isDarkMode, setIsDarkMode] = useState();
 
-  useEffect(() => {
-    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-      setTheme("dark");
+  const toggleTheme = () => {
+    if (localStorage.theme === "dark") {
+      localStorage.theme = "light";
     } else {
-      setTheme("light");
+      localStorage.theme = "dark";
     }
-  }, []);
 
-  useEffect(() => {
-    if (theme === "dark") {
+    setTheme();
+  };
+
+  const setTheme = () => {
+    if (
+      localStorage.theme === "dark" ||
+      (!("theme" in localStorage) &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches)
+    ) {
       document.documentElement.classList.add("dark");
+      setIsDarkMode(true);
     } else {
       document.documentElement.classList.remove("dark");
+      setIsDarkMode(false);
     }
-  }, [theme]);
-
-  const handleThemeSwitch = () => {
-    setTheme(theme === "dark" ? "light" : "dark");
   };
+
+  useEffect(() => {
+    setTheme();
+  }, [isDarkMode]);
 
   const to = (address) => {
     setOpen(false);
@@ -94,9 +102,9 @@ const Sidebar = () => {
               id="themeSwitch"
               value=""
               className="sr-only peer"
-              checked={theme === "dark" ? "checked" : ""}
+              checked={isDarkMode === true ? "checked" : ""}
               onChange={() => {
-                handleThemeSwitch();
+                toggleTheme();
                 setOpen(false);
               }}
             />

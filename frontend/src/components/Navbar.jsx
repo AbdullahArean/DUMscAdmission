@@ -13,9 +13,9 @@ const Navbar = ({ active }) => {
   var mobile = window.matchMedia("(max-width: 700px)");
 
   const [modal2Open, setModal2Open] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState();
   const [user, setUser] = useGlobalState("user");
   const [isLoggedIn, setIsLoggedIn] = useGlobalState("isLoggedIn");
+  const [isDarkMode, setIsDarkMode] = useState();
 
   const toggleTheme = () => {
     if (localStorage.theme === "dark") {
