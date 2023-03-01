@@ -6,13 +6,15 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { MdDarkMode } from "react-icons/md";
 import { useGlobalState } from "./UserContext";
+import { Modal } from "antd";
 
 const Sidebar = () => {
   //TODO : Sidebar opening by default
   const nav = useNavigate();
   let location = useLocation();
   const [user, setUser] = useGlobalState("user");
-
+  const [modal2Open, setModal2Open] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useGlobalState("isLoggedIn");
   const [isOpen, setOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState();
 
@@ -50,8 +52,10 @@ const Sidebar = () => {
   };
 
   const logout = () => {
+    setIsLoggedIn(false);
     localStorage.removeItem("jwt");
     nav("/login");
+    setModal2Open(false)
   };
 
   return (
@@ -88,13 +92,35 @@ const Sidebar = () => {
         >
           Profile
         </div>
-        {localStorage.getItem("jwt") !== "" ? (
-          <div onClick={logout} className="menu-item">
-            Logout
-          </div>
+        {isLoggedIn ? (
+          <li>
+            <div
+              onClick={() => {
+                setModal2Open(true);
+                setOpen(false);
+              }}
+              className="menu-item"
+            >
+              Logout
+            </div>
+          </li>
         ) : (
-          <div></div>
+          <li>
+            <div onClick={() => to("login")} className="menu-item">
+              Login
+            </div>
+          </li>
         )}
+        <Modal
+          title="Confirmation"
+          style={{ top: 350 }}
+          open={modal2Open}
+          okText={"Log out"}
+          onOk={logout}
+          onCancel={() => setModal2Open(false)}
+        >
+          <div>Are you sure you want to log out?</div>
+        </Modal>
         <div className="block md:mt-1 text-gray-700 rounded md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
           <label className="relative inline-flex items-center cursor-pointer">
             <input

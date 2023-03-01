@@ -78,6 +78,51 @@ const Profile = () => {
     ug_transcript: "",
   });
 
+  const ProfileTab = () => {
+    return (
+      <div>
+        <ul className="flex justify-evenly w-full">
+          <li className="mr-2">
+            <button
+              onClick={() => page1()}
+              className={
+                page === "1"
+                  ? "inline-block text-xs md:text-lg p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg dark:text-blue-500 dark:border-blue-500 transition-all duration-200 ease-in-out"
+                  : "inline-block text-xs md:text-lg p-4 border-b-2 border-transparent dark:text-gray-400 dark:border-gray-600 dark:hover:border-gray-300 border-gray-800 text-gray-800 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300  transition-all duration-200 ease-in-out"
+              }
+            >
+              Information
+            </button>
+          </li>
+          <li className="">
+            <button
+              onClick={() => page2()}
+              className={
+                page === "2"
+                  ? "inline-block text-xs md:text-lg p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg dark:text-blue-500 dark:border-blue-500  transition-all duration-200 ease-in-out"
+                  : "inline-block text-xs md:text-lg p-4 border-b-2 border-transparent dark:text-gray-400 dark:border-gray-600 dark:hover:border-gray-300 border-gray-800 text-gray-800 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300  transition-all duration-200 ease-in-out"
+              }
+            >
+              Preview
+            </button>
+          </li>
+          <li className="">
+            <button
+              onClick={() => page3()}
+              className={
+                page === "3"
+                  ? "inline-block text-xs md:text-lg p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg dark:text-blue-500 dark:border-blue-500  transition-all duration-200 ease-in-out"
+                  : "inline-block text-xs md:text-lg p-4 border-b-2 border-transparent dark:text-gray-400 dark:border-gray-600 dark:hover:border-gray-300 border-gray-800 text-gray-800 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300  transition-all duration-200 ease-in-out"
+              }
+            >
+              Undergraduate
+            </button>
+          </li>
+        </ul>
+      </div>
+    );
+  };
+
   const page1 = () => {
     setPage("1");
   };
@@ -176,7 +221,7 @@ const Profile = () => {
       ssc_transcript: e.target.ssc_transcript.files[0],
       hsc_transcript: e.target.hsc_transcript.files[0],
     });
-
+    setPage2Complete(true);
     page3();
   };
 
@@ -216,7 +261,6 @@ const Profile = () => {
     dataToPost.set("ug_type", thirdFormData.ug_type);
     dataToPost.set("ug_cgpa", thirdFormData.ug_cgpa);
     dataToPost.set("ug_pass_year", thirdFormData.ug_pass_year);
-
     dataToPost.set("a_pic", secondFormData.a_pic);
     dataToPost.set("a_sig", secondFormData.a_sig);
     dataToPost.set("ssc_transcript", secondFormData.ssc_transcript);
@@ -256,7 +300,6 @@ const Profile = () => {
             setIsLoggedIn(true);
             toast.success("Profile Submitted");
             window.location.replace("/application");
-            // nav("/application");
             setModal2Open(false);
           })
           .catch((err) => {
@@ -335,7 +378,8 @@ const Profile = () => {
               data.getElementsByTagName("mother")[0].childNodes[0].nodeValue,
             f_name:
               data.getElementsByTagName("father")[0].childNodes[0].nodeValue,
-            a_dob: data.getElementsByTagName("a_dob")[0].childNodes[0].nodeValue,
+            a_dob:
+              data.getElementsByTagName("a_dob")[0].childNodes[0].nodeValue,
 
             hsc_roll: e.target.hsc_roll1.value,
             hsc_year: e.target.hsc_year.value,
@@ -365,7 +409,7 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    if (!isLoggedIn) nav("/login", {state: "redirected"});
+    if (!isLoggedIn) nav("/login", { state: "redirected" });
     else if (user.verified == "0") nav("/verify");
     else if (user.profile == "1") nav("/viewprofile");
     else {
@@ -394,51 +438,12 @@ const Profile = () => {
       {/*page 1 information*/}
 
       {page === "1" ? (
-        <div className="bg-white h-screen dark:bg-gray-900">
+        <div className="bg-white min-h-screen h-full dark:bg-gray-900">
           <form
             onSubmit={fetchSscHscData}
             className="w-4/5 mx-auto mt-14 mb-10 md:mt-24 md:mb-20"
           >
-            <div>
-              <ul className="flex justify-evenly w-full">
-                <li className="mr-2">
-                  <button
-                    onClick={() => page1()}
-                    className={
-                      page === "1"
-                        ? "inline-block text-xs md:text-lg p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg dark:text-blue-500 dark:border-blue-500 transition-all duration-200 ease-in-out"
-                        : "inline-block text-xs md:text-lg p-4 border-b-2 border-transparent dark:text-gray-400 dark:border-gray-600 dark:hover:border-gray-300 border-gray-800 text-gray-800 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300  transition-all duration-200 ease-in-out"
-                    }
-                  >
-                    Information
-                  </button>
-                </li>
-                <li className="">
-                  <button
-                    onClick={() => page2()}
-                    className={
-                      page === "2"
-                        ? "inline-block text-xs md:text-lg p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg dark:text-blue-500 dark:border-blue-500  transition-all duration-200 ease-in-out"
-                        : "inline-block text-xs md:text-lg p-4 border-b-2 border-transparent dark:text-gray-400 dark:border-gray-600 dark:hover:border-gray-300 border-gray-800 text-gray-800 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300  transition-all duration-200 ease-in-out"
-                    }
-                  >
-                    Preview
-                  </button>
-                </li>
-                <li className="">
-                  <button
-                    onClick={() => page3()}
-                    className={
-                      page === "3"
-                        ? "inline-block text-xs md:text-lg p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg dark:text-blue-500 dark:border-blue-500  transition-all duration-200 ease-in-out"
-                        : "inline-block text-xs md:text-lg p-4 border-b-2 border-transparent dark:text-gray-400 dark:border-gray-600 dark:hover:border-gray-300 border-gray-800 text-gray-800 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300  transition-all duration-200 ease-in-out"
-                    }
-                  >
-                    Undergraduate
-                  </button>
-                </li>
-              </ul>
-            </div>
+            <ProfileTab />
             <div className="flex flex-col justify-center">
               <div className="md:flex md:justify-evenly">
                 <div className="w-full mb-16 md:mb-0 md:mx-10">
@@ -622,44 +627,7 @@ const Profile = () => {
           onSubmit={page2Donee}
           className="w-4/5 mx-auto mt-14 mb-10 md:mt-24 md:mb-20"
         >
-          <ul className="flex justify-evenly w-full">
-            <li className="mr-2">
-              <button
-                onClick={() => page1()}
-                className={
-                  page === "1"
-                    ? "inline-block text-xs md:text-lg p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg dark:text-blue-500 dark:border-blue-500 transition-all duration-200 ease-in-out"
-                    : "inline-block text-xs md:text-lg p-4 border-b-2 border-transparent dark:text-gray-400 dark:border-gray-600 dark:hover:border-gray-300 border-gray-800 text-gray-800 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300  transition-all duration-200 ease-in-out"
-                }
-              >
-                Information
-              </button>
-            </li>
-            <li className="">
-              <button
-                onClick={() => page2()}
-                className={
-                  page === "2"
-                    ? "inline-block text-xs md:text-lg p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg dark:text-blue-500 dark:border-blue-500  transition-all duration-200 ease-in-out"
-                    : "inline-block text-xs md:text-lg p-4 border-b-2 border-transparent dark:text-gray-400 dark:border-gray-600 dark:hover:border-gray-300 border-gray-800 text-gray-800 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300  transition-all duration-200 ease-in-out"
-                }
-              >
-                Preview
-              </button>
-            </li>
-            <li className="">
-              <button
-                onClick={() => page3()}
-                className={
-                  page === "3"
-                    ? "inline-block text-xs md:text-lg p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg dark:text-blue-500 dark:border-blue-500  transition-all duration-200 ease-in-out"
-                    : "inline-block text-xs md:text-lg p-4 border-b-2 border-transparent dark:text-gray-400 dark:border-gray-600 dark:hover:border-gray-300 border-gray-800 text-gray-800 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300  transition-all duration-200 ease-in-out"
-                }
-              >
-                Undergraduate
-              </button>
-            </li>
-          </ul>
+          <ProfileTab />
           <div>
             <div className="text-black dark:text-white mb-3 my-8 text-center text-xl">
               Personal Information
@@ -1030,44 +998,7 @@ const Profile = () => {
             onSubmit={page3Donee}
             className="w-4/5 mx-auto mt-14 mb-10 md:mt-24 md:mb-20"
           >
-            <ul className="flex justify-evenly w-full">
-              <li className="mr-2">
-                <button
-                  onClick={() => page1()}
-                  className={
-                    page === "1"
-                      ? "inline-block text-xs md:text-lg p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg dark:text-blue-500 dark:border-blue-500 transition-all duration-200 ease-in-out"
-                      : "inline-block text-xs md:text-lg p-4 border-b-2 border-transparent dark:text-gray-400 dark:border-gray-600 dark:hover:border-gray-300 border-gray-800 text-gray-800 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300  transition-all duration-200 ease-in-out"
-                  }
-                >
-                  Information
-                </button>
-              </li>
-              <li className="">
-                <button
-                  onClick={() => page2()}
-                  className={
-                    page === "2"
-                      ? "inline-block text-xs md:text-lg p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg dark:text-blue-500 dark:border-blue-500  transition-all duration-200 ease-in-out"
-                      : "inline-block text-xs md:text-lg p-4 border-b-2 border-transparent dark:text-gray-400 dark:border-gray-600 dark:hover:border-gray-300 border-gray-800 text-gray-800 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300  transition-all duration-200 ease-in-out"
-                  }
-                >
-                  Preview
-                </button>
-              </li>
-              <li className="">
-                <button
-                  onClick={() => page3()}
-                  className={
-                    page === "3"
-                      ? "inline-block text-xs md:text-lg p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg dark:text-blue-500 dark:border-blue-500  transition-all duration-200 ease-in-out"
-                      : "inline-block text-xs md:text-lg p-4 border-b-2 border-transparent dark:text-gray-400 dark:border-gray-600 dark:hover:border-gray-300 border-gray-800 text-gray-800 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300  transition-all duration-200 ease-in-out"
-                  }
-                >
-                  Undergraduate
-                </button>
-              </li>
-            </ul>
+            <ProfileTab />
             <div>
               <div className="text-black dark:text-white mb-3 my-8 ml-5">
                 Undergraduate
