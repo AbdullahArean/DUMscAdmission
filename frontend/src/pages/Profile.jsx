@@ -326,38 +326,36 @@ const Profile = () => {
       e.target.hsc_board.value +
       e.target.hsc_year.value.slice(-2) +
       e.target.hsc_roll1.value;
-    let requestBody = `<dupgwp>
-    <header>
-    <pgwkey>abcd</pgwkey>
-    <pgwreqid>12</pgwreqid>
-    </header>
-    <body>
-    <requestdata>
-    <service>
-    <gentime>20191023193141</gentime>
-    <priority>OT</priority>
-    </service>
-    <params>
-    <param>
-    <query-data>
-    <hsid>${hsid}</hsid>
-    </query-data>
-    </param>
-    </params>
-    </requestdata>
-    </body>
-    </dupgwp>`;
-    axios
-      .post(
-        "https://regservices.eis.du.ac.bd/edusections/preregistration/getboarddata",
-        requestBody,
-        {
-          headers: {
-            "Content-Type": "text/xml",
-            Accept: "application/xml",
-          },
-        }
-      )
+    // let requestBody = `<dupgwp>
+    // <header>
+    // <pgwkey>abcd</pgwkey>
+    // <pgwreqid>12</pgwreqid>
+    // </header>
+    // <body>
+    // <requestdata>
+    // <service>
+    // <gentime>20191023193141</gentime>
+    // <priority>OT</priority>
+    // </service>
+    // <params>
+    // <param>
+    // <query-data>
+    // <hsid>${hsid}</hsid>
+    // </query-data>
+    // </param>
+    // </params>
+    // </requestdata>
+    // </body>
+    // </dupgwp>`;
+
+    let requestBody = new FormData();
+    requestBody.set("hsid", hsid);
+    api
+      .post("/boardData.php", requestBody, {
+        headers: {
+          Authorization: localStorage.getItem("jwt"),
+        },
+      })
       .then((res) => {
         const parser = new DOMParser();
         const data = parser.parseFromString(res.data, "application/xml");

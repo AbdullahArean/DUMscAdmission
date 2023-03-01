@@ -23,7 +23,7 @@ function sendmail($to, $code) {
     $mail->addAddress($to);
 
     $mail->Subject = 'Master Admission Email Verification';
-    $mail->Body = 'Your Verification Code is '.$code." .";
+    $mail->Body = 'Your Verification Code is '.$code.".";
 
     $mail->send();
 }
@@ -46,6 +46,26 @@ function sendPaymentSuccess($to, $amount) {
 
     $mail->Subject = 'Master Admission Email Verification';
     $mail->Body = 'Payment Recieved of TK '.$amount;
+
+    $mail->send();
+}
+
+function sendResetPassword($email, $code) {
+    $mail = new PHPMailer(true);
+
+    $mail->isSMTP();
+    $mail->Host = 'mail.alvereduan.me';
+    $mail->SMTPAuth = true;
+    $mail->Username = 'dumscadmission@alvereduan.me';
+    $mail->Password = '@(qKL};+m-YA';
+    $mail->SMTPSecure = 'ssl';
+    $mail->Port = 465;
+
+    $mail->setFrom("dumscadmission@alvereduan.me");
+    $mail->addAddress($email);
+
+    $mail->Subject = 'Master Admission Email Verification';
+    $mail->Body = 'Your Reset Password Code is '.$code.".";
 
     $mail->send();
 }
