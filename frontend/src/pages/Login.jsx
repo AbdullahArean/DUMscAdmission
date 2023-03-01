@@ -47,7 +47,8 @@ const Login = () => {
   }, [isDarkMode]);
 
   useEffect(() => {
-    if(state === "redirected") toast.error("Please login to view the page")
+    if (state === "redirected") toast.error("Please login to view the page");
+    else if (state === "reset") toast.success("Password reset successful");
   }, []);
 
   const toReg = () => {
@@ -56,9 +57,7 @@ const Login = () => {
   const toChange = () => {
     nav("/forgot");
   };
-  const login = () => {
-    nav("/verify");
-  };
+
   const toProfile = () => {
     nav("/home");
   };
@@ -121,6 +120,7 @@ const Login = () => {
         });
       });
   };
+
   return (
     <section className="bg-gray-100 dark:bg-gray-900">
       <ToastContainer
