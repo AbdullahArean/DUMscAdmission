@@ -320,7 +320,7 @@ const Profile = () => {
       hsc_year: e.target.hsc_year.value,
       hsc_board: e.target.hsc_board.value,
     });
-    setPage1Complete(true);
+    // setPage1Complete(true);
     /* RETRIEVE DATA */
     let hsid =
       e.target.hsc_board.value +
@@ -391,8 +391,9 @@ const Profile = () => {
               data.getElementsByTagName("ssc-gpa")[0].childNodes[0].nodeValue,
           });
 
-          // setPage1Complete(true);
-          page2();
+          setPage1Complete(true);
+          // page2();
+          setPage("2");
         }
       })
       .catch((err) => {
