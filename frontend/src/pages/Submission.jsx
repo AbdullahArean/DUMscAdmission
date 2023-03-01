@@ -140,7 +140,7 @@ const Submission = () => {
                       onClick={() => {
                         toPayment(record.APP_ID);
                       }}
-                      disabled={apiLoading ? "true" : "false"}
+                      disabled={apiLoading ? true : false}
                       className={`${apiLoading ? "cursor-not-allowed" : ""}text-white bg-blue-500 px-4 py-1 rounded-lg font-medium`}
                     >
                       <div className="flex justify-center">

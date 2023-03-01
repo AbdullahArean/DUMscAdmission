@@ -2,6 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+.picThumb {
+  background-position: center;
+  background-size: cover;
+  aspect-ratio: 1/1;
+}
+
+.sigThumb {
+  background-position: center;
+  background-size: cover;
+  aspect-ratio: 4/1;
+}
+
 .dark .PhoneInputInput {
   background-color: rgb(55 65 81);
   border: none;
