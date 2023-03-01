@@ -5,6 +5,7 @@ import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import api from "../api";
+import { FaHome } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useGlobalState } from "../components/UserContext.jsx";
@@ -58,10 +59,6 @@ const Login = () => {
     nav("/forgot");
   };
 
-  const toProfile = () => {
-    nav("/home");
-  };
-
   const handleLogin = (e) => {
     e.preventDefault();
     let dataToPost = new FormData();
@@ -99,7 +96,7 @@ const Login = () => {
               setUser(user);
               setIsLoggedIn(true);
               setJwt(localStorage.getItem("jwt"));
-              toProfile();
+              nav("/home");
             })
             .catch((err) => {
               console.log(err);
@@ -219,6 +216,12 @@ const Login = () => {
           <span className="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">
             Dark Mode
           </span>
+        </label>
+        <label className="fixed top-5 left-5 md:top-10 md:left-10 inline-flex items-center mb-4 cursor-pointer">
+          <FaHome
+            onClick={() => nav("/home")}
+            className="text-3xl cursor-pointer dark:text-blue-600 dark:hover:text-blue-700"
+          />
         </label>
       </div>
     </section>

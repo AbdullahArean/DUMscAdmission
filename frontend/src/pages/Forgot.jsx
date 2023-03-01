@@ -1,6 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { FaHome } from "react-icons/fa";
 import { CgSpinner } from "react-icons/cg";
 import api from "../api";
 
@@ -90,7 +91,9 @@ const Forgot = () => {
               <button
                 type="submit"
                 disabled={loading ? "true" : "false"}
-                className={`${loading ? "cursor-not-allowed" : ""} w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800`}
+                className={`${
+                  loading ? "cursor-not-allowed" : ""
+                } w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800`}
               >
                 <div className="flex justify-center">
                   {loading === true ? (
@@ -116,6 +119,12 @@ const Forgot = () => {
           <span className="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">
             Dark Mode
           </span>
+        </label>
+        <label className="fixed top-5 left-5 md:top-10 md:left-10 inline-flex items-center mb-4 cursor-pointer">
+          <FaHome
+            onClick={() => nav("/home")}
+            className="text-3xl cursor-pointer dark:text-blue-600 dark:hover:text-blue-700"
+          />
         </label>
       </div>
     </section>

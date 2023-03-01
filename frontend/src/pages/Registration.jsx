@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import PhoneInput from "react-phone-number-input";
 import { useNavigate } from "react-router-dom";
 import "react-phone-number-input/style.css";
+import { FaHome } from "react-icons/fa";
 import { CgSpinner } from "react-icons/cg";
 import "../index.css";
 import api from "../api";
@@ -301,6 +302,12 @@ const Registration = () => {
             <span className="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">
               Dark Mode
             </span>
+          </label>
+          <label className="fixed top-5 left-5 md:top-10 md:left-10 inline-flex items-center mb-4 cursor-pointer">
+            <FaHome
+              onClick={() => nav("/home")}
+              className="text-3xl cursor-pointer dark:text-blue-600 dark:hover:text-blue-700"
+            />
           </label>
         </div>
       </section>

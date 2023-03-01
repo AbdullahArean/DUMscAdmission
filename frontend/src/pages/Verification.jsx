@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Countdown from "react-countdown";
 import { ToastContainer, toast } from "react-toastify";
+import { FaHome } from "react-icons/fa";
 import { useGlobalState } from "../components/UserContext.jsx";
 import { CgSpinner } from "react-icons/cg";
 import api from "../api";
@@ -217,6 +218,12 @@ const Verification = () => {
           <span className="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">
             Dark Mode
           </span>
+        </label>
+        <label className="fixed top-5 left-5 md:top-10 md:left-10 inline-flex items-center mb-4 cursor-pointer">
+          <FaHome
+            onClick={() => nav("/home")}
+            className="text-3xl cursor-pointer dark:text-blue-600 dark:hover:text-blue-700"
+          />
         </label>
       </div>
     </section>
