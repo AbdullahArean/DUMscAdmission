@@ -9,7 +9,7 @@ import { useGlobalState } from "./UserContext";
 
 const Sidebar = () => {
   //TODO : Sidebar opening by default
-  const navigate = useNavigate();
+  const nav = useNavigate();
   let location = useLocation();
   const [user, setUser] = useGlobalState("user");
 
@@ -46,12 +46,12 @@ const Sidebar = () => {
 
   const to = (address) => {
     setOpen(false);
-    navigate(`/${address}`);
+    nav(`/${address}`);
   };
 
   const logout = () => {
     localStorage.removeItem("jwt");
-    navigate("/login");
+    nav("/login");
   };
 
   return (

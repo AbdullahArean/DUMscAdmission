@@ -46,6 +46,10 @@ const Login = () => {
     setTheme();
   }, [isDarkMode]);
 
+  useEffect(() => {
+    if(state === "redirected") toast.error("Please login to view the page")
+  }, []);
+
   const toReg = () => {
     nav("/registration");
   };

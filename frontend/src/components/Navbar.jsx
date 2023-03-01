@@ -158,7 +158,9 @@ const Navbar = ({ active }) => {
         </div>
         <button
           type="button"
-          onClick={() => nav("/application")}
+          onClick={() => {
+            user.profile !== "1" ? nav("/profile", { state: "incomplete" }) : nav("/application");
+          }}
           className={`text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm ${
             mobile.matches ? "px-3 py-1" : "px-5 py-2.5"
           } text-center mr-14 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 ${

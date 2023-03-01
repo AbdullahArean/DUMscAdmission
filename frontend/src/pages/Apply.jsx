@@ -21,11 +21,7 @@ const Apply = () => {
   const [data, setData] = useState([]);
   const [selectedDept, setSelectedDept] = useState(null);
 
-  const toProfile = () => {
-    navigate(`/profile`, { state: "incomplete" });
-  };
-
-  const navigate = useNavigate();
+  const nav = useNavigate();
 
   const fetchData = () => {
     api.get("/department.php").then((res) => {
@@ -46,7 +42,7 @@ const Apply = () => {
       .then((res) => {
         setModal2Open(false);
         toast.success("Application Successful");
-        navigate("/submission", { state: "applied" });
+        nav("/submission", { state: "applied" });
       })
       .catch((err) => {
         console.log(err);
@@ -57,9 +53,6 @@ const Apply = () => {
 
   useEffect(() => {
     fetchData();
-    if (user.profile !== "1") {
-      toProfile();
-    }
   }, []);
 
   return (

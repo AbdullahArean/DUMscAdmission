@@ -365,7 +365,7 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    if (!isLoggedIn) nav("/login");
+    if (!isLoggedIn) nav("/login", {state: "redirected"});
     else if (user.verified == "0") nav("/verify");
     else if (user.profile == "1") nav("/viewprofile");
     else {
