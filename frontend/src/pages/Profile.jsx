@@ -81,8 +81,8 @@ const Profile = () => {
   const ProfileTab = () => {
     return (
       <div>
-        <ul className="flex justify-evenly w-full">
-          <li className="mr-2">
+        <ul className="flex justify-between w-full">
+          <li className="">
             <button
               onClick={() => page1()}
               className={
@@ -128,21 +128,20 @@ const Profile = () => {
   };
 
   const page2 = () => {
-    // if (page1complete) setPage("2");
-    // else {
-    //   toast.warning("Please fill-up the current page");
-    //   setPage("1");
-    // }
-    setPage("2");
+    if (page1complete) setPage("2");
+    else {
+      toast.warning("Please fill-up the current page");
+      setPage("1");
+    }
   };
 
   const page3 = () => {
-    // if (page1complete && page2complete) setPage("3");
-    // else {
-    //   toast.warning("Please fill-up the current page");
-    //   setPage("1");
-    // }
-    setPage("3");
+    if (page1complete && page2complete) setPage("3");
+    else if (page1complete && !page2complete) setPage("2");
+    else {
+      toast.warning("Please fill-up the current page");
+      setPage("1");
+    }
   };
 
   const boards = [
@@ -321,7 +320,7 @@ const Profile = () => {
       hsc_year: e.target.hsc_year.value,
       hsc_board: e.target.hsc_board.value,
     });
-
+    setPage1Complete(true);
     /* RETRIEVE DATA */
     let hsid =
       e.target.hsc_board.value +
@@ -420,6 +419,7 @@ const Profile = () => {
       }
     }
   }, []);
+
   return (
     <div className="bg-white dark:bg-gray-900 flex flex-col justify-center">
       <Navbar active="profile" />
@@ -546,7 +546,7 @@ const Profile = () => {
                   </div>
                   <div className="relative z-0 w-full mb-6 group">
                     <label htmlFor="hsc_board" className="sr-only">
-                      Underline select
+                      Hsc Board
                     </label>
                     <select
                       id="hsc_board"
@@ -564,7 +564,7 @@ const Profile = () => {
                   </div>
                   <div className="relative z-0 w-full mb-6 group">
                     <label htmlFor="hsc_year" className="sr-only">
-                      Underline select
+                      Hsc Year
                     </label>
                     <select
                       id="hsc_year"
@@ -993,14 +993,14 @@ const Profile = () => {
 
       {/* Undergraduate */}
       {page === "3" ? (
-        <div className="bg-white h-screen dark:bg-gray-900">
+        <div className="bg-white min-h-screen h-full dark:bg-gray-900">
           <form
             onSubmit={page3Donee}
             className="w-4/5 mx-auto mt-14 mb-10 md:mt-24 md:mb-20"
           >
             <ProfileTab />
             <div>
-              <div className="text-black dark:text-white mb-3 my-8 ml-5">
+              <div className="text-black text-center md:text-start text-xl dark:text-white mb-8 my-8 md:ml-5">
                 Undergraduate
               </div>
               <div className="md:grid md:grid-cols-3 md:gap-5">
@@ -1113,17 +1113,17 @@ const Profile = () => {
                   onClick={() => setModal2Open(true)}
                   className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm md:text-lg w-full sm:w-auto px-5 py-2.5 md:px-10 md:py-5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                 >
-                  Submit
+                  Save
                 </button>
                 <Modal
                   title="Confirmation"
                   centered
                   open={modal2Open}
-                  okText={"Submit"}
+                  okText={"Confirm"}
                   onOk={submitProfile}
                   onCancel={() => setModal2Open(false)}
                 >
-                  <div>Are you sure you want to submit?</div>
+                  <div>Are you sure you want to save changes?</div>
                 </Modal>
               </div>
             </div>
