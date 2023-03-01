@@ -71,14 +71,20 @@ const Apply = () => {
         pauseOnHover={false}
         theme="colored"
       />
-      <div className="mt-24 mx-10 relative overflow-x-auto">
+      <div className="mt-20 lg:mt-24 mx-2 lg:mx-10 relative">
         <Table
           loading={loading}
           dataSource={data}
           style={{ overflowX: "auto" }}
         >
           <Column title="Department" dataIndex="name"></Column>
-          <Column title="End Date" dataIndex="application_end"></Column>
+          <Column
+            title="End Date"
+            dataIndex="application_end"
+            render={(approved, record) => (
+              <div>{record.application_end.slice(0, 9)}</div>
+            )}
+          ></Column>
           <Column
             title=""
             dataIndex="dept_id"
