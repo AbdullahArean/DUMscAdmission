@@ -54,7 +54,7 @@ const ViewProfile = () => {
           <div className="lg:flex lg:gap-x-10 lg:items-center">
             <div className="">
               <div
-                className="picThumb mb-6 lg:mb-0 w-1/2 lg:w-64"
+                className="picThumb mb-6 lg:mb-0 w-1/2 lg:w-80"
                 style={{
                   backgroundImage: `url(${profile.A_PICPATH})`,
                 }}
