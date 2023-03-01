@@ -359,10 +359,7 @@ const Profile = () => {
       .then((res) => {
         const parser = new DOMParser();
         const data = parser.parseFromString(res.data, "application/xml");
-        console.log(
-          data.getElementsByTagName("ssc-roll")[0].childNodes[0].nodeValue !=
-            e.target.ssc_roll1.value
-        );
+
         if (
           data.getElementsByTagName("ssc-roll")[0].childNodes[0].nodeValue !=
           e.target.ssc_roll1.value
@@ -375,8 +372,7 @@ const Profile = () => {
               data.getElementsByTagName("mother")[0].childNodes[0].nodeValue,
             f_name:
               data.getElementsByTagName("father")[0].childNodes[0].nodeValue,
-            a_dob:
-              data.getElementsByTagName("a_dob")[0].childNodes[0].nodeValue,
+            a_dob: data.getElementsByTagName("dob")[0].childNodes[0].nodeValue,
 
             hsc_roll: e.target.hsc_roll1.value,
             hsc_year: e.target.hsc_year.value,
