@@ -47,7 +47,7 @@ const ViewProfile = () => {
       />
       <div className="my-12 lg:my-24 mx-4 lg:mx-16">
         <div>
-          <div className="text-black dark:text-white mb-3 my-8 text-center text-xl">
+          <div className="text-black dark:text-white mb-6 my-8 text-center text-xl">
             Personal Information
           </div>
           <div className="relative z-0 w-full mb-6 group">
@@ -160,14 +160,14 @@ const ViewProfile = () => {
               </label>
             </div>
           </div>
-          <div className="text-black dark:text-white mb-3 my-8 text-center text-xl">
+          <div className="text-black dark:text-white mb-6 my-8 text-center text-xl">
             Educational Information
           </div>
 
           {/* SSC */}
 
           <div>
-            <div className="text-black dark:text-white mb-3 my-8 ml-5">SSC</div>
+            <div className="text-black dark:text-white mb-6 my-8 ml-5">SSC</div>
             <div className="md:grid md:grid-cols-2 md:gap-5">
               <div className="relative z-0 w-full mb-6 group">
                 <input
@@ -249,7 +249,7 @@ const ViewProfile = () => {
           {/* HSC */}
 
           <div>
-            <div className="text-black dark:text-white mb-3 my-8 ml-5">HSC</div>
+            <div className="text-black dark:text-white mb-6 my-8 ml-5">HSC</div>
             <div className="md:grid md:grid-cols-2 md:gap-5">
               <div className="relative z-0 w-full mb-6 group">
                 <input
@@ -329,7 +329,7 @@ const ViewProfile = () => {
           </div>
         </div>
         <div>
-          <div className="text-black dark:text-white mb-3 my-8 ml-5">
+          <div className="text-black dark:text-white mb-6 my-8 ml-5">
             Undergraduate
           </div>
           <div className="md:grid md:grid-cols-3 md:gap-5">
