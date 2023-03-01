@@ -56,7 +56,7 @@ const Apply = () => {
   }, []);
 
   return (
-    <div className="bg-white h-screen dark:bg-gray-900 flex flex-col">
+    <div className="bg-white min-h-screen h-full dark:bg-gray-900 flex flex-col">
       <Navbar />
       <ToastContainer
         position="top-right"

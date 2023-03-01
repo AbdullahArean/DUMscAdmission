@@ -7,7 +7,7 @@ const NotFound = () => {
     nav("/home");
   };
   return (
-    <section className="bg-white dark:bg-gray-900 h-screen flex flex-col justify-center">
+    <section className="bg-white dark:bg-gray-900 min-h-screen h-full flex flex-col justify-center">
       <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
         <div className="mx-auto max-w-screen text-center">
           <h1 className="mb-4 text-7xl tracking-tight font-extrabold lg:text-9xl text-blue-600 dark:text-blue-500">

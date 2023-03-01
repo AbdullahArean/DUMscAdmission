@@ -15,7 +15,7 @@ const TemplatePage = () => {
   const [jwt, setJwt] = useGlobalState("jwt");
 
   return (
-    <div className="bg-white h-screen dark:bg-gray-900 flex flex-col">
+    <div className="bg-white min-h-screen h-full dark:bg-gray-900 flex flex-col">
       <Navbar active="" />
       <ToastContainer
         position="top-right"

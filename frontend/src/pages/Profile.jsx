@@ -81,7 +81,7 @@ const Profile = () => {
   const ProfileTab = () => {
     return (
       <div>
-        <ul className="flex justify-between w-full">
+        <ul className="flex justify-between md:justify-evenly w-full">
           <li className="">
             <button
               onClick={() => page1()}

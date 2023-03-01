@@ -70,7 +70,7 @@ const Submission = () => {
   }, []);
 
   return (
-    <div className="bg-white h-screen dark:bg-gray-900 flex flex-col">
+    <div className="bg-white min-h-screen h-full dark:bg-gray-900 flex flex-col">
       <Navbar active="submission" />
       <ToastContainer
         position="top-right"
@@ -85,7 +85,7 @@ const Submission = () => {
         theme="colored"
       />
 
-      <div className="mt-24 mx-10 relative overflow-x-auto">
+      <div className="mt-20 lg:mt-24 mx-2 lg:mx-10 relative">
         <Table
           loading={loading}
           dataSource={data}
@@ -126,7 +126,7 @@ const Submission = () => {
           ></Column>
           <Column
             title="Payment"
-            dataIndex="payment"
+            dataIndex="APP_PAYMENT"
             render={(payment, record) => (
               <div>
                 {record.APP_PAYMENT === "1" ? (
