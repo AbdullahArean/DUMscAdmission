@@ -301,7 +301,7 @@ else if($_SERVER["REQUEST_METHOD"] == "POST"){
                 $query = "INSERT INTO SYS.Profile (u_id, a_name, f_name, m_name, a_picpath, a_sigpath, a_dob, a_phone, a_mail, ssc_roll, ssc_reg, ssc_board, ssc_year, ssc_result, ssc_transcript_path,  hsc_roll, hsc_reg, hsc_board, hsc_year, hsc_result, hsc_transcript_path, ug_institution, ug_subject, ug_type, ug_cgpa, ug_pass_year, ug_transcript_path, profile_state) 
                 VALUES (".$data->{'id'}.", '".$a_name."', '".$f_name."', '".$m_name."', '".$a_picpath."', '".$a_sigpath."', '".$a_dob."', '".$a_phone."', '" .$a_mail."', '".$ssc_roll."', '".$ssc_reg."', '".$ssc_board."', '".$ssc_year."', '".$ssc_result."', '".$ssc_transcript_path."', '".$hsc_roll."', '".$hsc_reg."', '".$hsc_board."', '".$hsc_year."', '".$hsc_result."', '".$hsc_transcript_path."', '".$ug_institution."', '".$ug_subject."', '".$ug_type."', ".$ug_cgpa.", ".$ug_pass_year.", '".$ug_transcript_path."', ".$profile_state.")";
 
-                echo $query;
+                // echo $query;
                 $s = oci_parse($link, $query);
                 $r = oci_execute($s, OCI_NO_AUTO_COMMIT);
 

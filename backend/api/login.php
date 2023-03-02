@@ -25,8 +25,19 @@ $email_err = $phone_err = $password_err = $login_err = "";
 $error = array();
 
 
+$method = "NONE";
+
+if(isset($_SERVER["REQUEST_METHOD"])){
+    $method = $_SERVER["REQUEST_METHOD"];
+}
+
+elseif(isset($_SERVER["HTTP_ACCESS_CONTROL_REQUEST_METHOD"])){
+    $method = $_SERVER["HTTP_ACCESS_CONTROL_REQUEST_METHOD"];
+}
+
+
 // Processing form data when form is submitted
-if($_SERVER["REQUEST_METHOD"] == "POST"){
+if($method == "POST"){
  
     // Check if email is empty
     if(!isset($_POST["email"]) || empty(trim($_POST["email"]))){
@@ -68,7 +79,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 
                 if(password_verify($password, $hashed_password)){
                     // Password is correct, so generate a token
-                    session_start();
+                    // session_start();
+
+                    // echo "HERE";
                     
                     // TOKEN
                     $payload = [
