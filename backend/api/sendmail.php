@@ -41,10 +41,10 @@ function sendPaymentSuccess($to, $amount) {
     $mail->SMTPSecure = 'ssl';
     $mail->Port = 465;
 
-    $mail->setFrom("dumscadmission@alvereduan.me");
+    $mail->setFrom("msadmission@cse.du.ac.bd");
     $mail->addAddress($to);
 
-    $mail->Subject = 'Master Admission Email Verification';
+    $mail->Subject = 'MS Admission Email Verification';
     $mail->Body = 'Payment Recieved of TK '.$amount;
 
     $mail->send();
@@ -61,10 +61,10 @@ function sendResetPassword($email, $code) {
     $mail->SMTPSecure = 'ssl';
     $mail->Port = 465;
 
-    $mail->setFrom("dumscadmission@alvereduan.me");
+    $mail->setFrom("msadmission@cse.du.ac.bd");
     $mail->addAddress($email);
 
-    $mail->Subject = 'Master Admission Email Verification';
+    $mail->Subject = 'MS Admission Password Reset';
     $mail->Body = 'Your Reset Password Code is '.$code.".";
 
     $mail->send();

@@ -58,6 +58,8 @@ if ($method == "POST"){
                 $app_id = trim($_POST["app_id"]);
             }
 
+           
+
             if(empty($app_id_err)){
 
                 $query = "SELECT FEE FROM Application NATURAL JOIN DEPARTMENT  WHERE APP_ID=".$app_id;
@@ -78,16 +80,17 @@ if ($method == "POST"){
 
                 /* SSLCOMMERZ */
                 $post_data = array();
-                $post_data['store_id'] = "examp63edc215c9616";
-                $post_data['store_passwd'] = "examp63edc215c9616@ssl";
+                $post_data['store_id'] = "cseduacbdlive";
+                $post_data['store_passwd'] = "5BDEE0870E15E94287";
                 $post_data['total_amount'] = $amount;
+                // $post_data['total_amount'] = 10;
                 $post_data['currency'] = "BDT";
                 $post_data['tran_id'] = $tran_id;
                 // $post_data['success_url'] = $_SERVER['REQUEST_SCHEME'] . "://$frontendURL/success?tran=".$tran_id;
                 $post_data['success_url'] = "https://msadmission.cse.du.ac.bd/api/paymentSuccess.php?tran=".$tran_id;
                 $post_data['fail_url'] = "https://msadmission.cse.du.ac.bd/api/paymentFailed.php?tran=".$tran_id;
                 // $post_data['fail_url'] = $_SERVER['HTTP_HOST'] . "/api/failed?tran=".$tran_id;
-                $post_data['cancel_url'] = $_SERVER['REQUEST_SCHEME'] . "://$frontendURL/submissions";
+                $post_data['cancel_url'] = "https://msadmission.cse.du.ac.bd/submissions";
 
                 # EMI INFO
                 $post_data['emi_option'] = "0";
@@ -120,7 +123,7 @@ if ($method == "POST"){
                 
 
                 # REQUEST SEND TO SSLCOMMERZ
-                $direct_api_url = "https://sandbox.sslcommerz.com/gwprocess/v4/api.php";
+                $direct_api_url = "https://securepay.sslcommerz.com/gwprocess/v4/api.php";
 
                 $handle = curl_init();
                 curl_setopt($handle, CURLOPT_URL, $direct_api_url );
@@ -189,7 +192,7 @@ if ($method == "POST"){
                 } else {
                     http_response_code(400);
                             echo json_encode([
-                                "errot"=> 'Payment Initiation Failed.'
+                                "error"=> 'Payment Initiation Failed.'
                             ]);
                     // echo "JSON Data parsing error!";
                 }
