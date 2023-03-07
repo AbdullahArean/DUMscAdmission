@@ -85,6 +85,7 @@ const Apply = () => {
               <div>{record.application_end.slice(0, 9)}</div>
             )}
           ></Column>
+          <Column title="Fee (BDT)" dataIndex="fee"></Column>
           <Column
             title=""
             dataIndex="dept_id"
