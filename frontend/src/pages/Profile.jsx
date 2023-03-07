@@ -26,6 +26,7 @@ const Profile = () => {
   const [subjects, setSubjects] = useState([]);
   const [page1complete, setPage1Complete] = useState(false);
   const [page2complete, setPage2Complete] = useState(false);
+  const [duStudent, setDuStudent] = useState(false);
   const [previewData, setPreviewData] = useState({});
   const [fetchedData, setFetchedData] = useState({
     name: "",
@@ -248,16 +249,15 @@ const Profile = () => {
         ug_subject: e.target.ug_subject.value,
         ug_pass_year: e.target.ug_pass_year.value,
         ug_cgpa: e.target.ug_cgpa.value,
+        ug_reg: e.target.ug_reg.value,
         ug_transcript: e.target.ug_transcript.files[0],
       });
-    }
-    else {
-      toast.error("Undergraduate Transcript size must be under 100KB")
+    } else {
+      toast.error("Undergraduate Transcript size must be under 100KB");
     }
   };
 
-  const submitProfile = (e) => {
-    // e.preventDefault();
+  const submitProfile = () => {
     let dataToPost = new FormData();
     dataToPost.set("a_name", secondFormData.a_name);
     dataToPost.set("f_name", secondFormData.f_name);
@@ -1035,23 +1035,54 @@ const Profile = () => {
                     Graduation Type
                   </label>
                 </div>
-                <div className="relative md:col-span-2 z-0 w-full mb-6 group">
+                <div
+                  className={`relative ${
+                    duStudent === false ? "md:col-span-2" : ""
+                  } z-0 w-full mb-6 group`}
+                >
                   <label htmlFor="ug_institution" className="sr-only">
                     Institution
                   </label>
                   <select
+                    onChange={(e) => {
+                      if (e.target.value === "1") {
+                        setDuStudent(true);
+                      } else {
+                        setDuStudent(false);
+                      }
+                    }}
                     id="ug_institution"
                     className="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
                   >
                     <option defaultValue>Institution</option>
                     {university.map((uni, index) => {
                       return (
-                        <option key={index} value={uni.id}>
+                        <option id="uni" key={index} value={uni.id}>
                           {uni.label}
                         </option>
                       );
                     })}
                   </select>
+                </div>
+                <div
+                  className={`relative ${
+                    duStudent === true ? "block" : "hidden"
+                  } z-0 w-full mb-6 group`}
+                >
+                  <input
+                    type="text"
+                    name="ug_reg"
+                    id="ug_reg"
+                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                    placeholder=" "
+                    required={duStudent === true ? true : false}
+                  />
+                  <label
+                    htmlFor="ug_reg"
+                    className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75  peer-focus:-translate-y-7"
+                  >
+                    DU Registration Number
+                  </label>
                 </div>
               </div>
               <div className="md:grid md:grid-cols-3 md:gap-5">
