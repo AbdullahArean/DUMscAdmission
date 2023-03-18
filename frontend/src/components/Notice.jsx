@@ -2,6 +2,7 @@ import React from "react";
 import { AiOutlineDownload } from "react-icons/ai";
 
 const Notice = ({ notice }) => {
+  var mobile = window.matchMedia("(max-width: 700px)");
   return (
     <div
       className={`flex p-4 mb-4 border-t-4 dark:bg-gray-800 ${
@@ -28,18 +29,21 @@ const Notice = ({ notice }) => {
         ></path>
       </svg>
       <div className="ml-3 mr-3 flex justify-between items-center w-full text-sm font-medium">
-        <div className="w-full mr-8">
+        <div className="w-full mr-2 md:mr-8">
           <div className="flex justify-between">
             <div className="text-md md:text-lg">{notice.title}</div>
             {/* <div>{notice.created_by}</div> */}
             <div>{notice.created_on}</div>
           </div>
-          {notice.body}
+          {mobile.matches
+            ? notice.body.slice(0, 50).concat("...")
+            : notice.body.slice(0, 199).concat("...")}
         </div>
         <a
           href="https://www.africau.edu/images/default/sample.pdf"
-          className="font-semibold underline hover:no-underline"
+          className="font-semibold flex flex-col-reverse md:flex-row justify-center md:gap-x-2 items-center hover:underline no-underline"
         >
+          <p className="text-xs md:text-md">Download</p>
           <AiOutlineDownload className="text-2xl" />
         </a>
       </div>
