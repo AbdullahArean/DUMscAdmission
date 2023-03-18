@@ -7,6 +7,7 @@ import { Collapse } from "antd";
 import { CaretRightOutlined } from "@ant-design/icons";
 import { useGlobalState } from "../components/UserContext";
 import api from "../api";
+import Carousel from "../components/Carousel";
 
 const Home = () => {
   const { Panel } = Collapse;
@@ -39,9 +40,12 @@ const Home = () => {
   return (
     <div className="bg-white dark:bg-gray-900 flex flex-col justify-center">
       <Navbar active={"home"} />
-      <div className="bg-white min-h-screen h-full dark:bg-gray-900">
+      <div className="bg-white px-2 min-h-screen h-full dark:bg-gray-900">
+        <div className="w-full shadow-md md:w-4/5 md:mx-auto border-2 border-gray-300 dark:border-gray-600 p-1 mt-20 md:mt-32">
+          <Carousel />
+        </div>
         {/* Notice */}
-        <div className="w-full px-2 md:px-0 md:w-4/5 md:mx-auto mt-20 mb-10 md:mt-32 md:mb-20">
+        <div className="w-full md:px-0 md:w-4/5 md:mx-auto mt-6 mb-10 md:mt-12 md:mb-20">
           <div className="text-xl md:text-3xl text-center dark:text-white mb-5">
             Notice
           </div>
@@ -56,7 +60,7 @@ const Home = () => {
           <button onClick={log}>Log</button>
         </div> */}
         {/* FAQ */}
-        <div className="w-full px-2 md:px-0 md:w-4/5 mx-auto mt-14 mb-10 md:mt-24 md:mb-20">
+        <div className="w-full md:px-0 md:w-4/5 mx-auto mt-14 mb-10 md:mt-24 md:mb-20">
           <div className="text-xl mb-4 md:text-3xl text-center dark:text-white">
             Frequently Asked Questions
           </div>

@@ -2,6 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+.carouselImage {
+  background-position: center;
+  background-size: cover;
+  aspect-ratio: 8/3;
+}
+
+@media only screen and (max-width: 768px) {
+  .carouselImage {
+    background-position: center;
+    background-size: cover;
+    aspect-ratio: 3/2;
+  }
+}
+
 .picThumb {
   background-position: top;
   background-size: cover;
