@@ -15,6 +15,7 @@ import Column from "antd/es/table/Column";
 import { useGlobalState } from "../components/UserContext";
 import { useLocation, useNavigate } from "react-router-dom";
 import { CgSpinner } from "react-icons/cg";
+import Footer from "../components/Footer";
 
 const Submission = () => {
   const nav = useNavigate();
@@ -158,6 +159,7 @@ const Submission = () => {
           ></Column>
         </Table>
       </div>
+      <Footer/>
     </div>
   );
 };

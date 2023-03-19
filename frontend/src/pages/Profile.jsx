@@ -11,6 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useGlobalState } from "../components/UserContext";
 import { Modal } from "antd";
+import Footer from "../components/Footer";
 
 //TODO: fix logic
 
@@ -1178,6 +1179,7 @@ const Profile = () => {
       ) : (
         ""
       )}
+      <Footer />
     </div>
   );
 };

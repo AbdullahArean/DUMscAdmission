@@ -9,6 +9,7 @@ import { useGlobalState } from "../components/UserContext";
 import api from "../api";
 import Carousel from "../components/Carousel";
 import Footer from "../components/Footer";
+import header from "../resources/header.png";
 
 const Home = () => {
   const { Panel } = Collapse;
@@ -34,15 +35,32 @@ const Home = () => {
     console.log(user, isLoggedIn, jwt);
   };
 
+  const notice = [
+    {
+      title: "Rules and Guidelines for MS in Engineering Program",
+      body: `This rules and guidelines for M.Sc. in Engineering program (EEE,
+        ACCE, CSE, NE, RME) is approved in the Faculty Meeting held on
+        15th July 2018, Academic Council on 2$ July 2018 and Syndicate
+        Meeting held on 2cP July 2018. It will be effective from Session 2018-
+        2019 and onward.`,
+      link: "",
+    },
+  ];
+
   useEffect(() => {
     getNotice();
   }, []);
 
   return (
     <div className="bg-white dark:bg-gray-900 flex flex-col justify-center">
+      <img
+        src={header}
+        className="mt-16 md:mt-28 md:w-1/2 mx-auto"
+        alt="CSEDU Banner"
+      />
       <Navbar active={"home"} />
       <div className="bg-white px-2 min-h-screen h-full dark:bg-gray-900">
-        <div className="w-full shadow-md md:w-4/5 md:mx-auto border-2 border-gray-300 dark:border-gray-600 p-1 mt-20 md:mt-32">
+        <div className="w-full shadow-md md:w-4/5 md:mx-auto border-2 border-gray-300 dark:border-gray-600 p-1 mt-8 md:mt-20">
           <Carousel />
         </div>
         {/* Notice */}

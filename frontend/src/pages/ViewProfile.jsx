@@ -9,6 +9,7 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useGlobalState } from "../components/UserContext";
+import Footer from "../components/Footer";
 
 const ViewProfile = () => {
   const [user, setUser] = useGlobalState("user");
@@ -442,6 +443,7 @@ const ViewProfile = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

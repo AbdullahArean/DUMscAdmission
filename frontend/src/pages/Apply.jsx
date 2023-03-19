@@ -12,6 +12,7 @@ import { Space, Table } from "antd";
 import Column from "antd/es/table/Column";
 import { useGlobalState } from "../components/UserContext";
 import { useNavigate } from "react-router-dom";
+import Footer from "../components/Footer";
 
 const Apply = () => {
   const [loading, setLoading] = useState(false);
@@ -162,6 +163,7 @@ const Apply = () => {
           <div>Are you sure you want to apply?</div>
         </Modal>
       </div>
+      <Footer/>
     </div>
   );
 };
