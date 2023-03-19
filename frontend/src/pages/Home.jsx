@@ -8,6 +8,7 @@ import { CaretRightOutlined } from "@ant-design/icons";
 import { useGlobalState } from "../components/UserContext";
 import api from "../api";
 import Carousel from "../components/Carousel";
+import Footer from "../components/Footer";
 
 const Home = () => {
   const { Panel } = Collapse;
@@ -192,6 +193,7 @@ const Home = () => {
           </Collapse>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
