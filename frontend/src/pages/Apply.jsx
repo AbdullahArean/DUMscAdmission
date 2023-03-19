@@ -25,9 +25,14 @@ const Apply = () => {
 
   const nav = useNavigate();
 
+  let startDate;
+  let endDate;
+
   const fetchData = () => {
     api.get("/department.php").then((res) => {
       setData(res.data);
+      startDate = new Date(res.data.application_start.slice(0, 9));
+      endDate = new Date(res.data.application_end.slice(0, 9));
     });
   };
 
@@ -52,6 +57,8 @@ const Apply = () => {
         toast.error(err.response.data.message);
       });
   };
+
+  let today = new Date();
 
   useEffect(() => {
     fetchData();
@@ -105,6 +112,7 @@ const Apply = () => {
                     setSelectedDept(record.id);
                     setSelectedNotice(record.notice);
                   }}
+                  disabled={today > startDate && today < endDate ? false : true}
                   className="hover:underline text-white bg-blue-500 px-4 py-1 rounded-lg font-medium"
                 >
                   Apply
@@ -163,7 +171,7 @@ const Apply = () => {
           <div>Are you sure you want to apply?</div>
         </Modal>
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 };

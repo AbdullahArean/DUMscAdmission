@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-target-blank */
 import React from "react";
 import { AiOutlineDownload } from "react-icons/ai";
 
