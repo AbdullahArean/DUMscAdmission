@@ -75,52 +75,118 @@ const Home = () => {
               key="1"
             >
               <p className="pl-6">
-                First, you'll need to create a user account and log in. Then,
-                navigate to the admission application section and fill in your
-                exam information.Once you've completed that section, you'll be
-                prompted to provide additional information before submitting
-                your application.
+                First, you'll need to create a user account, verify your email
+                and log in. Then, navigate to the profile section and fill in
+                your exam informations. Once you've completed that section,
+                you'll be prompted to provide additional personal and
+                undergraduate information before submitting your profile. Then
+                navigate to the Apply section and submit your application.
               </p>
             </Panel>
             <Panel
-              header="What types of payment are accepted for admission fees?"
+              header="What are the criteria for being eligible for admission?"
               key="2"
             >
               <p className="pl-6">
-                Our website accepts credit and debit cards for payment of
-                admission fees.
+                <b>1. Title of Bachelor's or Equivalent Degree:</b> Applicants
+                must complete a 4-years Bachelor's degree in one of the
+                following disciplines from any recognized university:
+                CSE/CS/CE/IT/EEE/ECE/ETE/SE/Mathematics/Statistics/Physics.
+                Applicants who have not yet completed the degree but will be
+                able to do so before the admission deadline are also eligible to
+                apply. <br />
+                <br />
+                <b>
+                  2. CGPA Applicants must obtain a minimum CGPA 3.0 out of 4.0
+                  in the Bachelor's or equivalent degree.
+                </b>
+                <br />
+                <br />
+                <b>3. Bachelor's or Equivalent Degree Completion Time:</b>
+                <br />
+                For this semester of Spring 2022: <br />
+                a. Students who have a Bachelor's degree awarded between July
+                01, 2018 to June 30, 2021 can apply.
+                <br />
+                b. Students who have obtained a Bachelor's degree after June 30,
+                2021 can apply. <br />
+                c. Students who have not completed the Bachelor's or equivalent
+                degree but will be able to do so before the admission deadline
+                are eligible to apply.
+                <br />
+                <br />
+                <b>
+                  4. Bangladeshi nationals having foreign degree in the
+                  above-mentioned subjects must apply for an equivalence of
+                  their B.Sc. degree to Chairman, Department of Computer Science
+                  and Engineering, University of Dhaka.
+                </b>
               </p>
             </Panel>
-            <Panel
-              header="How do I know if my application has been accepted?"
-              key="3"
-            >
+            <Panel header="What is the admission test format?" key="3">
               <p className="pl-6">
-                You will receive a notification via email once your application
-                has been processed. You can also log in to your account to check
-                the status of your application.
+                There are two phases in the admission test as detailed below.
+                <br />
+                <br />
+                <b>
+                  Phase 1: Basic subject knowledge and analytical ability test
+                </b>
+                <br />
+                <br></br>Exam Duration: 120 Minutes
+                <br />
+                Total Marks: 150
+                <br />
+                There will be fifty (50) MCQ questions in the admission test,
+                wherein each question has an equal weight of three (3). <br />
+                <b>
+                  In phase-1 test, topics generally cover the following subjects
+                  :
+                </b>
+                Mathematics, Statistics, Theory of Computation, Computer
+                Programming, Data Structures and Algorithms, Computer
+                Architecture, Operating Systems, Computer Networks, Database
+                Management Systems, Distributed Systems, Artificial Intelligence
+                and Analytical Ability.
+                <br />
+                <br />
+                <b>Qualifying Marks:</b> Applicants must obtain at least 40%
+                marks to qualify for the next phase.
+                <br />
+                <br />
+                <b>Phase 2: Communication Skill test Exam</b>
+                <br />
+                <br />
+                Exam Duration: 30 minutes for writing and 15 minutes for
+                interview
+                <br />
+                Total Marks: 25
+                <br />
+                Usually the top 200 students qualified in Phase-1 are invited
+                for the second phase which is a communication skill test.
+                Students will have to attend an interview and a writing ability
+                test. They need to show their original academic documents here.
               </p>
             </Panel>
             <Panel
-              header="Can I make changes to my application after I've submitted
+              header="Can I make changes to my profile after I've submitted
               it?"
               key="4"
             >
               <p className="pl-6">
-                Once you've submitted your application, you will not be able to
-                make changes to it. However, if you need to update any
-                information, you can contact our admissions office to discuss
-                your options.
+                Once you've submitted your profile, you will not be able to make
+                changes to it. However, if you need to update any information,
+                you can contact our admission office to discuss your options.
               </p>
             </Panel>
-            <Panel
-              header="How do I view notices and FAQs on the website?"
-              key="5"
-            >
+            <Panel header="What is the application deadline?" key="5">
               <p className="pl-6">
-                Notices and FAQs can be found in the home section of the
-                website. Simply log in to your account and navigate to the home
-                page to view any current announcements or FAQs.
+                <b>Application Starts:</b> September 20, 2021
+                <br />
+                <b>Application Ends: </b>
+                November 20, 2021
+                <br />
+                <br />
+                <b>Admission Test:</b> December 3, 2021
               </p>
             </Panel>
           </Collapse>

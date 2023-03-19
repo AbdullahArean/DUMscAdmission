@@ -79,6 +79,13 @@ const Apply = () => {
         >
           <Column title="Department" dataIndex="name"></Column>
           <Column
+            title="Start Date"
+            dataIndex="application_start"
+            render={(approved, record) => (
+              <div>{record.application_start.slice(0, 9)}</div>
+            )}
+          ></Column>
+          <Column
             title="End Date"
             dataIndex="application_end"
             render={(approved, record) => (
