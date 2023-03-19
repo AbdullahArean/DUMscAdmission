@@ -40,7 +40,8 @@ const Notice = ({ notice }) => {
             : notice.body.slice(0, 199).concat("...")}
         </div>
         <a
-          href="https://www.africau.edu/images/default/sample.pdf"
+          target="_blank"
+          href={notice.link}
           className="font-semibold flex flex-col-reverse md:flex-row justify-center md:gap-x-2 items-center hover:underline no-underline"
         >
           <p className="text-xs md:text-md">Download</p>

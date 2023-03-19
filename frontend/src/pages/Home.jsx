@@ -43,7 +43,25 @@ const Home = () => {
         15th July 2018, Academic Council on 2$ July 2018 and Syndicate
         Meeting held on 2cP July 2018. It will be effective from Session 2018-
         2019 and onward.`,
-      link: "",
+      link: "https://drive.google.com/file/d/13p8AFKoQkFMhmPI6rwQ5udw_Ly75mgJx/view?usp=share_link",
+    },
+    {
+      title: "CSEDU Masters Registration",
+      body: `This rules and guidelines for M.Sc. in Engineering program (EEE,
+        ACCE, CSE, NE, RME) is approved in the Faculty Meeting held on
+        15th July 2018, Academic Council on 2$ July 2018 and Syndicate
+        Meeting held on 2cP July 2018. It will be effective from Session 2018-
+        2019 and onward.`,
+      link: "https://drive.google.com/file/d/13OKEKYSawQv9J1Wl3D-fwZqqLZxcu2kZ/view?usp=sharing",
+    },
+    {
+      title: "Regular MS Related Decision",
+      body: `This rules and guidelines for M.Sc. in Engineering program (EEE,
+        ACCE, CSE, NE, RME) is approved in the Faculty Meeting held on
+        15th July 2018, Academic Council on 2$ July 2018 and Syndicate
+        Meeting held on 2cP July 2018. It will be effective from Session 2018-
+        2019 and onward.`,
+      link: "https://drive.google.com/file/d/13p8AFKoQkFMhmPI6rwQ5udw_Ly75mgJx/view?usp=sharing",
     },
   ];
 
@@ -69,7 +87,7 @@ const Home = () => {
             Notice
           </div>
           <div>
-            {notices.map((notice, index) => {
+            {notice.map((notice, index) => {
               return <Notice key={index} notice={notice} />;
             })}
           </div>
