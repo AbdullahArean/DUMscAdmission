@@ -61,7 +61,7 @@ const Navbar = ({ active }) => {
             alt="CSEDU Logo"
           />
           <span className="self-center text-xl font-semibold whitespace-nowrap cursor-pointer dark:text-white">
-            MS Admission
+            MSc Admission
           </span>
         </div>
         <div className="items-center justify-between hidden w-full md:flex md:w-auto">
