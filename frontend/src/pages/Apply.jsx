@@ -85,7 +85,7 @@ const Apply = () => {
           dataSource={data}
           style={{ overflowX: "auto" }}
         >
-          <Column title="Department" dataIndex="name"></Column>
+          <Column title="Departmez`nt" dataIndex="name"></Column>
           <Column
             title="Start Date"
             dataIndex="application_start"
@@ -113,7 +113,11 @@ const Apply = () => {
                     setSelectedNotice(record.notice);
                   }}
                   disabled={today > startDate && today < endDate ? false : true}
-                  className="hover:underline text-white bg-blue-500 px-4 py-1 rounded-lg font-medium"
+                  className={
+                    today > startDate && today < endDate
+                      ? "hover:underline text-white bg-blue-500 px-4 py-1 rounded-lg font-medium"
+                      : "text-white bg-black px-4 py-1 rounded-lg font-medium"
+                  }
                 >
                   Apply
                 </button>
