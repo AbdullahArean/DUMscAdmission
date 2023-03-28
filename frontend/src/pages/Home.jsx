@@ -39,29 +39,17 @@ const Home = () => {
   const notice = [
     {
       title: "Rules and Guidelines for MS in Engineering Program",
-      body: `This rules and guidelines for M.Sc. in Engineering program (EEE,
-        ACCE, CSE, NE, RME) is approved in the Faculty Meeting held on
-        15th July 2018, Academic Council on 2$ July 2018 and Syndicate
-        Meeting held on 2cP July 2018. It will be effective from Session 2018-
-        2019 and onward.`,
+      body: `This document outlines the eligibility criteria and admission procedure for the MS in Computer Science and Engineering degree at the University of Dhaka. The application period for the upcoming semester runs from March 31 to May 15, with the admission test taking place on June 3.`,
       link: "https://drive.google.com/file/d/13p8AFKoQkFMhmPI6rwQ5udw_Ly75mgJx/view?usp=share_link",
     },
     {
       title: "CSEDU Masters Registration",
-      body: `This rules and guidelines for M.Sc. in Engineering program (EEE,
-        ACCE, CSE, NE, RME) is approved in the Faculty Meeting held on
-        15th July 2018, Academic Council on 2$ July 2018 and Syndicate
-        Meeting held on 2cP July 2018. It will be effective from Session 2018-
-        2019 and onward.`,
+      body: `This document outlines the eligibility criteria and admission procedure for the MS in Computer Science and Engineering degree at the University of Dhaka. The application period for the upcoming semester runs from March 31 to May 15, with the admission test taking place on June 3.`,
       link: "https://drive.google.com/file/d/1rVhMWqo9SgkzMW5XMG2RMDwWS6ucokrG/view?fbclid=IwAR1vf8qJptthJVNWCbZ_p7VkLKbxEw8EwiQGt4Qd8YpIKmfnM-KZcMLX_ZU",
     },
     {
       title: "Regular MS Related Decision",
-      body: `This rules and guidelines for M.Sc. in Engineering program (EEE,
-        ACCE, CSE, NE, RME) is approved in the Faculty Meeting held on
-        15th July 2018, Academic Council on 2$ July 2018 and Syndicate
-        Meeting held on 2cP July 2018. It will be effective from Session 2018-
-        2019 and onward.`,
+      body: `This document outlines the eligibility criteria and admission procedure for the MS in Computer Science and Engineering degree at the University of Dhaka. The application period for the upcoming semester runs from March 31 to May 15, with the admission test taking place on June 3.`,
       link: "https://drive.google.com/file/d/13p8AFKoQkFMhmPI6rwQ5udw_Ly75mgJx/view?usp=sharing",
     },
   ];
