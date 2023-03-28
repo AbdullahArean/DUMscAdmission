@@ -53,7 +53,7 @@ const Home = () => {
         15th July 2018, Academic Council on 2$ July 2018 and Syndicate
         Meeting held on 2cP July 2018. It will be effective from Session 2018-
         2019 and onward.`,
-      link: "https://drive.google.com/file/d/13OKEKYSawQv9J1Wl3D-fwZqqLZxcu2kZ/view?usp=sharing",
+      link: "https://drive.google.com/file/d/1rVhMWqo9SgkzMW5XMG2RMDwWS6ucokrG/view?fbclid=IwAR1vf8qJptthJVNWCbZ_p7VkLKbxEw8EwiQGt4Qd8YpIKmfnM-KZcMLX_ZU",
     },
     {
       title: "Regular MS Related Decision",
@@ -218,13 +218,26 @@ const Home = () => {
             </Panel>
             <Panel header="What is the application deadline?" key="5">
               <p className="pl-6">
-                <b>Application Starts:</b> September 20, 2021
+                <b>Application Starts:</b> March 31, 2023
                 <br />
                 <b>Application Ends: </b>
-                November 20, 2021
+                May 15, 2023
                 <br />
                 <br />
-                <b>Admission Test:</b> December 3, 2021
+                <b>Other important dates:</b>
+                <br />
+                <b>Admit Card Print:</b> From May 21, 2023
+                <br />
+                <b>Admission Test:</b> June 3, 2023
+                <br />
+                <b>Communication Skill Test:</b> June 3, 2023
+                <br />
+                <b>Final Result:</b> June 17, 2023
+                <br />
+                <b>Admission Period:</b> June 18-25, 2023
+                <br />
+                <b>Class Start:</b> 1st week of July, 2023
+                <br />
               </p>
             </Panel>
           </Collapse>
