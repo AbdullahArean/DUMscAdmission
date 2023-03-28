@@ -38,9 +38,9 @@ const Home = () => {
 
   const notice = [
     {
-      title: "Rules and Guidelines for MS in Engineering Program",
-      body: `This document outlines the eligibility criteria and admission procedure for the MS in Computer Science and Engineering degree at the University of Dhaka. The application period for the upcoming semester runs from March 31 to May 15, with the admission test taking place on June 3.`,
-      link: "https://drive.google.com/file/d/13p8AFKoQkFMhmPI6rwQ5udw_Ly75mgJx/view?usp=share_link",
+      title: "Brochure for CSEDU MSc Admission",
+      body: `This document outlines the graphical representation of eligibility criteria and admission procedure for the MS in Computer Science and Engineering degree at the University of Dhaka. The application period for the upcoming semester runs from March 31 to May 15, with the admission test taking place on June 3.`,
+      link: "https://drive.google.com/file/d/1C0QSVZcu_8WXljsBn42zD9FE-vQ3CVht/view",
     },
     {
       title: "CSEDU Masters Registration",
@@ -48,9 +48,9 @@ const Home = () => {
       link: "https://drive.google.com/file/d/1rVhMWqo9SgkzMW5XMG2RMDwWS6ucokrG/view?fbclid=IwAR1vf8qJptthJVNWCbZ_p7VkLKbxEw8EwiQGt4Qd8YpIKmfnM-KZcMLX_ZU",
     },
     {
-      title: "Regular MS Related Decision",
-      body: `This document outlines the eligibility criteria and admission procedure for the MS in Computer Science and Engineering degree at the University of Dhaka. The application period for the upcoming semester runs from March 31 to May 15, with the admission test taking place on June 3.`,
-      link: "https://drive.google.com/file/d/13p8AFKoQkFMhmPI6rwQ5udw_Ly75mgJx/view?usp=sharing",
+      title: "Rules and Guidelines for MS in Engineering Program",
+      body: `This document outlines the official rules and guidelines for MS program in Engineering faculty of University of Dhaka. The application period for the upcoming semester runs from March 31 to May 15, with the admission test taking place on June 3.`,
+      link: "https://drive.google.com/file/d/13p8AFKoQkFMhmPI6rwQ5udw_Ly75mgJx/view?usp=share_link",
     },
   ];
 
@@ -218,11 +218,13 @@ const Home = () => {
                 <br />
                 <b>Admission Test:</b> June 3, 2023
                 <br />
-                <b>Communication Skill Test:</b> June 3, 2023
+                <b>Admission Test Result:</b> June 6, 2023
+                <br />
+                <b>Communication Skill Test:</b> June 10, 2023
                 <br />
                 <b>Final Result:</b> June 17, 2023
                 <br />
-                <b>Admission Period:</b> June 18-25, 2023
+                <b>Admission Period:</b> June 18-20, 2023
                 <br />
                 <b>Class Start:</b> 1st week of July, 2023
                 <br />
