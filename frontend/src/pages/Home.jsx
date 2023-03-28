@@ -79,7 +79,7 @@ const Home = () => {
       />
       <Navbar active={"home"} />
       <div className="bg-white px-2 min-h-screen h-full dark:bg-gray-900">
-        <div className="w-full shadow-md md:w-4/5 md:mx-auto border-2 border-gray-300 dark:border-gray-600 p-1 mt-8 md:mt-20">
+        <div className="w-full md:w-4/5 md:mx-auto p-1 mt-8 md:mt-20">
           <Carousel />
         </div>
         {/* Notice */}
