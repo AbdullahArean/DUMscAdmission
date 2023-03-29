@@ -3,7 +3,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import "../index.css";
-import InfoGraphics from "../resources/DetailsCompressed.jpg"; 
+import InfoGraphics from "../resources/DetailsUpdated.png";
 
 const Carousel = () => {
   var settings = {
@@ -16,7 +16,7 @@ const Carousel = () => {
   return (
     <Slider {...settings} draggable>
       <div>
-        <img src={InfoGraphics} alt=""/>
+        <img src={InfoGraphics} alt="" />
       </div>
     </Slider>
   );

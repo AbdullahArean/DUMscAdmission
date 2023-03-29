@@ -40,7 +40,7 @@ const Home = () => {
     {
       title: "Brochure for CSEDU MSc Admission",
       body: `This document outlines the graphical representation of eligibility criteria and admission procedure for the MS in Computer Science and Engineering degree at the University of Dhaka. The application period for the upcoming semester runs from March 31 to May 15, with the admission test taking place on June 3.`,
-      link: "https://drive.google.com/file/d/1C0QSVZcu_8WXljsBn42zD9FE-vQ3CVht/view",
+      link: "https://drive.google.com/file/d/1H6IFFaMp6hx4Plq0Rrt5Iz6vVlDblTTu/view?usp=sharing",
     },
     {
       title: "CSEDU Masters Registration",
@@ -67,7 +67,7 @@ const Home = () => {
       />
       <Navbar active={"home"} />
       <div className="bg-white px-2 min-h-screen h-full dark:bg-gray-900">
-        <div className="w-full md:w-4/5 md:mx-auto mt-8 md:mt-4">
+        <div className="w-full md:w-3/5 md:mx-auto mt-8 md:mt-4">
           <Carousel />
         </div>
         {/* Notice */}
@@ -114,7 +114,14 @@ const Home = () => {
               key="2"
             >
               <p className="pl-6">
-                <b>1. Title of Bachelor's or Equivalent Degree:</b> Applicants
+                <b>1. Secondary & Higher Secondary: </b> In order to be eligible
+                to apply for MSc admission, applicants must satisfy the
+                requirements for both secondary/equivalent and higher
+                secondary/equivalent levels for undergraduate admission in Dhaka
+                University and related faculty.
+                <br />
+                <br />
+                <b>2. Title of Bachelor's or Equivalent Degree:</b> Applicants
                 must complete a 4-years Bachelor's degree in one of the
                 following disciplines from any recognized university:
                 CSE/CS/CE/IT/EEE/ECE/ETE/SE/Mathematics/Statistics/Physics.
@@ -122,11 +129,11 @@ const Home = () => {
                 able to do so before the admission deadline are also eligible to
                 apply. <br />
                 <br />
-                <b>2. CGPA:</b> Applicants must obtain a minimum CGPA 3.25 out
+                <b>3. CGPA:</b> Applicants must obtain a minimum CGPA 3.25 out
                 of 4.0 in the Bachelor's or equivalent degree.
                 <br />
                 <br />
-                <b>3. Foreign Degree:</b> Bangladeshi nationals having foreign
+                <b>4. Foreign Degree:</b> Bangladeshi nationals having foreign
                 degree in the above-mentioned subjects must apply for an
                 equivalence of their B.Sc. degree to Chairman, Department of
                 Computer Science and Engineering, University of Dhaka.
@@ -207,7 +214,9 @@ const Home = () => {
                 <br />
                 <b>Final Result:</b> June 17, 2023
                 <br />
-                <b>Admission Period:</b> June 18-29, 2023
+                <b>Admission Start:</b> June 18, 2023
+                <br />
+                <b>Admission End:</b> June 21, 2023
                 <br />
                 <b>Class Start:</b> 1st week of July, 2023
                 <br />
