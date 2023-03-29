@@ -67,7 +67,7 @@ const Home = () => {
       />
       <Navbar active={"home"} />
       <div className="bg-white px-2 min-h-screen h-full dark:bg-gray-900">
-        <div className="w-full md:w-4/5 md:mx-auto p-1 mt-8 md:mt-20">
+        <div className="w-full md:w-4/5 md:mx-auto mt-8 md:mt-4">
           <Carousel />
         </div>
         {/* Notice */}
@@ -122,31 +122,14 @@ const Home = () => {
                 able to do so before the admission deadline are also eligible to
                 apply. <br />
                 <br />
-                <b>
-                  2. CGPA Applicants must obtain a minimum CGPA 3.0 out of 4.0
-                  in the Bachelor's or equivalent degree.
-                </b>
+                <b>2. CGPA:</b> Applicants must obtain a minimum CGPA 3.25 out
+                of 4.0 in the Bachelor's or equivalent degree.
                 <br />
                 <br />
-                <b>3. Bachelor's or Equivalent Degree Completion Time:</b>
-                <br />
-                For this semester of Spring 2022: <br />
-                a. Students who have a Bachelor's degree awarded between July
-                01, 2018 to June 30, 2021 can apply.
-                <br />
-                b. Students who have obtained a Bachelor's degree after June 30,
-                2021 can apply. <br />
-                c. Students who have not completed the Bachelor's or equivalent
-                degree but will be able to do so before the admission deadline
-                are eligible to apply.
-                <br />
-                <br />
-                <b>
-                  4. Bangladeshi nationals having foreign degree in the
-                  above-mentioned subjects must apply for an equivalence of
-                  their B.Sc. degree to Chairman, Department of Computer Science
-                  and Engineering, University of Dhaka.
-                </b>
+                <b>3. Foreign Degree:</b> Bangladeshi nationals having foreign
+                degree in the above-mentioned subjects must apply for an
+                equivalence of their B.Sc. degree to Chairman, Department of
+                Computer Science and Engineering, University of Dhaka.
               </p>
             </Panel>
             <Panel header="What is the admission test format?" key="3">
@@ -214,7 +197,7 @@ const Home = () => {
                 <br />
                 <b>Other important dates:</b>
                 <br />
-                <b>Admit Card Print:</b> From May 21, 2023
+                <b>Admit Card Publish:</b> From May 21, 2023
                 <br />
                 <b>Admission Test:</b> June 3, 2023
                 <br />
@@ -224,7 +207,7 @@ const Home = () => {
                 <br />
                 <b>Final Result:</b> June 17, 2023
                 <br />
-                <b>Admission Period:</b> June 18-20, 2023
+                <b>Admission Period:</b> June 18-29, 2023
                 <br />
                 <b>Class Start:</b> 1st week of July, 2023
                 <br />

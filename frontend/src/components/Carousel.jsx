@@ -3,7 +3,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import "../index.css";
-import InfoGraphics from "../resources/InfoGraphics.jpg"; 
+import InfoGraphics from "../resources/DetailsCompressed.jpg"; 
 
 const Carousel = () => {
   var settings = {
