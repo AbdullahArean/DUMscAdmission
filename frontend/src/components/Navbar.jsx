@@ -46,8 +46,8 @@ const Navbar = ({ active }) => {
   }, [isDarkMode]);
 
   const logout = () => {
-    setIsLoggedIn(false);
     localStorage.removeItem("jwt");
+    setIsLoggedIn(false);
     nav("/login");
   };
   let location = useLocation();

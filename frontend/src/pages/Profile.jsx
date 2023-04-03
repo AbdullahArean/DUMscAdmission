@@ -437,7 +437,7 @@ const Profile = () => {
   }, []);
 
   return (
-    <div className="bg-white dark:bg-gray-900 flex flex-col justify-center">
+    <div className="bg-white relative dark:bg-gray-900 flex flex-col justify-center">
       <Navbar active="profile" />
       <ToastContainer
         position="top-right"

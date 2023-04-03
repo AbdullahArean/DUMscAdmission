@@ -75,7 +75,7 @@ const Login = () => {
           api
             .get("/account.php", {
               headers: {
-                Authorization: localStorage.getItem("jwt"),
+                Authorization: res.data["jwt"],
               },
             })
             .then((res) => {

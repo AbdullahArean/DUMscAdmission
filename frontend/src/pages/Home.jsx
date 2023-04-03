@@ -59,7 +59,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="bg-white dark:bg-gray-900 flex flex-col justify-center">
+    <div className="bg-white relative dark:bg-gray-900 flex flex-col justify-center">
       <img
         src={header}
         className="mt-16 md:mt-28 md:w-1/2 mx-auto"

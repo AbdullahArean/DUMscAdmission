@@ -71,7 +71,7 @@ const Submission = () => {
   }, []);
 
   return (
-    <div className="bg-white min-h-screen h-full dark:bg-gray-900 flex flex-col">
+    <div className="bg-white relative min-h-screen h-full dark:bg-gray-900 flex flex-col">
       <Navbar active="submission" />
       <ToastContainer
         position="top-right"
