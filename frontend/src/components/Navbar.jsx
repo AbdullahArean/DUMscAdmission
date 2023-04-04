@@ -94,20 +94,24 @@ const Navbar = ({ active }) => {
                 My Submissions
               </div>
             </li>
-            <li>
-              <div
-                onClick={() => {
-                  nav("/submission");
-                }}
-                className={
-                  active === "submission"
-                    ? "block cursor-pointer py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white"
-                    : "block cursor-pointer py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-                }
-              >
-                Report
-              </div>
-            </li>
+            {user.role === "admin" ? (
+              <li>
+                <div
+                  onClick={() => {
+                    nav("/report");
+                  }}
+                  className={
+                    active === "report"
+                      ? "block cursor-pointer py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white"
+                      : "block cursor-pointer py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                  }
+                >
+                  Report
+                </div>
+              </li>
+            ) : (
+              ""
+            )}
             <li>
               <div
                 onClick={() => {
@@ -173,7 +177,9 @@ const Navbar = ({ active }) => {
         <button
           type="button"
           onClick={() => {
-            user.profile !== "1" ? nav("/profile", { state: "incomplete" }) : nav("/application");
+            user.profile !== "1"
+              ? nav("/profile", { state: "incomplete" })
+              : nav("/application");
           }}
           className={`text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm ${
             mobile.matches ? "px-3 py-1" : "px-5 py-2.5"
