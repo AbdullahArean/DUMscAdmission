@@ -62,7 +62,7 @@ const Apply = () => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, []); 
 
   return (
     <div className="bg-white min-h-screen h-full dark:bg-gray-900 flex flex-col">
@@ -85,7 +85,7 @@ const Apply = () => {
           dataSource={data}
           style={{ overflowX: "auto" }}
         >
-          <Column title="Departmez`nt" dataIndex="name"></Column>
+          <Column title="Department" dataIndex="name"></Column>
           <Column
             title="Start Date"
             dataIndex="application_start"

@@ -22,12 +22,14 @@ const Profile = () => {
   const nav = useNavigate();
   const [user, setUser] = useGlobalState("user");
   const [isLoggedIn, setIsLoggedIn] = useGlobalState("isLoggedIn");
-
+const [othersub, setOthersub] = useState(false)
   const [university, setUniversity] = useState([]);
   const [subjects, setSubjects] = useState([]);
   const [page1complete, setPage1Complete] = useState(false);
   const [page2complete, setPage2Complete] = useState(false);
   const [duStudent, setDuStudent] = useState(false);
+  const [others, setOthers] = useState(false);
+  const [bangla, setBangla] = useState(true);
   const [previewData, setPreviewData] = useState({});
   const [fetchedData, setFetchedData] = useState({
     name: "",
@@ -139,8 +141,9 @@ const Profile = () => {
 
   const page3 = () => {
     if (page1complete && page2complete) setPage("3");
-    else if (page1complete && !page2complete) setPage("2");
-    else {
+    else if (page1complete && !page2complete) {
+      toast.warning("Please fill-up the current page");
+    } else {
       toast.warning("Please fill-up the current page");
       setPage("1");
     }
@@ -208,9 +211,9 @@ const Profile = () => {
 
     if (
       e.target.a_pic.files[0].size / 1024 <= 100 &&
-      e.target.a_sig.files[0].size / 1024 <= 100 &&
-      e.target.ssc_transcript.files[0].size / 1024 <= 200 &&
-      e.target.hsc_transcript.files[0].size / 1024 <= 200
+      e.target.a_sig.files[0].size / 1024 <= 50 &&
+      e.target.ssc_transcript.files[0].size / 1024 <= 100 &&
+      e.target.hsc_transcript.files[0].size / 1024 <= 100
     ) {
       setSecondFormData({
         a_name: e.target.a_name.value,
@@ -238,8 +241,11 @@ const Profile = () => {
       toast.error("HSC Transcript size must be under 100KB");
     }
     setPage2Complete(true);
-    page3();
   };
+
+  useEffect(() => {
+    page3();
+  }, [page2complete === true]);
 
   const page3Donee = (e) => {
     e.preventDefault();
@@ -247,6 +253,8 @@ const Profile = () => {
       setThirdFormData({
         ug_type: e.target.ug_type.value,
         ug_institution: e.target.ug_institution.value,
+        ug_uni: e.target.ug_uni?.value,
+        ug_sub: e.target.ug_sub?.value,
         ug_subject: e.target.ug_subject.value,
         ug_pass_year: e.target.ug_pass_year.value,
         ug_cgpa: e.target.ug_cgpa.value,
@@ -413,14 +421,21 @@ const Profile = () => {
           });
 
           setPage1Complete(true);
-          // page2();
-          setPage("2");
         }
       })
       .catch((err) => {
         console.log(err);
         toast.error("Invalid Data");
       });
+  };
+
+  useEffect(() => {
+    setPage("2");
+  }, [page1complete === true]);
+
+  const advance = () => {
+    setPage1Complete(true);
+    setBangla(false);
   };
 
   useEffect(() => {
@@ -434,6 +449,7 @@ const Profile = () => {
         toast.error("Please complete your profile");
       }
     }
+    setPage("1");
   }, []);
 
   return (
@@ -621,7 +637,7 @@ const Profile = () => {
                 </div>
                 <div></div>
               </div>
-              <div className="flex justify-center mt-16">
+              <div className="flex mb-2 lg:mb-6 justify-center mt-16">
                 <button
                   type="submit"
                   className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm md:text-lg w-full sm:w-auto px-5 py-2.5 md:px-10 md:py-5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
@@ -629,6 +645,13 @@ const Profile = () => {
                   Next Page
                 </button>
               </div>
+              <button
+                onClick={() => advance()}
+                className="dark:text-gray-400 hover:underline text-gray-800"
+              >
+                {"> "}
+                English version / Foreign Student
+              </button>
             </div>
           </form>
         </div>
@@ -798,7 +821,7 @@ const Profile = () => {
 
             <div>
               <div className="text-black dark:text-white mb-3 my-8 ml-5">
-                SSC
+                SSC / Equivalent
               </div>
               <div className="md:grid md:grid-cols-2 md:gap-5">
                 <div className="relative z-0 w-full mb-6 group">
@@ -808,7 +831,7 @@ const Profile = () => {
                     id="ssc_roll"
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
-                    required
+                    required={bangla ? true : false}
                     defaultValue={fetchedData.ssc_roll}
                     disabled={fetchedData.ssc_roll ? true : false}
                   />
@@ -826,7 +849,7 @@ const Profile = () => {
                     id="ssc_board1"
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
-                    required
+                    required={bangla ? true : false}
                     defaultValue={fetchedData.ssc_board}
                     disabled={fetchedData.ssc_board ? true : false}
                   />
@@ -846,7 +869,7 @@ const Profile = () => {
                     id="ssc_year1"
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
-                    required
+                    required={bangla ? true : false}
                     defaultValue={fetchedData.ssc_year}
                     disabled={fetchedData.ssc_year ? true : false}
                   />
@@ -864,7 +887,7 @@ const Profile = () => {
                     id="ssc_result"
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
-                    required
+                    required={bangla ? true : false}
                     defaultValue={fetchedData.ssc_result}
                     disabled={fetchedData.ssc_result ? true : false}
                   />
@@ -883,7 +906,7 @@ const Profile = () => {
                   id="ssc_transcript"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
-                  required
+                  required={bangla ? true : false}
                 />
                 <label
                   htmlFor="ssc_transcript"
@@ -898,7 +921,7 @@ const Profile = () => {
 
             <div>
               <div className="text-black dark:text-white mb-3 my-8 ml-5">
-                HSC
+                HSC / Equivalent
               </div>
               <div className="md:grid md:grid-cols-2 md:gap-5">
                 <div className="relative z-0 w-full mb-6 group">
@@ -908,7 +931,7 @@ const Profile = () => {
                     id="hsc_roll"
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
-                    required
+                    required={bangla ? true : false}
                     defaultValue={fetchedData.hsc_roll}
                     disabled={fetchedData.hsc_roll ? true : false}
                   />
@@ -926,7 +949,7 @@ const Profile = () => {
                     id="hsc_board"
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
-                    required
+                    required={bangla ? true : false}
                     defaultValue={fetchedData.hsc_board}
                     disabled={fetchedData.hsc_board ? true : false}
                   />
@@ -946,7 +969,7 @@ const Profile = () => {
                     id="hsc_year"
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
-                    required
+                    required={bangla ? true : false}
                     defaultValue={fetchedData.hsc_year}
                     disabled={fetchedData.hsc_year ? true : false}
                   />
@@ -964,7 +987,7 @@ const Profile = () => {
                     id="hsc_result"
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
-                    required
+                    required={bangla ? true : false}
                     defaultValue={fetchedData.hsc_result}
                     disabled={fetchedData.hsc_result ? true : false}
                   />
@@ -983,7 +1006,7 @@ const Profile = () => {
                   id="hsc_transcript"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
-                  required
+                  required={bangla ? true : false}
                 />
                 <label
                   htmlFor="hsc_transcript"
@@ -1038,7 +1061,7 @@ const Profile = () => {
                 </div>
                 <div
                   className={`relative ${
-                    duStudent === false ? "md:col-span-2" : ""
+                    !duStudent && !others ? "md:col-span-2" : ""
                   } z-0 w-full mb-6 group`}
                 >
                   <label htmlFor="ug_institution" className="sr-only">
@@ -1047,8 +1070,13 @@ const Profile = () => {
                   <select
                     onChange={(e) => {
                       if (e.target.value === "1") {
+                        setOthers(false);
                         setDuStudent(true);
+                      } else if (e.target.value === "62") {
+                        setOthers(true);
+                        setDuStudent(false);
                       } else {
+                        setOthers(false);
                         setDuStudent(false);
                       }
                     }}
@@ -1085,13 +1113,41 @@ const Profile = () => {
                     DU Registration Number
                   </label>
                 </div>
+                <div
+                  className={`relative ${
+                    others === true ? "block" : "hidden"
+                  } z-0 w-full mb-6 group`}
+                >
+                  <input
+                    type="text"
+                    name="ug_uni"
+                    id="ug_uni"
+                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                    placeholder=" "
+                    required={others === true ? true : false}
+                  />
+                  <label
+                    htmlFor="ug_uni"
+                    className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75  peer-focus:-translate-y-7"
+                  >
+                    Institution Name
+                  </label>
+                </div>
               </div>
-              <div className="md:grid md:grid-cols-3 md:gap-5">
+              <div className={`md:grid ${othersub ? "md:grid-cols-4" : "md:grid-cols-3"}  md:gap-5`}>
                 <div className="relative z-0 w-full mb-6 group">
                   <label htmlFor="ug_subject" className="sr-only">
                     Subject
                   </label>
                   <select
+                  onChange={(e) => {
+                    if (e.target.value === "41") {
+                      setOthersub(true);
+                    } else {
+                      setOthersub(false);
+
+                    }
+                  }}
                     id="ug_subject"
                     className="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
                   >
@@ -1104,6 +1160,26 @@ const Profile = () => {
                       );
                     })}
                   </select>
+                </div>
+                <div
+                  className={`relative ${
+                    othersub === true ? "block" : "hidden"
+                  } z-0 w-full mb-6 group`}
+                >
+                  <input
+                    type="text"
+                    name="ug_sub"
+                    id="ug_sub"
+                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                    placeholder=" "
+                    required={othersub === true ? true : false}
+                  />
+                  <label
+                    htmlFor="ug_sub"
+                    className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75  peer-focus:-translate-y-7"
+                  >
+                    Subject Name
+                  </label>
                 </div>
                 <div className="relative z-0 w-full mb-6 group">
                   <input
