@@ -109,7 +109,7 @@ const Apply = () => {
                 <button
                   onClick={() => {
                     setModalOpen(true);
-                    setSelectedDept(record.id);
+                    setSelectedDept(record.name);
                     setSelectedNotice(record.notice);
                   }}
                   disabled={today > startDate && today < endDate ? false : true}

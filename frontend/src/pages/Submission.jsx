@@ -8,7 +8,7 @@ import "../index.css";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { FcOk, FcCancel } from "react-icons/fc";
-import { GiSandsOfTime } from "react-icons/gi";
+import { BiTimeFive } from "react-icons/bi";
 import "react-toastify/dist/ReactToastify.css";
 import { Space, Table } from "antd";
 import Column from "antd/es/table/Column";
@@ -41,7 +41,7 @@ const Submission = () => {
         window.location.replace(`${res.data}`);
       })
       .catch((err) => {
-        setApiLoading(false)
+        setApiLoading(false);
         console.log(err);
       });
   };
@@ -63,7 +63,7 @@ const Submission = () => {
   };
 
   useEffect(() => {
-    if (!isLoggedIn) nav("/login", {state: "redirected"});
+    if (!isLoggedIn) nav("/login", { state: "redirected" });
     else if (user.verified === "0") nav("/verify");
     if (state === "applied") toast.success("Application Successful.");
 
@@ -93,8 +93,12 @@ const Submission = () => {
           rowKey="id"
           style={{ overflowX: "auto" }}
         >
+          {user.role === "admin" ? (
+            <Column title="User ID" dataIndex="U_ID"></Column>
+          ) : (
+            ""
+          )}
           <Column title="Department" dataIndex="DEPT_NAME"></Column>
-
           <Column
             title="Applied at"
             dataIndex="CREATED_ON"
@@ -109,7 +113,7 @@ const Submission = () => {
               <div>
                 {record.APP_VERIFIED === "0" ? (
                   <div className="flex gap-1 items-center">
-                    <GiSandsOfTime />
+                    <BiTimeFive />
                     <p>Pending</p>
                   </div>
                 ) : record.APP_ADMIT === "0" ? (
@@ -136,6 +140,11 @@ const Submission = () => {
                     <FcOk />
                     <p>Paid</p>
                   </div>
+                ) : user.role === "admin" ? (
+                  <div className="flex gap-1 items-center">
+                    <FcCancel />
+                    <p>Unpaid</p>
+                  </div>
                 ) : (
                   <div className="">
                     <button
@@ -143,7 +152,9 @@ const Submission = () => {
                         toPayment(record.APP_ID);
                       }}
                       disabled={apiLoading ? true : false}
-                      className={`${apiLoading ? "cursor-not-allowed" : ""}text-white bg-blue-500 px-4 py-1 rounded-lg font-medium`}
+                      className={`${
+                        apiLoading ? "cursor-not-allowed" : ""
+                      }text-white bg-blue-500 px-4 py-1 rounded-lg font-medium`}
                     >
                       <div className="flex justify-center">
                         {apiLoading === true ? (
@@ -160,7 +171,7 @@ const Submission = () => {
           ></Column>
         </Table>
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 };
