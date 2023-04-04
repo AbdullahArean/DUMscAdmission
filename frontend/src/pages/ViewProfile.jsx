@@ -33,7 +33,7 @@ const ViewProfile = () => {
   }, []);
 
   return (
-    <div className="bg-white min-h-screen h-full dark:bg-gray-900 flex flex-col">
+    <div className="bg-white relative min-h-screen h-full dark:bg-gray-900 flex flex-col">
       <Navbar active="" />
       <ToastContainer
         position="top-right"
@@ -182,7 +182,9 @@ const ViewProfile = () => {
           {/* SSC */}
 
           <div>
-            <div className="text-black dark:text-white mb-6 my-8 ml-5">SSC</div>
+            <div className="text-black dark:text-white mb-6 my-8 ml-5">
+              SSC / Equivalent
+            </div>
             <div className="md:grid md:grid-cols-2 md:gap-5">
               <div className="relative z-0 w-full mb-6 group">
                 <input
@@ -264,7 +266,9 @@ const ViewProfile = () => {
           {/* HSC */}
 
           <div>
-            <div className="text-black dark:text-white mb-6 my-8 ml-5">HSC</div>
+            <div className="text-black dark:text-white mb-6 my-8 ml-5">
+              HSC / Equivalent
+            </div>
             <div className="md:grid md:grid-cols-2 md:gap-5">
               <div className="relative z-0 w-full mb-6 group">
                 <input
@@ -366,7 +370,11 @@ const ViewProfile = () => {
                 Graduation Type
               </label>
             </div>
-            <div className="relative md:col-span-2 z-0 w-full mb-6 group">
+            <div
+              className={`relative ${
+                !profile.UG_REG && !profile.UG_UNI ? "md:col-span-2" : ""
+              } z-0 w-full mb-6 group`}
+            >
               <input
                 type="text"
                 name="ug_institution"
@@ -384,8 +392,56 @@ const ViewProfile = () => {
                 Institution
               </label>
             </div>
+            <div
+              className={`relative ${
+                profile.UG_REG === true ? "block" : "hidden"
+              } z-0 w-full mb-6 group`}
+            >
+              <input
+                type="text"
+                name="ug_reg"
+                id="ug_reg"
+                className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                placeholder=" "
+                defaultValue={profile.UG_INSTITUTION}
+                disabled={profile.UG_INSTITUTION ? true : false}
+                required
+              />
+              <label
+                htmlFor="ug_reg"
+                className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75  peer-focus:-translate-y-7"
+              >
+                DU Registration Number
+              </label>
+            </div>
+            <div
+              className={`relative ${
+                profile.UG_UNI === true ? "block" : "hidden"
+              } z-0 w-full mb-6 group`}
+            >
+              <input
+                type="text"
+                name="ug_uni"
+                id="ug_uni"
+                className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                placeholder=" "
+                defaultValue={profile.UG_INSTITUTION}
+                disabled={profile.UG_INSTITUTION ? true : false}
+                required
+              />
+              <label
+                htmlFor="ug_uni"
+                className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75  peer-focus:-translate-y-7"
+              >
+                Institution Name
+              </label>
+            </div>
           </div>
-          <div className="md:grid md:grid-cols-3 md:gap-5">
+          <div
+            className={`md:grid ${
+              profile.UG_SUB ? "md:grid-cols-4" : "md:grid-cols-3"
+            }  md:gap-5`}
+          >
             <div className="relative z-0 w-full mb-6 group">
               <input
                 type="text"
@@ -402,6 +458,28 @@ const ViewProfile = () => {
                 className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75  peer-focus:-translate-y-7"
               >
                 Subject
+              </label>
+            </div>
+            <div
+              className={`relative ${
+                profile.UG_SUB === true ? "block" : "hidden"
+              } z-0 w-full mb-6 group`}
+            >
+              <input
+                type="text"
+                name="ug_sub"
+                id="ug_sub"
+                className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                placeholder=" "
+                defaultValue={profile.UG_SUBJECT}
+                disabled={profile.UG_SUBJECT ? true : false}
+                required
+              />
+              <label
+                htmlFor="ug_sub"
+                className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75  peer-focus:-translate-y-7"
+              >
+                Subject Name
               </label>
             </div>
             <div className="relative z-0 w-full mb-6 group">

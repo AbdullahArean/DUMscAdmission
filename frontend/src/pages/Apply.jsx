@@ -22,17 +22,16 @@ const Apply = () => {
   const [data, setData] = useState([]);
   const [selectedDept, setSelectedDept] = useState(null);
   const [selectedNotice, setSelectedNotice] = useState("");
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
 
   const nav = useNavigate();
-
-  let startDate;
-  let endDate;
 
   const fetchData = () => {
     api.get("/department.php").then((res) => {
       setData(res.data);
-      startDate = new Date(res.data.application_start.slice(0, 9));
-      endDate = new Date(res.data.application_end.slice(0, 9));
+      setStartDate(new Date(`${res.data[0].application_start.slice(0, 9)}`));
+      setEndDate(new Date(`${res.data[0].application_end.slice(0, 9)}`));
     });
   };
 
@@ -62,10 +61,10 @@ const Apply = () => {
 
   useEffect(() => {
     fetchData();
-  }, []); 
+  }, []);
 
   return (
-    <div className="bg-white min-h-screen h-full dark:bg-gray-900 flex flex-col">
+    <div className="bg-white relative min-h-screen h-full dark:bg-gray-900 flex flex-col">
       <Navbar />
       <ToastContainer
         position="top-right"
@@ -83,6 +82,7 @@ const Apply = () => {
         <Table
           loading={loading}
           dataSource={data}
+          rowKey="id"
           style={{ overflowX: "auto" }}
         >
           <Column title="Department" dataIndex="name"></Column>

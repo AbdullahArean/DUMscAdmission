@@ -22,7 +22,7 @@ const Profile = () => {
   const nav = useNavigate();
   const [user, setUser] = useGlobalState("user");
   const [isLoggedIn, setIsLoggedIn] = useGlobalState("isLoggedIn");
-const [othersub, setOthersub] = useState(false)
+  const [othersub, setOthersub] = useState(false);
   const [university, setUniversity] = useState([]);
   const [subjects, setSubjects] = useState([]);
   const [page1complete, setPage1Complete] = useState(false);
@@ -66,8 +66,6 @@ const [othersub, setOthersub] = useState(false)
     a_phone: "",
     a_mail: "",
     ssc_result: "",
-    ssc_reg: "",
-    hsc_reg: "",
     hsc_result: "",
     ssc_transcript: "",
     hsc_transcript: "",
@@ -134,7 +132,7 @@ const [othersub, setOthersub] = useState(false)
   const page2 = () => {
     if (page1complete) setPage("2");
     else {
-      toast.warning("Please fill-up the current page");
+      toast.warning("Please fill-up the current page 1");
       setPage("1");
     }
   };
@@ -225,11 +223,17 @@ const [othersub, setOthersub] = useState(false)
         a_phone: e.target.a_phone.value,
         a_mail: e.target.a_mail.value,
         ssc_result: e.target.ssc_result.value,
-        ssc_reg: e.target.ssc_roll.value,
-        hsc_reg: e.target.hsc_roll.value,
         hsc_result: e.target.hsc_result.value,
         ssc_transcript: e.target.ssc_transcript.files[0],
         hsc_transcript: e.target.hsc_transcript.files[0],
+      });
+      setFirstFormData({
+        ssc_roll: e.target.ssc_roll.value,
+        ssc_year: e.target.ssc_year1.value,
+        ssc_board: e.target.ssc_board1.value,
+        hsc_roll: e.target.hsc_roll.value,
+        hsc_year: e.target.hsc_year.value,
+        hsc_board: e.target.hsc_board.value,
       });
     } else if (e.target.a_pic.files[0].size / 1024 > 100) {
       toast.error("Picture size must be under 100KB");
@@ -240,12 +244,9 @@ const [othersub, setOthersub] = useState(false)
     } else if (e.target.hsc_transcript.files[0].size / 1024 > 100) {
       toast.error("HSC Transcript size must be under 100KB");
     }
+    setPage("3");
     setPage2Complete(true);
   };
-
-  useEffect(() => {
-    page3();
-  }, [page2complete === true]);
 
   const page3Donee = (e) => {
     e.preventDefault();
@@ -349,33 +350,10 @@ const [othersub, setOthersub] = useState(false)
       hsc_year: e.target.hsc_year.value,
       hsc_board: e.target.hsc_board.value,
     });
-    // setPage1Complete(true);
-    /* RETRIEVE DATA */
     let hsid =
       e.target.hsc_board.value +
       e.target.hsc_year.value.slice(-2) +
       e.target.hsc_roll1.value;
-    // let requestBody = `<dupgwp>
-    // <header>
-    // <pgwkey>abcd</pgwkey>
-    // <pgwreqid>12</pgwreqid>
-    // </header>
-    // <body>
-    // <requestdata>
-    // <service>
-    // <gentime>20191023193141</gentime>
-    // <priority>OT</priority>
-    // </service>
-    // <params>
-    // <param>
-    // <query-data>
-    // <hsid>${hsid}</hsid>
-    // </query-data>
-    // </param>
-    // </params>
-    // </requestdata>
-    // </body>
-    // </dupgwp>`;
 
     let requestBody = new FormData();
     requestBody.set("hsid", hsid);
@@ -420,6 +398,7 @@ const [othersub, setOthersub] = useState(false)
               data.getElementsByTagName("ssc-gpa")[0].childNodes[0].nodeValue,
           });
 
+          setPage("2");
           setPage1Complete(true);
         }
       })
@@ -429,13 +408,10 @@ const [othersub, setOthersub] = useState(false)
       });
   };
 
-  useEffect(() => {
-    setPage("2");
-  }, [page1complete === true]);
-
   const advance = () => {
     setPage1Complete(true);
     setBangla(false);
+    setPage("2");
   };
 
   useEffect(() => {
@@ -449,7 +425,6 @@ const [othersub, setOthersub] = useState(false)
         toast.error("Please complete your profile");
       }
     }
-    setPage("1");
   }, []);
 
   return (
@@ -1134,20 +1109,23 @@ const [othersub, setOthersub] = useState(false)
                   </label>
                 </div>
               </div>
-              <div className={`md:grid ${othersub ? "md:grid-cols-4" : "md:grid-cols-3"}  md:gap-5`}>
+              <div
+                className={`md:grid ${
+                  othersub ? "md:grid-cols-4" : "md:grid-cols-3"
+                }  md:gap-5`}
+              >
                 <div className="relative z-0 w-full mb-6 group">
                   <label htmlFor="ug_subject" className="sr-only">
                     Subject
                   </label>
                   <select
-                  onChange={(e) => {
-                    if (e.target.value === "41") {
-                      setOthersub(true);
-                    } else {
-                      setOthersub(false);
-
-                    }
-                  }}
+                    onChange={(e) => {
+                      if (e.target.value === "41") {
+                        setOthersub(true);
+                      } else {
+                        setOthersub(false);
+                      }
+                    }}
                     id="ug_subject"
                     className="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
                   >

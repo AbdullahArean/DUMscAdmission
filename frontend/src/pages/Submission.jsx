@@ -90,6 +90,7 @@ const Submission = () => {
         <Table
           loading={loading}
           dataSource={data}
+          rowKey="id"
           style={{ overflowX: "auto" }}
         >
           <Column title="Department" dataIndex="DEPT_NAME"></Column>
