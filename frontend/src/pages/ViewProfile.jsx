@@ -212,7 +212,37 @@ const ViewProfile = () => {
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
                   required
-                  defaultValue={profile.SSC_BOARD}
+                  defaultValue={
+                    profile.HSC_BOARD === "10"
+                      ? "Dhaka"
+                      : profile.HSC_BOARD === "11"
+                      ? "Cumilla"
+                      : profile.HSC_BOARD === "12"
+                      ? "Rajshahi"
+                      : profile.HSC_BOARD === "13"
+                      ? "Jashore"
+                      : profile.HSC_BOARD === "14"
+                      ? "Chattogram"
+                      : profile.HSC_BOARD === "15"
+                      ? "Barishal"
+                      : profile.HSC_BOARD === "16"
+                      ? "Sylhet"
+                      : profile.HSC_BOARD === "17"
+                      ? "Dinajpur"
+                      : profile.HSC_BOARD === "18"
+                      ? "Madrasah"
+                      : profile.HSC_BOARD === "19"
+                      ? "Mymensingh"
+                      : profile.HSC_BOARD === "52"
+                      ? "Vocational"
+                      : profile.HSC_BOARD === "53"
+                      ? "Business Managemen"
+                      : profile.HSC_BOARD === "54"
+                      ? "Diploma In Commerce"
+                      : profile.HSC_BOARD === "60"
+                      ? "GCE or Others"
+                      : ""
+                  }
                   disabled={profile.SSC_BOARD ? true : false}
                 />
                 <label
@@ -296,7 +326,37 @@ const ViewProfile = () => {
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
                   required
-                  defaultValue={profile.HSC_BOARD}
+                  defaultValue={
+                    profile.HSC_BOARD === "10"
+                      ? "Dhaka"
+                      : profile.HSC_BOARD === "11"
+                      ? "Cumilla"
+                      : profile.HSC_BOARD === "12"
+                      ? "Rajshahi"
+                      : profile.HSC_BOARD === "13"
+                      ? "Jashore"
+                      : profile.HSC_BOARD === "14"
+                      ? "Chattogram"
+                      : profile.HSC_BOARD === "15"
+                      ? "Barishal"
+                      : profile.HSC_BOARD === "16"
+                      ? "Sylhet"
+                      : profile.HSC_BOARD === "17"
+                      ? "Dinajpur"
+                      : profile.HSC_BOARD === "18"
+                      ? "Madrasah"
+                      : profile.HSC_BOARD === "19"
+                      ? "Mymensingh"
+                      : profile.HSC_BOARD === "52"
+                      ? "Vocational"
+                      : profile.HSC_BOARD === "53"
+                      ? "Business Managemen"
+                      : profile.HSC_BOARD === "54"
+                      ? "Diploma In Commerce"
+                      : profile.HSC_BOARD === "60"
+                      ? "GCE or Others"
+                      : ""
+                  }
                   disabled={profile.HSC_BOARD ? true : false}
                 />
                 <label

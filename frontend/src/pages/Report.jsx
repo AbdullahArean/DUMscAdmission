@@ -6,72 +6,77 @@ import Navbar from "../components/Navbar";
 import api from "../api";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Card } from "antd";
 import { useGlobalState } from "../components/UserContext";
-import { Space, Table, Select, Dropdown, Pagination } from "antd";
 import Footer from "../components/Footer";
-import Column from "antd/es/table/Column";
 
 const Report = () => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [user, setUser] = useGlobalState("user");
   const [isLoggedIn, setIsLoggedIn] = useGlobalState("isLoggedIn");
   const [jwt, setJwt] = useGlobalState("jwt");
+  const [reports, setReports] = useState(null);
 
-  const columns = [
-    {
-        title:"Accounts opened",
-        dataIndex: "account"
-    },
-    {
-        title:"Applied",
-        dataIndex: "applied"
-    },
-    {
-        title:"Paid",
-        dataIndex: "payment"
-    },
-    {
-        title:"Total Amount",
-        dataIndex: "paymentTotal"
-    },
-  ]
+  const getReports = () => {
+    api
+      .get("/reports.php", {
+        headers: {
+          Authorization: localStorage.getItem("jwt"),
+        },
+      })
+      .then((response) => {
+        setLoading(false);
+        setReports(response.data);
+        console.log(response.data);
+      })
+      .catch((err) => {
+        setLoading(false);
+        console.log(err);
+      });
+  };
 
-  const data = [
-    {
-      account: "82",
-      applied: "0",
-      payment: "0",
-      paymentTotal: "0",
-    },
-  ];
+  useEffect(() => {
+    getReports();
+  }, []);
 
-  return (
-    <div className="bg-white relative min-h-screen h-full dark:bg-gray-900 flex flex-col">
-      <Navbar active="report" />
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable={false}
-        pauseOnHover={false}
-        theme="colored"
-      />
-      <div className="mt-24 mx-10 relative overflow-x-auto">
-        <Table
-          columns={columns}
-          loading={loading}
-          dataSource={data}
-          style={{ overflowX: "auto" }}
-          rowKey="id"
-        ></Table>
+  if (loading) return <br />;
+  else
+    return (
+      <div className="bg-white relative min-h-screen h-full dark:bg-gray-900 flex flex-col">
+        <Navbar active="report" />
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable={false}
+          pauseOnHover={false}
+          theme="colored"
+        />
+        <div className="mt-24 mx-6 lg:mx-24 grid grid-cols-1 gap-x-24 gap-y-3 lg:grid-cols-4 relative">
+          <Card title="Accounts opened" bordered={true} key={"Accounts"}>
+            <p className="text-5xl text-center">{reports.account_opened ? reports.account_opened : "0"}</p>
+          </Card>
+          <Card
+            title="Total applications"
+            key={"idapplications2"}
+            bordered={true}
+          >
+            <p className="text-5xl text-center">{reports.applied ? reports.applied : "0"}</p>
+          </Card>
+          <Card title="Total payments" key={"payments"} bordered={true}>
+            <p className="text-5xl text-center">{reports.payment_no ? reports.payment_no : "0"}</p>
+          </Card>
+          <Card title="Total amount" key={"amount"} bordered={true}>
+            <p className="text-5xl text-center">{reports.payment_amount ? reports.payment_amount : "0"}</p>
+          </Card>
+        </div>
+        <Footer />
       </div>
-      <Footer />
-    </div>
-  );
+    );
 };
 
 export default Report;
