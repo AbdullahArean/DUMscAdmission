@@ -55,7 +55,7 @@ const Sidebar = () => {
     setIsLoggedIn(false);
     localStorage.removeItem("jwt");
     nav("/login");
-    setModal2Open(false)
+    setModal2Open(false);
   };
 
   return (
@@ -82,8 +82,16 @@ const Sidebar = () => {
           Home
         </div>
         <div onClick={() => to("submission")} className="menu-item">
-          My Submissions
+          {user.role === "admin" ? "Submissions" : "My Submissions"}
         </div>
+        {user.role === "admin" ? (
+          <div onClick={() => to("report")} className="menu-item">
+            Report
+          </div>
+        ) : (
+          ""
+        )}
+
         <div
           onClick={() => {
             user.profile === "1" ? to("viewprofile") : to("profile");

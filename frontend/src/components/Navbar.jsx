@@ -49,6 +49,7 @@ const Navbar = ({ active }) => {
     localStorage.removeItem("jwt");
     setIsLoggedIn(false);
     nav("/login");
+    window.location.reload();
   };
   let location = useLocation();
   return (

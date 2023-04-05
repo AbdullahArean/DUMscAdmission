@@ -98,6 +98,7 @@ const Login = () => {
               setIsLoggedIn(true);
               setJwt(localStorage.getItem("jwt"));
               nav("/home");
+              window.location.reload();
             })
             .catch((err) => {
               console.log(err);
