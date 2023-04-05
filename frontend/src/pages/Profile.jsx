@@ -153,19 +153,19 @@ const Profile = () => {
       code: "10",
     },
     {
-      name: "Rajshahi",
+      name: "Cumilla",
       code: "11",
     },
     {
-      name: "Comilla",
+      name: "Rajshahi",
       code: "12",
     },
     {
-      name: "Jessore",
+      name: "Jashore",
       code: "13",
     },
     {
-      name: "Chittagong",
+      name: "Chattogram",
       code: "14",
     },
     {
@@ -181,8 +181,28 @@ const Profile = () => {
       code: "17",
     },
     {
+      name: "Madrasah",
+      code: "18",
+    },
+    {
       name: "Mymensingh",
       code: "19",
+    },
+    {
+      name: "Vocational",
+      code: "52",
+    },
+    {
+      name: "Business Management",
+      code: "53",
+    },
+    {
+      name: "Diploma In Commerce",
+      code: "54",
+    },
+    {
+      name: "GCE or Others",
+      code: "60",
     },
   ];
 
