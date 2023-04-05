@@ -253,7 +253,7 @@ const Profile = () => {
         ssc_board: e.target.ssc_board1.value,
         hsc_roll: e.target.hsc_roll.value,
         hsc_year: e.target.hsc_year.value,
-        hsc_board: e.target.hsc_board.value,
+        hsc_board: e.target.hsc_board1.value,
       });
     } else if (e.target.a_pic.files[0].size / 1024 > 100) {
       toast.error("Picture size must be under 100KB");
@@ -309,6 +309,9 @@ const Profile = () => {
     dataToPost.set("ug_subject", thirdFormData.ug_subject);
     dataToPost.set("ug_type", thirdFormData.ug_type);
     dataToPost.set("ug_cgpa", thirdFormData.ug_cgpa);
+    dataToPost.set("ug_uni", thirdFormData.ug_uni);
+    dataToPost.set("ug_reg", thirdFormData.ug_reg);
+    dataToPost.set("ug_sub", thirdFormData.ug_sub);
     dataToPost.set("ug_pass_year", thirdFormData.ug_pass_year);
     dataToPost.set("a_pic", secondFormData.a_pic);
     dataToPost.set("a_sig", secondFormData.a_sig);
@@ -385,41 +388,54 @@ const Profile = () => {
       })
       .then((res) => {
         const parser = new DOMParser();
+        console.log(res);
         const data = parser.parseFromString(res.data, "application/xml");
-
         if (
-          data.getElementsByTagName("ssc-roll")[0].childNodes[0].nodeValue !=
-          e.target.ssc_roll1.value
+          data.getElementsByTagName("status")[0].childNodes[0].nodeValue ===
+          "ERROR"
         ) {
-          toast.error("Invalid Data");
-        } else {
-          setFetchedData({
-            name: data.getElementsByTagName("name")[0].childNodes[0].nodeValue,
-            m_name:
-              data.getElementsByTagName("mother")[0].childNodes[0].nodeValue,
-            f_name:
-              data.getElementsByTagName("father")[0].childNodes[0].nodeValue,
-            a_dob: data.getElementsByTagName("dob")[0].childNodes[0].nodeValue,
-
-            hsc_roll: e.target.hsc_roll1.value,
-            hsc_year: e.target.hsc_year.value,
-            hsc_board: e.target.hsc_board.value,
-
-            hsc_result:
-              data.getElementsByTagName("hsc-gpa")[0].childNodes[0].nodeValue,
-            ssc_roll:
-              data.getElementsByTagName("ssc-roll")[0].childNodes[0].nodeValue,
-            ssc_year:
-              data.getElementsByTagName("ssc-passyr")[0].childNodes[0]
-                .nodeValue,
-            ssc_board:
-              data.getElementsByTagName("ssc-board")[0].childNodes[0].nodeValue,
-            ssc_result:
-              data.getElementsByTagName("ssc-gpa")[0].childNodes[0].nodeValue,
-          });
-
-          setPage("2");
           setPage1Complete(true);
+          setBangla(false);
+          setPage("2");
+        } else {
+          if (
+            data.getElementsByTagName("ssc-roll")[0].childNodes[0].nodeValue !=
+            e.target.ssc_roll1.value
+          ) {
+            toast.error("Invalid Data");
+          } else {
+            setFetchedData({
+              name: data.getElementsByTagName("name")[0].childNodes[0]
+                .nodeValue,
+              m_name:
+                data.getElementsByTagName("mother")[0].childNodes[0].nodeValue,
+              f_name:
+                data.getElementsByTagName("father")[0].childNodes[0].nodeValue,
+              a_dob:
+                data.getElementsByTagName("dob")[0].childNodes[0].nodeValue,
+
+              hsc_roll: e.target.hsc_roll1.value,
+              hsc_year: e.target.hsc_year.value,
+              hsc_board: e.target.hsc_board.value,
+
+              hsc_result:
+                data.getElementsByTagName("hsc-gpa")[0].childNodes[0].nodeValue,
+              ssc_roll:
+                data.getElementsByTagName("ssc-roll")[0].childNodes[0]
+                  .nodeValue,
+              ssc_year:
+                data.getElementsByTagName("ssc-passyr")[0].childNodes[0]
+                  .nodeValue,
+              ssc_board:
+                data.getElementsByTagName("ssc-board")[0].childNodes[0]
+                  .nodeValue,
+              ssc_result:
+                data.getElementsByTagName("ssc-gpa")[0].childNodes[0].nodeValue,
+            });
+
+            setPage("2");
+            setPage1Complete(true);
+          }
         }
       })
       .catch((err) => {
@@ -838,22 +854,26 @@ const Profile = () => {
                   </label>
                 </div>
                 <div className="relative z-0 w-full mb-6 group">
-                  <input
-                    type="text"
-                    name="ssc_board1"
-                    id="ssc_board1"
-                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                    placeholder=" "
-                    required={bangla ? true : false}
-                    defaultValue={fetchedData.ssc_board}
-                    disabled={fetchedData.ssc_board ? true : false}
-                  />
-                  <label
-                    htmlFor="ssc_board1"
-                    className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75  peer-focus:-translate-y-7"
-                  >
-                    Board
+                  <label htmlFor="ssc_board1" className="sr-only">
+                    Underline select
                   </label>
+                  <select
+                    id="ssc_board1"
+                    disabled={fetchedData.ssc_board ? true : false}
+                    required={bangla ? true : false}
+                    className="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
+                  >
+                    <option defaultValue>
+                      {fetchedData.ssc_board ? fetchedData.ssc_board : "Board"}
+                    </option>
+                    {boards.map((board, index) => {
+                      return (
+                        <option key={index} value={board.code}>
+                          {board.name}
+                        </option>
+                      );
+                    })}
+                  </select>
                 </div>
               </div>
               <div className="md:grid md:grid-cols-2 md:gap-5">
@@ -938,22 +958,54 @@ const Profile = () => {
                   </label>
                 </div>
                 <div className="relative z-0 w-full mb-6 group">
-                  <input
-                    type="text"
-                    name="hsc_board"
-                    id="hsc_board"
-                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                    placeholder=" "
-                    required={bangla ? true : false}
-                    defaultValue={fetchedData.hsc_board}
-                    disabled={fetchedData.hsc_board ? true : false}
-                  />
-                  <label
-                    htmlFor="hsc_board"
-                    className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75  peer-focus:-translate-y-7"
-                  >
-                    Board
+                  <label htmlFor="hsc_board1" className="sr-only">
+                    Hsc Board
                   </label>
+                  <select
+                    id="hsc_board1"
+                    disabled={fetchedData.hsc_board ? true : false}
+                    required={bangla ? true : false}
+                    className="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
+                  >
+                    <option defaultValue>
+                      {fetchedData.hsc_board === "10"
+                        ? "Dhaka"
+                        : fetchedData.hsc_board === "11"
+                        ? "Cumilla"
+                        : fetchedData.hsc_board === "12"
+                        ? "Rajshahi"
+                        : fetchedData.hsc_board === "13"
+                        ? "Jashore"
+                        : fetchedData.hsc_board === "14"
+                        ? "Chattogram"
+                        : fetchedData.hsc_board === "15"
+                        ? "Barishal"
+                        : fetchedData.hsc_board === "16"
+                        ? "Sylhet"
+                        : fetchedData.hsc_board === "17"
+                        ? "Dinajpur"
+                        : fetchedData.hsc_board === "18"
+                        ? "Madrasah"
+                        : fetchedData.hsc_board === "19"
+                        ? "Mymensingh"
+                        : fetchedData.hsc_board === "52"
+                        ? "Vocational"
+                        : fetchedData.hsc_board === "53"
+                        ? "Business Managemen"
+                        : fetchedData.hsc_board === "54"
+                        ? "Diploma In Commerce"
+                        : fetchedData.hsc_board === "60"
+                        ? "GCE or Others"
+                        : "Board"}
+                    </option>
+                    {boards.map((board, index) => {
+                      return (
+                        <option key={index} value={board.code}>
+                          {board.name}
+                        </option>
+                      );
+                    })}
+                  </select>
                 </div>
               </div>
               <div className="md:grid md:grid-cols-2 md:gap-5">

@@ -24,6 +24,7 @@ const ViewProfile = () => {
       })
       .then((response) => {
         setProfile(response.data.message);
+        console.log(response.data.message)
       })
       .catch((err) => console.log(err));
   };
@@ -454,7 +455,7 @@ const ViewProfile = () => {
             </div>
             <div
               className={`relative ${
-                profile.UG_REG === true ? "block" : "hidden"
+                profile.UG_REG ? "block" : "hidden"
               } z-0 w-full mb-6 group`}
             >
               <input
@@ -463,8 +464,8 @@ const ViewProfile = () => {
                 id="ug_reg"
                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
-                defaultValue={profile.UG_INSTITUTION}
-                disabled={profile.UG_INSTITUTION ? true : false}
+                defaultValue={profile.UG_REG}
+                disabled={profile.UG_REG ? true : false}
                 required
               />
               <label
@@ -476,7 +477,7 @@ const ViewProfile = () => {
             </div>
             <div
               className={`relative ${
-                profile.UG_UNI === true ? "block" : "hidden"
+                profile.UG_UNI ? "block" : "hidden"
               } z-0 w-full mb-6 group`}
             >
               <input
@@ -485,8 +486,8 @@ const ViewProfile = () => {
                 id="ug_uni"
                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
-                defaultValue={profile.UG_INSTITUTION}
-                disabled={profile.UG_INSTITUTION ? true : false}
+                defaultValue={profile.UG_UNI}
+                disabled={profile.UG_UNI ? true : false}
                 required
               />
               <label
@@ -522,7 +523,7 @@ const ViewProfile = () => {
             </div>
             <div
               className={`relative ${
-                profile.UG_SUB === true ? "block" : "hidden"
+                profile.UG_SUB ? "block" : "hidden"
               } z-0 w-full mb-6 group`}
             >
               <input
@@ -531,8 +532,8 @@ const ViewProfile = () => {
                 id="ug_sub"
                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
-                defaultValue={profile.UG_SUBJECT}
-                disabled={profile.UG_SUBJECT ? true : false}
+                defaultValue={profile.UG_SUB}
+                disabled={profile.UG_SUB ? true : false}
                 required
               />
               <label
