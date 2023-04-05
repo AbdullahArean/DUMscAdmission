@@ -73,6 +73,8 @@ else if($_SERVER["REQUEST_METHOD"] == "POST"){
     $dept_id_err = $application_id = $ug_institution = $ug_subject = $ug_type = $ug_cgpa = $ug_pass_year = $ug_transcript_path = "";
     $application_id_err = $ug_institution_err = $ug_subject_err = $ug_type_err = $ug_cgpa_err = $ug_pass_year_err = $ug_transcript_path_err = "";
 
+    $du_reg = $ug_uni = $ug_sub = "";
+
     try{
 
         
@@ -290,6 +292,19 @@ else if($_SERVER["REQUEST_METHOD"] == "POST"){
 
             // echo $a_picpath;
 
+            // ------- UPDATES -----
+            if(isset($_POST["du_reg"])){
+                $du_reg = trim($_POST["du_reg"]);
+            }
+
+            if(isset($_POST["ug_uni"])){
+                $ug_uni = trim($_POST["ug_uni"]);
+            }
+
+            if(isset($_POST["ug_sub"])){
+                $ug_sub = trim($_POST["ug_sub"]);
+            }
+
 
             // Request -------------
             if(empty($a_a_name_errname) && empty($f_name_err) && empty($m_name_err) && empty($a_dob_err) && empty($a_phone_err) && empty($a_mail_err) && empty($ssc_roll_err) && empty($ssc_reg_err) && empty($ssc_board_err) && empty($ssc_year_err) && empty($ssc_result_err) && empty($hsc_roll_err) && empty($hsc_reg_err) && empty($hsc_board_err) && empty($hsc_year_err) && empty($hsc_result_err)
@@ -298,8 +313,8 @@ else if($_SERVER["REQUEST_METHOD"] == "POST"){
                 $profile_state = 1;
 
                 
-                $query = "INSERT INTO SYS.Profile (u_id, a_name, f_name, m_name, a_picpath, a_sigpath, a_dob, a_phone, a_mail, ssc_roll, ssc_reg, ssc_board, ssc_year, ssc_result, ssc_transcript_path,  hsc_roll, hsc_reg, hsc_board, hsc_year, hsc_result, hsc_transcript_path, ug_institution, ug_subject, ug_type, ug_cgpa, ug_pass_year, ug_transcript_path, profile_state) 
-                VALUES (".$data->{'id'}.", '".$a_name."', '".$f_name."', '".$m_name."', '".$a_picpath."', '".$a_sigpath."', '".$a_dob."', '".$a_phone."', '" .$a_mail."', '".$ssc_roll."', '".$ssc_reg."', '".$ssc_board."', '".$ssc_year."', '".$ssc_result."', '".$ssc_transcript_path."', '".$hsc_roll."', '".$hsc_reg."', '".$hsc_board."', '".$hsc_year."', '".$hsc_result."', '".$hsc_transcript_path."', '".$ug_institution."', '".$ug_subject."', '".$ug_type."', ".$ug_cgpa.", ".$ug_pass_year.", '".$ug_transcript_path."', ".$profile_state.")";
+                $query = "INSERT INTO SYS.Profile (u_id, a_name, f_name, m_name, a_picpath, a_sigpath, a_dob, a_phone, a_mail, ssc_roll, ssc_reg, ssc_board, ssc_year, ssc_result, ssc_transcript_path,  hsc_roll, hsc_reg, hsc_board, hsc_year, hsc_result, hsc_transcript_path, ug_institution, ug_subject, ug_type, ug_cgpa, ug_pass_year, ug_transcript_path, profile_state, du_reg, ug_uni, ug_sub) 
+                VALUES (".$data->{'id'}.", '".$a_name."', '".$f_name."', '".$m_name."', '".$a_picpath."', '".$a_sigpath."', '".$a_dob."', '".$a_phone."', '" .$a_mail."', '".$ssc_roll."', '".$ssc_reg."', '".$ssc_board."', '".$ssc_year."', '".$ssc_result."', '".$ssc_transcript_path."', '".$hsc_roll."', '".$hsc_reg."', '".$hsc_board."', '".$hsc_year."', '".$hsc_result."', '".$hsc_transcript_path."', '".$ug_institution."', '".$ug_subject."', '".$ug_type."', ".$ug_cgpa.", ".$ug_pass_year.", '".$ug_transcript_path."', ".$profile_state.", '".$du_reg."', '".$ug_uni."', '".$ug_sub."')";
 
                 // echo $query;
                 $s = oci_parse($link, $query);
