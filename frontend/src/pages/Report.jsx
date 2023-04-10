@@ -56,7 +56,7 @@ const Report = () => {
           pauseOnHover={false}
           theme="colored"
         />
-        <div className="mt-24 mx-6 lg:mx-24 grid grid-cols-1 gap-x-24 gap-y-3 lg:grid-cols-4 relative">
+        <div className="mt-24 mb-20 mx-6 lg:mx-24 grid grid-cols-1 gap-x-24 gap-y-3 lg:grid-cols-4 relative">
           <Card title="Accounts opened" bordered={true} key={"Accounts"}>
             <p className="text-5xl text-center">{reports.account_opened ? reports.account_opened : "0"}</p>
           </Card>

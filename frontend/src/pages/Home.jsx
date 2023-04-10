@@ -86,7 +86,7 @@ const Home = () => {
           <button onClick={log}>Log</button>
         </div> */}
         {/* FAQ */}
-        <div className="w-full md:px-0 md:w-4/5 mx-auto mt-14 mb-10 md:mt-24 md:mb-20">
+        <div className="w-full md:px-0 md:w-4/5 mx-auto mt-14 mb-20 md:mt-24 md:mb-20">
           <div className="text-xl mb-4 md:text-3xl text-center dark:text-white">
             Frequently Asked Questions
           </div>

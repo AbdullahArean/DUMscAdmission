@@ -86,7 +86,7 @@ const Submission = () => {
         theme="colored"
       />
 
-      <div className="mt-20 lg:mt-24 mx-2 lg:mx-10 relative">
+      <div className="mt-20 lg:mt-24 mx-2 mb-20 lg:mx-10 relative">
         <Table
           loading={loading}
           dataSource={data}

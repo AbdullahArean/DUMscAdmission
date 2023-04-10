@@ -228,10 +228,10 @@ const Profile = () => {
     e.preventDefault();
 
     if (
-      e.target.a_pic.files[0].size / 1024 <= 100 &&
-      e.target.a_sig.files[0].size / 1024 <= 50 &&
-      e.target.ssc_transcript.files[0].size / 1024 <= 100 &&
-      e.target.hsc_transcript.files[0].size / 1024 <= 100
+      e.target.a_pic.files[0].size / 1024 <= 500 &&
+      e.target.a_sig.files[0].size / 1024 <= 250 &&
+      e.target.ssc_transcript.files[0].size / 1024 <= 500 &&
+      e.target.hsc_transcript.files[0].size / 1024 <= 500
     ) {
       setSecondFormData({
         a_name: e.target.a_name.value,
@@ -255,14 +255,14 @@ const Profile = () => {
         hsc_year: e.target.hsc_year.value,
         hsc_board: e.target.hsc_board1.value,
       });
-    } else if (e.target.a_pic.files[0].size / 1024 > 100) {
-      toast.error("Picture size must be under 100KB");
-    } else if (e.target.a_sig.files[0].size / 1024 > 50) {
-      toast.error("Sign size must be under 50KB");
-    } else if (e.target.ssc_transcript.files[0].size / 1024 > 100) {
-      toast.error("SSC Transcript size must be under 100KB");
-    } else if (e.target.hsc_transcript.files[0].size / 1024 > 100) {
-      toast.error("HSC Transcript size must be under 100KB");
+    } else if (e.target.a_pic.files[0].size / 1024 > 500) {
+      toast.error("Picture size must be under 500KB");
+    } else if (e.target.a_sig.files[0].size / 1024 > 250) {
+      toast.error("Sign size must be under 250KB");
+    } else if (e.target.ssc_transcript.files[0].size / 1024 > 500) {
+      toast.error("SSC Transcript size must be under 500KB");
+    } else if (e.target.hsc_transcript.files[0].size / 1024 > 500) {
+      toast.error("HSC Transcript size must be under 500KB");
     }
     setPage("3");
     setPage2Complete(true);
@@ -270,7 +270,7 @@ const Profile = () => {
 
   const page3Donee = (e) => {
     e.preventDefault();
-    if (e.target.ug_transcript.files[0].size / 1024 <= 100) {
+    if (e.target.ug_transcript.files[0].size / 1024 <= 500) {
       setThirdFormData({
         ug_type: e.target.ug_type.value,
         ug_institution: e.target.ug_institution.value,
@@ -283,7 +283,7 @@ const Profile = () => {
         ug_transcript: e.target.ug_transcript.files[0],
       });
     } else {
-      toast.error("Undergraduate Transcript size must be under 100KB");
+      toast.error("Undergraduate Transcript size must be under 500KB");
     }
   };
 
@@ -484,7 +484,7 @@ const Profile = () => {
         <div className="bg-white min-h-screen h-full dark:bg-gray-900">
           <form
             onSubmit={fetchSscHscData}
-            className="w-4/5 mx-auto mt-14 mb-10 md:mt-24 md:mb-20"
+            className="w-4/5 mx-auto mt-14 mb-20 md:mt-24 md:mb-20"
           >
             <ProfileTab />
             <div className="flex flex-col justify-center">
@@ -804,7 +804,7 @@ const Profile = () => {
                   htmlFor="a_pic"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75  peer-focus:-translate-y-7"
                 >
-                  Picture (Passport Size, less than 100KB)
+                  Picture (Passport Size, less than 500KB)
                 </label>
               </div>
               <div className="relative z-0 w-full mb-6 group">
@@ -820,7 +820,7 @@ const Profile = () => {
                   htmlFor="a_sig"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75  peer-focus:-translate-y-7"
                 >
-                  Signature (less than 50KB)
+                  Signature (less than 250KB)
                 </label>
               </div>
             </div>
@@ -927,7 +927,7 @@ const Profile = () => {
                   htmlFor="ssc_transcript"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75  peer-focus:-translate-y-7"
                 >
-                  Transcript (less than 100KB)
+                  Transcript (less than 500KB)
                 </label>
               </div>
             </div>
@@ -1059,7 +1059,7 @@ const Profile = () => {
                   htmlFor="hsc_transcript"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75  peer-focus:-translate-y-7"
                 >
-                  Transcript (less than 100KB)
+                  Transcript (less than 500KB)
                 </label>
               </div>
             </div>
@@ -1277,7 +1277,7 @@ const Profile = () => {
                   htmlFor="ug_transcript"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75  peer-focus:-translate-y-7"
                 >
-                  Transcript (less than 100KB)
+                  Transcript (less than 500KB)
                 </label>
               </div>
               <div className="flex justify-center mt-16">

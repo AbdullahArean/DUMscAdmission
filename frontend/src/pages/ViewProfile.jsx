@@ -48,7 +48,7 @@ const ViewProfile = () => {
         pauseOnHover={false}
         theme="colored"
       />
-      <div className="my-12 lg:my-24 mx-4 lg:mx-16">
+      <div className="mt-24 mb-20 lg:my-24 mx-4 lg:mx-16">
         <div>
           <div className="text-black dark:text-white mb-6 my-8 text-center text-xl">
             Personal Information
