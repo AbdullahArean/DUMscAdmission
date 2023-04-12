@@ -24,7 +24,7 @@ const ViewProfile = () => {
       })
       .then((response) => {
         setProfile(response.data.message);
-        console.log(response.data.message)
+        console.log(response.data.message);
       })
       .catch((err) => console.log(err));
   };
@@ -58,7 +58,11 @@ const ViewProfile = () => {
               <div
                 className="img-fluid picThumb mx-auto mb-6 lg:mb-0 w-1/3 lg:w-48"
                 style={{
-                  backgroundImage: `url(${profile.A_PICPATH})`,
+                  backgroundImage: `url(${
+                    /\s/g.test(profile.A_PICPATH)
+                      ? profile.A_PICPATH.replace(/\s/g, "%20")
+                      : profile.A_PICPATH
+                  })`,
                   backgroundSize: "cover",
                 }}
               ></div>
@@ -578,6 +582,48 @@ const ViewProfile = () => {
               >
                 CGPA (Out of 4.00)
               </label>
+            </div>
+          </div>
+          <div className="w-full mt-8 mb-4">
+            <div className="text-black dark:text-white mb-6 my-8 ml-5">
+              Uploaded files
+            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-5 gap-y-4 gap-x-20">
+              <a
+                className="hover:underline text-center bg-gray-100 border"
+                href={profile.A_PICPATH}
+                target="blank"
+              >
+                Picture
+              </a>
+              <a
+                className="hover:underline text-center bg-gray-100 border"
+                href={profile.A_SIGPATH}
+                target="blank"
+              >
+                Signature
+              </a>
+              <a
+                className="hover:underline text-center bg-gray-100 border"
+                href={profile.SSC_TRANSCRIPT_PATH}
+                target="blank"
+              >
+                SSC Transcript
+              </a>
+              <a
+                className="hover:underline text-center bg-gray-100 border"
+                href={profile.HSC_TRANSCRIPT_PATH}
+                target="blank"
+              >
+                HSC Transcript
+              </a>
+              <a
+                className="hover:underline text-center bg-gray-100 border"
+                href={profile.UG_TRANSCRIPT_PATH}
+                target="blank"
+              >
+                Undergraduate Transcript
+              </a>
             </div>
           </div>
         </div>
