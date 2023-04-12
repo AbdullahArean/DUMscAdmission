@@ -147,7 +147,7 @@ const ViewProfile = () => {
                     name="dob"
                     id="dob"
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                    placeholder=" "
+                    placeholder="DD/MM/YYYY"
                     required
                     defaultValue={profile.A_DOB}
                     disabled={profile.A_DOB ? true : false}
@@ -165,7 +165,7 @@ const ViewProfile = () => {
                     name="phone"
                     id="phone"
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                    placeholder=" "
+                    placeholder="Ex. 01234567890"
                     required
                     defaultValue={profile.A_PHONE}
                     disabled={profile.A_PHONE ? true : false}
@@ -423,7 +423,7 @@ const ViewProfile = () => {
                 name="ug_type"
                 id="ug_type"
                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                placeholder=" "
+                placeholder="Ex. BSc or Bachelor of Science"
                 required
                 defaultValue={profile.UG_TYPE}
                 disabled={profile.UG_TYPE ? true : false}
@@ -535,7 +535,7 @@ const ViewProfile = () => {
                 name="ug_sub"
                 id="ug_sub"
                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                placeholder=" "
+                placeholder="Ex. Computer Science and Engineering"
                 defaultValue={profile.UG_SUB}
                 disabled={profile.UG_SUB ? true : false}
                 required
@@ -553,7 +553,7 @@ const ViewProfile = () => {
                 name="ug_pass_year"
                 id="ug_pass_year"
                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                placeholder=" "
+                placeholder="Ex. 2022"
                 required
                 defaultValue={profile.UG_PASS_YEAR}
                 disabled={profile.UG_PASS_YEAR ? true : false}
@@ -591,35 +591,55 @@ const ViewProfile = () => {
             <div className="grid grid-cols-1 lg:grid-cols-5 gap-y-4 gap-x-20">
               <a
                 className="hover:underline text-center bg-gray-100 border"
-                href={profile.A_PICPATH}
+                href={
+                  /\s/g.test(profile.A_PICPATH)
+                    ? profile.A_PICPATH.replace(/\s/g, "%20")
+                    : profile.A_PICPATH
+                }
                 target="blank"
               >
                 Picture
               </a>
               <a
                 className="hover:underline text-center bg-gray-100 border"
-                href={profile.A_SIGPATH}
+                href={
+                  /\s/g.test(profile.A_SIGPATH)
+                    ? profile.A_SIGPATH.replace(/\s/g, "%20")
+                    : profile.A_SIGPATH
+                }
                 target="blank"
               >
                 Signature
               </a>
               <a
                 className="hover:underline text-center bg-gray-100 border"
-                href={profile.SSC_TRANSCRIPT_PATH}
+                href={
+                  /\s/g.test(profile.SSC_TRANSCRIPT_PATH)
+                    ? profile.SSC_TRANSCRIPT_PATH.replace(/\s/g, "%20")
+                    : profile.SSC_TRANSCRIPT_PATH
+                }
                 target="blank"
               >
                 SSC Transcript
               </a>
               <a
                 className="hover:underline text-center bg-gray-100 border"
-                href={profile.HSC_TRANSCRIPT_PATH}
+                href={
+                  /\s/g.test(profile.HSC_TRANSCRIPT_PATH)
+                    ? profile.HSC_TRANSCRIPT_PATH.replace(/\s/g, "%20")
+                    : profile.HSC_TRANSCRIPT_PATH
+                }
                 target="blank"
               >
                 HSC Transcript
               </a>
               <a
                 className="hover:underline text-center bg-gray-100 border"
-                href={profile.UG_TRANSCRIPT_PATH}
+                href={
+                  /\s/g.test(profile.UG_TRANSCRIPT_PATH)
+                    ? profile.UG_TRANSCRIPT_PATH.replace(/\s/g, "%20")
+                    : profile.UG_TRANSCRIPT_PATH
+                }
                 target="blank"
               >
                 Undergraduate Transcript

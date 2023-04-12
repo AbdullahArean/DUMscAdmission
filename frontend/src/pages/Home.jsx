@@ -222,6 +222,27 @@ const Home = () => {
                 <br />
               </p>
             </Panel>
+            <Panel
+              header="Warning about the maximum size of the files"
+              key="6"
+            >
+              <p className="pl-6">
+                Please remember that the website determines the size of the
+                files. If your file is larger than the maximum size allowed by
+                the website, please reduce its size by compressing it before
+                attempting to upload it again.
+              </p>
+            </Panel>
+            <Panel
+              header="Is there any age restriction for the applicants?"
+              key="7"
+            >
+              <p className="pl-6">
+                There is no age limit for entry to the MSc program. Only those
+                who have finished their undergraduate program will be eligible
+                to apply for the program, regardless of their age.
+              </p>
+            </Panel>
           </Collapse>
         </div>
       </div>

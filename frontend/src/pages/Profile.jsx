@@ -228,10 +228,10 @@ const Profile = () => {
     e.preventDefault();
 
     if (
-      e.target.a_pic.files[0].size / 1024 <= 500 &&
-      e.target.a_sig.files[0].size / 1024 <= 250 &&
-      e.target.ssc_transcript.files[0].size / 1024 <= 500 &&
-      e.target.hsc_transcript.files[0].size / 1024 <= 500
+      e.target.a_pic.files[0].size / 1024 <= 600 &&
+      e.target.a_sig.files[0].size / 1024 <= 300 &&
+      e.target.ssc_transcript.files[0].size / 1024 <= 600 &&
+      e.target.hsc_transcript.files[0].size / 1024 <= 600
     ) {
       setSecondFormData({
         a_name: e.target.a_name.value,
@@ -255,13 +255,13 @@ const Profile = () => {
         hsc_year: e.target.hsc_year.value,
         hsc_board: e.target.hsc_board1.value,
       });
-    } else if (e.target.a_pic.files[0].size / 1024 > 500) {
+    } else if (e.target.a_pic.files[0].size / 1024 > 600) {
       toast.error("Picture size must be under 500KB");
-    } else if (e.target.a_sig.files[0].size / 1024 > 250) {
+    } else if (e.target.a_sig.files[0].size / 1024 > 300) {
       toast.error("Sign size must be under 250KB");
-    } else if (e.target.ssc_transcript.files[0].size / 1024 > 500) {
+    } else if (e.target.ssc_transcript.files[0].size / 1024 > 600) {
       toast.error("SSC Transcript size must be under 500KB");
-    } else if (e.target.hsc_transcript.files[0].size / 1024 > 500) {
+    } else if (e.target.hsc_transcript.files[0].size / 1024 > 600) {
       toast.error("HSC Transcript size must be under 500KB");
     }
     setPage("3");
@@ -270,7 +270,7 @@ const Profile = () => {
 
   const page3Donee = (e) => {
     e.preventDefault();
-    if (e.target.ug_transcript.files[0].size / 1024 <= 500) {
+    if (e.target.ug_transcript.files[0].size / 1024 <= 600) {
       setThirdFormData({
         ug_type: e.target.ug_type.value,
         ug_institution: e.target.ug_institution.value,
