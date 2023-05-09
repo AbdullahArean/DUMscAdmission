@@ -57,6 +57,34 @@ if($method == "GET"){
             // Admin
             else if($user_data->data->{'role'} == 2) {
                 $query = "SELECT * FROM Application";
+                
+                // Getting Single Id
+                if (isset($_GET['id'])) {
+                    $id = $_GET['id'];
+                    $query .= " WHERE APP_ID = '$id'";
+                }
+                
+                // Filtration
+                else{
+
+                    if (isset($_GET['verified'])) {
+                        $verified = $_GET['verified'];
+
+                        if($verified ==  1) $query .= " WHERE APP_VERIFIED = 1";
+                    }
+
+                    if (isset($_GET['payment'])) {
+                        $payment = $_GET['payment'];
+
+                        if($payment ==  1) {
+                            if (strpos($query, 'WHERE') === false) {
+                                $query .= " WHERE APP_PAYMENT = 1";
+                            } else {
+                                $query .= " AND APP_PAYMENT = 1";
+                            }
+                        }
+                    }
+                }
             }
             $stmt = oci_parse($link, $query);
     
@@ -67,7 +95,7 @@ if($method == "GET"){
                     $application = array();
                     $application["APP_ID"] = $row["APP_ID"];
                     $application["DEPT_ID"] = $row["DEPT_ID"];
-                    $application["DEPT_NAME"] = $row["DEPT_NAME"];
+                    // $application["DEPT_NAME"] = $row["DEPT_NAME"];
                     $application["U_ID"] = $row["U_ID"];
                     $application["APP_VERIFIED"] = $row["APP_VERIFIED"];
                     $application["APP_ADMIT"] = $row["APP_ADMIT"];

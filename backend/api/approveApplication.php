@@ -16,6 +16,10 @@ use Firebase\JWT\Key;
 
 require_once "jwt/JWT.php";
 require_once "jwt/Key.php";
+
+require_once "sendmail.php";
+require_once "sendsms.php";
+
 $JWT = new JWT;
 
 $method = "NONE";
@@ -56,7 +60,7 @@ if ($method == "POST"){
         if($user_data->data->{'role'} == 2){
 
             if(!isset($_POST["app_id"]) || empty(trim($_POST["app_id"]))){
-                $app_id_err = "Please enter a app_id.";
+                $app_id_err = "Please enter an app_id.";
                 $error["app_id"] = $app_id_err;
                 
             } else {
@@ -82,11 +86,28 @@ if ($method == "POST"){
                         trigger_error(htmlentities($e['message']), E_USER_ERROR);
                     }
                     else{
-                        // DONE 
+                        // DONE _ FIND PHONE NUMBER AND NAME OF APPLICANT
+                        $fquery = "SELECT pr.a_phone as phone_number, pr.a_name as name FROM Application ap JOIN Users u ON u.u_id = ap.u_id JOIN Profile pr ON pr.u_id = u.u_id WHERE ap.app_id = ".$app_id;
+                        $fstmt = oci_parse($link, $fquery);
+
+                        $sms_status = "SMS Initiated";
+
+                        if(oci_execute($fstmt)){
+                            $frow = oci_fetch_array($fstmt, OCI_ASSOC);
+                            if($frow){
+
+                                // SMS
+                                $message = "Dear ".$frow["NAME"].", You application of Master's Program for Department of Computer Science and Engineering, University of Dhaka request has been verified and approved. You might visit current status of your application at https://msadmission.cse.du.ac.bd/submission. Thank you.";
+                                $phone_number = $frow["PHONE_NUMBER"];
+                                $sms_status = send_sms($phone_number, $message);
+                            }
+                        }
+                            
                         http_response_code(200);
                         echo json_encode([
                             'status' => 1,
                             'message' => "Successful",
+                            'sms' => $sms_status
                         ]);
                     }
                 }
@@ -103,7 +124,7 @@ if ($method == "POST"){
             http_response_code(401);
             echo json_encode([
                 'status' => 0,
-                'message' => "Only students can apply.",
+                'message' => "Only admins have permission.",
             ]);
         }
     }
