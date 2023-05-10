@@ -113,20 +113,27 @@ const Navbar = ({ active }) => {
             ) : (
               ""
             )}
-            <li>
-              <div
-                onClick={() => {
-                  user.profile === "1" ? nav("/viewprofile") : nav("/profile");
-                }}
-                className={
-                  active === "profile"
-                    ? "block cursor-pointer py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white"
-                    : "block cursor-pointer py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-                }
-              >
-                Profile
-              </div>
-            </li>
+
+            {user.role === "student" ? (
+              <li>
+                <div
+                  onClick={() => {
+                    user.profile === "1"
+                      ? nav("/viewprofile")
+                      : nav("/profile");
+                  }}
+                  className={
+                    active === "profile"
+                      ? "block cursor-pointer py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white"
+                      : "block cursor-pointer py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                  }
+                >
+                  Profile
+                </div>
+              </li>
+            ) : (
+              <></>
+            )}
 
             {isLoggedIn ? (
               <li>
@@ -175,21 +182,26 @@ const Navbar = ({ active }) => {
             </li>
           </ul>
         </div>
-        <button
-          type="button"
-          onClick={() => {
-            user.profile !== "1"
-              ? nav("/profile", { state: "incomplete" })
-              : nav("/application");
-          }}
-          className={`text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm ${
-            mobile.matches ? "px-3 py-1" : "px-5 py-2.5"
-          } text-center mr-14 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 ${
-            location.pathname === "/application" ? "invisible" : "block"
-          }`}
-        >
-          Apply Now
-        </button>
+
+        {user.role === "student" ? (
+          <button
+            type="button"
+            onClick={() => {
+              user.profile !== "1"
+                ? nav("/profile", { state: "incomplete" })
+                : nav("/application");
+            }}
+            className={`text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm ${
+              mobile.matches ? "px-3 py-1" : "px-5 py-2.5"
+            } text-center mr-14 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 ${
+              location.pathname === "/application" ? "invisible" : "block"
+            }`}
+          >
+            Apply Now
+          </button>
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );
