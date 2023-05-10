@@ -275,7 +275,7 @@ const Submission = () => {
             )}
           ></Column>
           <Column
-            title="Status"
+            title="Verification"
             dataIndex="APP_VERIFIED"
             render={(approved, record) => (
               <div>
@@ -337,6 +337,23 @@ const Submission = () => {
               </div>
             )}
           ></Column>
+
+          {user.role === "student" ? (
+            <>
+              <Column
+                title="Admit"
+                dataIndex="APP_PAYMENT"
+                render={(payment, record) => (
+                  <div className="flex gap-1 items-center">
+                    <BiTimeFive />
+                    <p>Not yet publisehd</p>
+                  </div>
+                )}
+              ></Column>
+            </>
+          ) : (
+            <></>
+          )}
 
           {user.role === "admin" ? (
             <Column
