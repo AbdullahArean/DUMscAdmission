@@ -58,10 +58,22 @@ if($method == "GET"){
             else if($user_data->data->{'role'} == 2) {
                 $query = "SELECT * FROM Application";
                 
-                // Getting Single Id
+                // Getting Profile from app_id
                 if (isset($_GET['id'])) {
                     $id = $_GET['id'];
-                    $query .= " WHERE APP_ID = '$id'";
+                    $query = "SELECT p.* FROM Profile p INNER JOIN Application a ON p.u_id = a.u_id WHERE a.app_id = ".$id;
+
+                    $stmt = oci_parse($link, $query);
+
+                    if(oci_execute($stmt)){
+                        $row = oci_fetch_array($stmt, OCI_ASSOC);
+                        if($row){
+                            echo json_encode([
+                                'status' => 1,
+                                'message' => $row,
+                            ]);
+                        }
+                    }
                 }
                 
                 // Filtration
@@ -71,6 +83,7 @@ if($method == "GET"){
                         $verified = $_GET['verified'];
 
                         if($verified ==  1) $query .= " WHERE APP_VERIFIED = 1";
+                        else if($verified ==  0) $query .= " WHERE APP_VERIFIED = 0";
                     }
 
                     if (isset($_GET['payment'])) {
@@ -83,31 +96,40 @@ if($method == "GET"){
                                 $query .= " AND APP_PAYMENT = 1";
                             }
                         }
+                        else if($payment ==  0) {
+                            if (strpos($query, 'WHERE') === false) {
+                                $query .= " WHERE APP_PAYMENT = 0";
+                            } else {
+                                $query .= " AND APP_PAYMENT = 0";
+                            }
+                        }
+                    }
+
+                    $stmt = oci_parse($link, $query);
+    
+                    if(oci_execute($stmt)){
+                        $response = array();
+            
+                        while($row = oci_fetch_array($stmt, OCI_ASSOC)){
+                            $application = array();
+                            $application["APP_ID"] = $row["APP_ID"];
+                            $application["DEPT_ID"] = $row["DEPT_ID"];
+                            // $application["DEPT_NAME"] = $row["DEPT_NAME"];
+                            $application["U_ID"] = $row["U_ID"];
+                            $application["APP_VERIFIED"] = $row["APP_VERIFIED"];
+                            $application["APP_ADMIT"] = $row["APP_ADMIT"];
+                            $application["APP_PAYMENT"] = $row["APP_PAYMENT"];
+                            $application["CREATED_ON"] = $row["CREATED_ON"];
+                            array_push($response, $application);
+                        }
+            
+                        echo json_encode(
+                            $response
+                        );
                     }
                 }
             }
-            $stmt = oci_parse($link, $query);
-    
-            if(oci_execute($stmt)){
-                $response = array();
-    
-                while($row = oci_fetch_array($stmt, OCI_ASSOC)){
-                    $application = array();
-                    $application["APP_ID"] = $row["APP_ID"];
-                    $application["DEPT_ID"] = $row["DEPT_ID"];
-                    // $application["DEPT_NAME"] = $row["DEPT_NAME"];
-                    $application["U_ID"] = $row["U_ID"];
-                    $application["APP_VERIFIED"] = $row["APP_VERIFIED"];
-                    $application["APP_ADMIT"] = $row["APP_ADMIT"];
-                    $application["APP_PAYMENT"] = $row["APP_PAYMENT"];
-                    $application["CREATED_ON"] = $row["CREATED_ON"];
-                    array_push($response, $application);
-                }
-    
-                echo json_encode(
-                    $response
-                );
-            }
+            
 
     }
 
