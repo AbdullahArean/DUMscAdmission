@@ -25,24 +25,6 @@ function saveFile($SERVER, $FILES, $field, $random){
 
     $uploadOk = 1;
     $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-    // Check if image file is a actual image or fake image
-    // $check = getimagesize($FILES["file"]["tmp_name"]);
-    // if($check !== false) {
-    //     $error = "File is an image - " . $check["mime"] . ".";
-    //     $uploadOk = 1;
-    // } else {
-    //     $error = "File is not an image.";
-    //     $uploadOk = 0;
-    // }
-    
-
-        
-        
-    // Allow certain file formats
-    if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" ) {
-        $error = "Sorry, only JPG, JPEG, PNG files are allowed.";
-        $uploadOk = 0;
-    }
     
     // Check if $uploadOk is set to 0 by an error
     if ($uploadOk == 0) {
