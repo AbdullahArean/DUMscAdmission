@@ -369,33 +369,34 @@ const Submission = () => {
                       {detailsLoading ? "Loading" : "Details"}
                     </span>
                   </button>
-                  {record.APP_VERIFIED === "0" ? (
+
+                  <button
+                    onClick={() => openSMSModal(record)}
+                    className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white  focus:ring-4 focus:outline-none focus:ring-cyan-200 "
+                  >
+                    <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white  rounded-md group-hover:bg-opacity-0">
+                      SMS
+                    </span>
+                  </button>
+
+                  {record.APP_VERIFIED == "0" && record.APP_PAYMENT == "1"? (
                     <button
-                      onClick={() => openSMSModal(record)}
+                      onClick={() => verifyApplication(record)}
                       className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white  focus:ring-4 focus:outline-none focus:ring-cyan-200 "
                     >
-                      <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white  rounded-md group-hover:bg-opacity-0">
-                        SMS
+                      <span className="flex  items-center  justify-between gap-2 relative px-5 py-2.5 transition-all ease-in duration-75 bg-white  rounded-md group-hover:bg-opacity-0">
+                        {verificationLoading == true ? (
+                          <>Processing</>
+                        ) : (
+                          <>
+                            Verify <FcOk />
+                          </>
+                        )}
                       </span>
                     </button>
                   ) : (
                     <></>
                   )}
-
-                  <button
-                    onClick={() => verifyApplication(record)}
-                    className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white  focus:ring-4 focus:outline-none focus:ring-cyan-200 "
-                  >
-                    <span className="flex  items-center  justify-between gap-2 relative px-5 py-2.5 transition-all ease-in duration-75 bg-white  rounded-md group-hover:bg-opacity-0">
-                      {verificationLoading == true ? (
-                        <>Processing</>
-                      ) : (
-                        <>
-                          Verify <FcOk />
-                        </>
-                      )}
-                    </span>
-                  </button>
                 </div>
               )}
             ></Column>
