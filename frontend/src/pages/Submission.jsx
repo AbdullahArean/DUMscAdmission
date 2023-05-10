@@ -46,6 +46,12 @@ const Submission = () => {
   // Action
   const [detailsModalOpen, setDetailsModalOpen] = useState(false);
   const [profile, setProfile] = useState({});
+
+  const [smsModalOpen, setSmsModalOpen] = useState(false);
+  const [smsLoading, setSmsLoading] = useState(false);
+  const [selectedApp, setSelectedApp] = useState(null);
+  const [message, setMessage] = useState("");
+
   const [verificationLoading, setVerificationLoading] = useState(false);
 
   // Verify Application
@@ -70,6 +76,7 @@ const Submission = () => {
         })
         .catch((err) => {
           toast.error("Failed to verify");
+          setVerificationLoading(false);
           console.log(err);
         });
     }
@@ -90,6 +97,40 @@ const Submission = () => {
         toast.error("Failed to load data");
         console.log(err);
       });
+  };
+
+  const openSMSModal = (record) => {
+    setSelectedApp(record["APP_ID"]);
+    setSmsModalOpen(true);
+  };
+
+  function handleMessageChange(event) {
+    setMessage(event.target.value);
+  }
+
+  const sendSMS = () => {
+    if (!smsLoading) {
+      setSmsLoading(true);
+      let dataToPost = new FormData();
+      dataToPost.set("app_id", selectedApp);
+      dataToPost.set("message", message);
+      api
+        .post("/sms.php", dataToPost, {
+          headers: {
+            Authorization: localStorage.getItem("jwt"),
+          },
+        })
+        .then((res) => {
+          setSmsLoading(false);
+          toast.success(`SMS status: ${res.data["sms"]}`);
+          setSmsModalOpen(false);
+        })
+        .catch((err) => {
+          setSmsLoading(false);
+          toast.error("SMS Failed");
+          console.log(err);
+        });
+    }
   };
 
   const toPayment = (app_id) => {
@@ -305,6 +346,18 @@ const Submission = () => {
                       Details
                     </span>
                   </button>
+                  {record.APP_VERIFIED === "0" ? (
+                    <button
+                      onClick={() => openSMSModal(record)}
+                      className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white  focus:ring-4 focus:outline-none focus:ring-cyan-200 "
+                    >
+                      <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white  rounded-md group-hover:bg-opacity-0">
+                        SMS
+                      </span>
+                    </button>
+                  ) : (
+                    <></>
+                  )}
 
                   <button
                     onClick={() => verifyApplication(record)}
@@ -935,6 +988,33 @@ const Submission = () => {
                 </div>
               </div>
             </div>
+          </div>
+        </Modal>
+
+        {/* Send SMS Modal */}
+        <Modal
+          title="Send SMS"
+          centered
+          open={smsModalOpen}
+          onOk={() => sendSMS()}
+          onCancel={() => setSmsModalOpen(false)}
+          okText={smsLoading ? "Sending" : "Send"}
+        >
+          <div>
+            <label
+              htmlFor="message"
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >
+              Your message
+            </label>
+            <textarea
+              id="message"
+              rows="4"
+              className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+              placeholder="Write message here..."
+              onChange={handleMessageChange}
+              value={message}
+            ></textarea>
           </div>
         </Modal>
       </div>

@@ -56,7 +56,7 @@ if($method == "GET"){
             }
             // Admin
             else if($user_data->data->{'role'} == 2) {
-                $query = "SELECT * FROM Application";
+                
                 
                 // Getting Profile from app_id
                 if (isset($_GET['id'])) {
@@ -78,6 +78,7 @@ if($method == "GET"){
                 
                 // Filtration
                 else{
+                    $query = "SELECT * FROM Application";
 
                     if (isset($_GET['verified'])) {
                         $verified = $_GET['verified'];
@@ -104,6 +105,8 @@ if($method == "GET"){
                             }
                         }
                     }
+
+                    $query .= " ORDER BY app_id DESC";
 
                     $stmt = oci_parse($link, $query);
     
