@@ -45,6 +45,7 @@ const Submission = () => {
 
   // Action
   const [detailsModalOpen, setDetailsModalOpen] = useState(false);
+  const [detailsLoading, setDetailsLoading] = useState(false);
   const [profile, setProfile] = useState({});
 
   const [smsModalOpen, setSmsModalOpen] = useState(false);
@@ -83,20 +84,25 @@ const Submission = () => {
   };
 
   const showDetails = (record) => {
-    api
-      .get(`/applications.php?id=${record["APP_ID"]}`, {
-        headers: {
-          Authorization: localStorage.getItem("jwt"),
-        },
-      })
-      .then((response) => {
-        setProfile(response.data.message);
-        setDetailsModalOpen(true); // Open Modal
-      })
-      .catch((err) => {
-        toast.error("Failed to load data");
-        console.log(err);
-      });
+    if (!detailsLoading) {
+      setDetailsLoading(true);
+      api
+        .get(`/applications.php?id=${record["APP_ID"]}`, {
+          headers: {
+            Authorization: localStorage.getItem("jwt"),
+          },
+        })
+        .then((response) => {
+          setProfile(response.data.message);
+          setDetailsLoading(false);
+          setDetailsModalOpen(true); // Open Modal
+        })
+        .catch((err) => {
+          setDetailsLoading(false);
+          toast.error("Failed to load data");
+          console.log(err);
+        });
+    }
   };
 
   const openSMSModal = (record) => {
@@ -343,7 +349,7 @@ const Submission = () => {
                     className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white  focus:ring-4 focus:outline-none focus:ring-cyan-200 "
                   >
                     <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white  rounded-md group-hover:bg-opacity-0">
-                      Details
+                      {detailsLoading ? "Loading" : "Details"}
                     </span>
                   </button>
                   {record.APP_VERIFIED === "0" ? (
@@ -419,10 +425,9 @@ const Submission = () => {
                       name="fullname"
                       id="fullname"
                       className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                      placeholder=" "
                       required
-                      defaultValue={profile.A_NAME}
-                      disabled={profile.A_NAME ? true : false}
+                      disabled
+                      value={profile.A_NAME}
                     />
                     <label
                       htmlFor="fullname"
@@ -439,7 +444,7 @@ const Submission = () => {
                       className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                       placeholder=" "
                       required
-                      defaultValue={profile.F_NAME}
+                      value={profile.F_NAME}
                       disabled={profile.F_NAME ? true : false}
                     />
                     <label
@@ -457,7 +462,7 @@ const Submission = () => {
                       className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                       placeholder=" "
                       required
-                      defaultValue={profile.M_NAME}
+                      value={profile.M_NAME}
                       disabled={profile.M_NAME ? true : false}
                     />
                     <label
@@ -475,7 +480,7 @@ const Submission = () => {
                       className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                       placeholder=" "
                       required
-                      defaultValue={profile.A_MAIL}
+                      value={profile.A_MAIL}
                       disabled={profile.A_MAIL ? true : false}
                     />
                     <label
@@ -494,7 +499,7 @@ const Submission = () => {
                         className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder="DD/MM/YYYY"
                         required
-                        defaultValue={profile.A_DOB}
+                        value={profile.A_DOB}
                         disabled={profile.A_DOB ? true : false}
                       />
                       <label
@@ -512,7 +517,7 @@ const Submission = () => {
                         className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder="Ex. 01234567890"
                         required
-                        defaultValue={profile.A_PHONE}
+                        value={profile.A_PHONE}
                         disabled={profile.A_PHONE ? true : false}
                       />
                       <label
@@ -544,7 +549,7 @@ const Submission = () => {
                       className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                       placeholder=" "
                       required
-                      defaultValue={profile.SSC_ROLL}
+                      value={profile.SSC_ROLL}
                       disabled={profile.SSC_ROLL ? true : false}
                     />
                     <label
@@ -562,7 +567,7 @@ const Submission = () => {
                       className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                       placeholder=" "
                       required
-                      defaultValue={
+                      value={
                         profile.HSC_BOARD === "10"
                           ? "Dhaka"
                           : profile.HSC_BOARD === "11"
@@ -612,7 +617,7 @@ const Submission = () => {
                       className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                       placeholder=" "
                       required
-                      defaultValue={profile.SSC_YEAR}
+                      value={profile.SSC_YEAR}
                       disabled={profile.SSC_YEAR ? true : false}
                     />
                     <label
@@ -630,7 +635,7 @@ const Submission = () => {
                       className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                       placeholder=" "
                       required
-                      defaultValue={profile.SSC_RESULT}
+                      value={profile.SSC_RESULT}
                       disabled={profile.SSC_RESULT ? true : false}
                     />
                     <label
@@ -658,7 +663,7 @@ const Submission = () => {
                       className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                       placeholder=" "
                       required
-                      defaultValue={profile.HSC_ROLL}
+                      value={profile.HSC_ROLL}
                       disabled={profile.HSC_ROLL ? true : false}
                     />
                     <label
@@ -676,7 +681,7 @@ const Submission = () => {
                       className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                       placeholder=" "
                       required
-                      defaultValue={
+                      value={
                         profile.HSC_BOARD === "10"
                           ? "Dhaka"
                           : profile.HSC_BOARD === "11"
@@ -726,7 +731,7 @@ const Submission = () => {
                       className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                       placeholder=" "
                       required
-                      defaultValue={profile.HSC_YEAR}
+                      value={profile.HSC_YEAR}
                       disabled={profile.HSC_YEAR ? true : false}
                     />
                     <label
@@ -744,7 +749,7 @@ const Submission = () => {
                       className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                       placeholder=" "
                       required
-                      defaultValue={profile.HSC_RESULT}
+                      value={profile.HSC_RESULT}
                       disabled={profile.HSC_RESULT ? true : false}
                     />
                     <label
@@ -768,7 +773,7 @@ const Submission = () => {
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder="Ex. BSc or Bachelor of Science"
                     required
-                    defaultValue={profile.UG_TYPE}
+                    value={profile.UG_TYPE}
                     disabled={profile.UG_TYPE ? true : false}
                   />
                   <label
@@ -790,7 +795,7 @@ const Submission = () => {
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
                     required
-                    defaultValue={profile.UG_INSTITUTION}
+                    value={profile.UG_INSTITUTION}
                     disabled={profile.UG_INSTITUTION ? true : false}
                   />
                   <label
@@ -811,7 +816,7 @@ const Submission = () => {
                     id="ug_reg"
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
-                    defaultValue={profile.UG_REG}
+                    value={profile.UG_REG}
                     disabled={profile.UG_REG ? true : false}
                     required
                   />
@@ -833,7 +838,7 @@ const Submission = () => {
                     id="ug_uni"
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
-                    defaultValue={profile.UG_UNI}
+                    value={profile.UG_UNI}
                     disabled={profile.UG_UNI ? true : false}
                     required
                   />
@@ -858,7 +863,7 @@ const Submission = () => {
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
                     required
-                    defaultValue={profile.UG_SUBJECT}
+                    value={profile.UG_SUBJECT}
                     disabled={profile.UG_SUBJECT ? true : false}
                   />
                   <label
@@ -879,7 +884,7 @@ const Submission = () => {
                     id="ug_sub"
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder="Ex. Computer Science and Engineering"
-                    defaultValue={profile.UG_SUB}
+                    value={profile.UG_SUB}
                     disabled={profile.UG_SUB ? true : false}
                     required
                   />
@@ -898,7 +903,7 @@ const Submission = () => {
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder="Ex. 2022"
                     required
-                    defaultValue={profile.UG_PASS_YEAR}
+                    value={profile.UG_PASS_YEAR}
                     disabled={profile.UG_PASS_YEAR ? true : false}
                   />
                   <label
@@ -916,7 +921,7 @@ const Submission = () => {
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
                     required
-                    defaultValue={profile.UG_CGPA}
+                    value={profile.UG_CGPA}
                     disabled={profile.UG_CGPA ? true : false}
                   />
                   <label
