@@ -53,6 +53,29 @@ if($method == "GET"){
 
                 $app_id = 4;
                 $query = "SELECT * FROM Application NATURAL JOIN DEPARTMENT WHERE Application.U_ID = ".$data->{'id'}." AND Application.U_ID = ".$data->{'id'}." ";
+
+                $stmt = oci_parse($link, $query);
+    
+                    if(oci_execute($stmt)){
+                        $response = array();
+            
+                        while($row = oci_fetch_array($stmt, OCI_ASSOC)){
+                            $application = array();
+                            $application["APP_ID"] = $row["APP_ID"];
+                            $application["DEPT_ID"] = $row["DEPT_ID"];
+                            // $application["DEPT_NAME"] = $row["DEPT_NAME"];
+                            $application["U_ID"] = $row["U_ID"];
+                            $application["APP_VERIFIED"] = $row["APP_VERIFIED"];
+                            $application["APP_ADMIT"] = $row["APP_ADMIT"];
+                            $application["APP_PAYMENT"] = $row["APP_PAYMENT"];
+                            $application["CREATED_ON"] = $row["CREATED_ON"];
+                            array_push($response, $application);
+                        }
+            
+                        echo json_encode(
+                            $response
+                        );
+                    }
             }
             // Admin
             else if($user_data->data->{'role'} == 2) {
