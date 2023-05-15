@@ -112,9 +112,11 @@ const Apply = () => {
                     setSelectedDept(record.id);
                     setSelectedNotice(record.notice);
                   }}
-                  disabled={today > startDate && today < endDate ? false : true}
+                  disabled={
+                    today > startDate && today <= endDate ? false : true
+                  }
                   className={
-                    today > startDate && today < endDate
+                    today > startDate && today <= endDate
                       ? "hover:underline text-white bg-blue-500 px-4 py-1 rounded-lg font-medium"
                       : "text-white bg-black px-4 py-1 rounded-lg font-medium"
                   }
