@@ -106,7 +106,7 @@ const Apply = () => {
             dataIndex="dept_id"
             render={(applied, record) => (
               <Space size="middle">
-                <button
+                {/* <button
                   onClick={() => {
                     setModalOpen(true);
                     setSelectedDept(record.id);
@@ -120,6 +120,17 @@ const Apply = () => {
                       ? "hover:underline text-white bg-blue-500 px-4 py-1 rounded-lg font-medium"
                       : "text-white bg-black px-4 py-1 rounded-lg font-medium"
                   }
+                >
+                  Apply
+                </button> */}
+
+                <button
+                  onClick={() => {
+                    setModalOpen(true);
+                    setSelectedDept(record.id);
+                    setSelectedNotice(record.notice);
+                  }}
+                  className="hover:underline text-white bg-blue-500 px-4 py-1 rounded-lg font-medium"
                 >
                   Apply
                 </button>
