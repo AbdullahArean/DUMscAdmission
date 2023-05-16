@@ -274,30 +274,7 @@ const Submission = () => {
               <div>{record.CREATED_ON.slice(0, 9)}</div>
             )}
           ></Column>
-          <Column
-            title="Verification"
-            dataIndex="APP_VERIFIED"
-            render={(approved, record) => (
-              <div>
-                {record.APP_VERIFIED === "0" ? (
-                  <div className="flex gap-1 items-center">
-                    <BiTimeFive />
-                    <p>Pending</p>
-                  </div>
-                ) : record.APP_ADMIT === "0" ? (
-                  <div className="flex gap-1 items-center">
-                    <FcOk />
-                    <p>Approved</p>
-                  </div>
-                ) : (
-                  <div className="flex gap-1 items-center">
-                    <FcOk />
-                    <p>Download Admit</p>
-                  </div>
-                )}
-              </div>
-            )}
-          ></Column>
+
           <Column
             title="Payment"
             dataIndex="APP_PAYMENT"
@@ -332,6 +309,30 @@ const Submission = () => {
                         )}
                       </div>
                     </button>
+                  </div>
+                )}
+              </div>
+            )}
+          ></Column>
+          <Column
+            title="Verification"
+            dataIndex="APP_VERIFIED"
+            render={(approved, record) => (
+              <div>
+                {record.APP_VERIFIED === "0" ? (
+                  <div className="flex gap-1 items-center">
+                    <BiTimeFive />
+                    <p>Pending</p>
+                  </div>
+                ) : record.APP_ADMIT === "0" ? (
+                  <div className="flex gap-1 items-center">
+                    <FcOk />
+                    <p>Approved</p>
+                  </div>
+                ) : (
+                  <div className="flex gap-1 items-center">
+                    <FcOk />
+                    <p>Download Admit</p>
                   </div>
                 )}
               </div>
@@ -379,7 +380,7 @@ const Submission = () => {
                     </span>
                   </button>
 
-                  {record.APP_VERIFIED == "0" && record.APP_PAYMENT == "1"? (
+                  {record.APP_VERIFIED == "0" && record.APP_PAYMENT == "1" ? (
                     <button
                       onClick={() => verifyApplication(record)}
                       className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white  focus:ring-4 focus:outline-none focus:ring-cyan-200 "

@@ -59,13 +59,17 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="bg-white relative dark:bg-gray-900 flex flex-col justify-center">
+    <div className="bg-white relative dark:bg-gray-900 flex flex-col justify-center text-gray-800 dark:text-white">
+      <div className="w-full  font-mono  font-semibold underline italic text-4xl text-center md:w-3/5 md:mx-auto mt-8 md:mt-28">
+        The application process is still ongoing.
+      </div>
       <img
         src={header}
-        className="mt-16 md:mt-28 md:w-1/2 mx-auto"
+        className="mt-16 md:mt-8 md:w-1/2 mx-auto"
         alt="CSEDU Banner"
       />
       <Navbar active={"home"} />
+
       <div className="bg-white px-2 min-h-screen h-full dark:bg-gray-900">
         <div className="w-full md:w-3/5 md:mx-auto mt-8 md:mt-4">
           <Carousel />
@@ -222,10 +226,7 @@ const Home = () => {
                 <br />
               </p>
             </Panel>
-            <Panel
-              header="Warning about the maximum size of the files"
-              key="6"
-            >
+            <Panel header="Warning about the maximum size of the files" key="6">
               <p className="pl-6">
                 Please remember that the website determines the size of the
                 files. If your file is larger than the maximum size allowed by
