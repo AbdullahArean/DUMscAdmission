@@ -77,8 +77,6 @@ else if($_SERVER["REQUEST_METHOD"] == "POST"){
 
     try{
 
-        
-
         $allheaders=getallheaders();
         if(isset($allheaders['Authorization'])){
             $jwt=$allheaders['Authorization'];

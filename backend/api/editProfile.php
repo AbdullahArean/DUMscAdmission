@@ -154,46 +154,13 @@ if($method == "POST"){
                 if($edit_access){
 
                     // UPDATE PROFILE TABLE HERE
-                    $query = "UPDATE Profile SET A_PICPATH = '".$a_picpath."', A_SIGPATH = '".$a_sigpath."', ssc_transcript_path = '".$ssc_transcript_path."', hsc_transcript_path = '".$hsc_transcript_path."', ug_transcript_path = '".$ug_transcript_path."' WHERE U_ID = ".$u_id;
+                    $update_query = "UPDATE SYS.Profile SET a_picpath = '".$a_picpath."', a_sigpath = '".$a_sigpath."', ssc_transcript_path = '".$ssc_transcript_path."', hsc_transcript_path = '".$hsc_transcript_path."', ug_transcript_path = '".$ug_transcript_path."' WHERE u_id = ".$u_id."";
                     
-                    $s = oci_parse($link, $query);
-                    $r = oci_execute($s, OCI_NO_AUTO_COMMIT);
-                    if (!$r) {    
-                        $e = oci_error($s);
-                        oci_rollback($link);  // rollback changes
-                        http_response_code(400);
-                            echo json_encode([
-                                'status' => 1,
-                                'message' => "Could not save data.",
-                            ]);
-                        // trigger_error(htmlentities($e['message']), E_USER_ERROR);
-                        exit();
-                    }
-                    else{
-                        // Commit the changes 
-                        $r = oci_commit($link);
-                        if (!$r) {
-                            $e = oci_error($link);
-                            // trigger_error(htmlentities($e['message']), E_USER_ERROR);
-                            http_response_code(400);
-                            echo json_encode([
-                                'status' => 2,
-                                'message' => "Could not save data.",
-                            ]);
-
-                            exit();
-                        }
-                        else{
-                            // DONE 
-                            http_response_code(201);
-                            echo json_encode([
-                                'status' => 1,
-                                'message' => "Successful",
-                            ]);
-
-                            exit();
-                        }
-                    }
+                    $u_st = oci_parse($link, $update_query);
+                    $r = oci_execute($u_st);
+                    
+                    http_response_code(200);
+                    echo json_encode(array("status"=>"Succesful"));
                 }
                 else{
                     http_response_code(401);
