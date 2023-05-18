@@ -69,6 +69,24 @@ if($method == "GET"){
                             $application["APP_ADMIT"] = $row["APP_ADMIT"];
                             $application["APP_PAYMENT"] = $row["APP_PAYMENT"];
                             $application["CREATED_ON"] = $row["CREATED_ON"];
+
+                            // Edit Access
+                            $application["EDIT_ACCESS"] = false;
+
+                            // Get Edit Permission
+                            $edit_perm_query  = "SELECT edit_permission FROM AdditionalProfileInfo WHERE u_id = ".$row["U_ID"];
+                            // echo($edit_perm_query);
+                            $edit_perm_stmt = oci_parse($link, $edit_perm_query);
+                            if(oci_execute($edit_perm_stmt)){
+                                while($edit_perm_row = oci_fetch_array($edit_perm_stmt, OCI_ASSOC)){
+
+                                    if($edit_perm_row["EDIT_PERMISSION"] == "1")
+                                        $application["EDIT_ACCESS"] = true;
+                                    else $application["EDIT_ACCESS"] = false;
+                                }
+                            }
+
+                            
                             array_push($response, $application);
                         }
             
@@ -137,6 +155,7 @@ if($method == "GET"){
                         $response = array();
             
                         while($row = oci_fetch_array($stmt, OCI_ASSOC)){
+
                             $application = array();
                             $application["APP_ID"] = $row["APP_ID"];
                             $application["DEPT_ID"] = $row["DEPT_ID"];
@@ -146,6 +165,23 @@ if($method == "GET"){
                             $application["APP_ADMIT"] = $row["APP_ADMIT"];
                             $application["APP_PAYMENT"] = $row["APP_PAYMENT"];
                             $application["CREATED_ON"] = $row["CREATED_ON"];
+
+                            // Edit Access
+                            $application["EDIT_ACCESS"] = false;
+
+                            // Get Edit Permission
+                            $edit_perm_query  = "SELECT edit_permission FROM AdditionalProfileInfo WHERE u_id = ".$row["U_ID"];
+                            // echo($edit_perm_query);
+                            $edit_perm_stmt = oci_parse($link, $edit_perm_query);
+                            if(oci_execute($edit_perm_stmt)){
+                                while($edit_perm_row = oci_fetch_array($edit_perm_stmt, OCI_ASSOC)){
+
+                                    if($edit_perm_row["EDIT_PERMISSION"] == "1")
+                                        $application["EDIT_ACCESS"] = true;
+                                    else $application["EDIT_ACCESS"] = false;
+                                }
+                            }
+
                             array_push($response, $application);
                         }
             

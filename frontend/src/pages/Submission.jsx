@@ -55,6 +55,7 @@ const Submission = () => {
   const [emailLoading, setEmailLoading] = useState(false);
 
   const [selectedApp, setSelectedApp] = useState(null);
+  const [selectedUID, setSelectedUID] = useState(null);
   const [message, setMessage] = useState("");
 
   const [verificationLoading, setVerificationLoading] = useState(false);
@@ -112,6 +113,124 @@ const Submission = () => {
     }
   };
 
+  // Edit Profile
+
+  const grantEditAccess = (record) => {
+
+    let dataToPost = new FormData();
+      dataToPost.set("app_id", record["APP_ID"]);
+      dataToPost.set("u_id", record["U_ID"]);
+
+      api
+        .post("/editGrant.php", dataToPost, {
+          headers: {
+            Authorization: localStorage.getItem("jwt"),
+          },
+        })
+        .then((res) => {
+          setSmsLoading(false);
+          toast.success(`Access Granted`);
+          fetchData(paymentFilter, verifiedFilter);
+
+        })
+        .catch((err) => {
+          toast.error("Access grant failed");
+          console.log(err);
+        });
+  }
+
+  const revokeEditAccess = (record) => {
+    let dataToPost = new FormData();
+    dataToPost.set("app_id", record["APP_ID"]);
+    dataToPost.set("u_id", record["U_ID"]);
+
+    api
+      .post("/editRevoke.php", dataToPost, {
+        headers: {
+          Authorization: localStorage.getItem("jwt"),
+        },
+      })
+      .then((res) => {
+        setSmsLoading(false);
+        toast.success(`Access Revoked`);
+        fetchData(paymentFilter, verifiedFilter);
+
+      })
+      .catch((err) => {
+        toast.error("Access Revoke failed");
+        console.log(err);
+      });
+  }
+
+  const [editProfileModalOpen, setEditProfileModalOpen] = useState();
+  const [loadingEditProfile, setLoadingEditProfile] = useState(false);
+
+  const [editProfile_pic, setEditProfile_pic] = useState(null);
+  const [editProfile_sig, setEditProfile_sig] = useState(null);
+  const [editProfile_ssc, setEditProfile_ssc] = useState(null);
+  const [editProfile_hsc, setEditProfile_hsc] = useState(null);
+  const [editProfile_bsc, setEditProfile_bsc] = useState(null);
+
+  const openEditProfile = (record) => {
+    setSelectedUID(record["U_ID"]);
+    setEditProfileModalOpen(true);
+  } 
+
+  const editProfile = () => {
+    if(!loadingEditProfile){
+
+      if(editProfile_pic == null){
+        toast.error("Select a picture.")
+      }
+
+      else if(editProfile_sig == null){
+        toast.error("Select signature.")
+      }
+
+      else if(editProfile_ssc == null){
+        toast.error("Select ssc transcript.")
+      }
+
+      else if(editProfile_hsc == null){
+        toast.error("Select hsc transcript.")
+      }
+
+      else if(editProfile_bsc == null){
+        toast.error("Select undergraduate transcript.")
+      }
+      else{
+        // Submit the profile
+        setLoadingEditProfile(true);
+        const dataToPost = new FormData();
+        dataToPost.set("a_pic", editProfile_pic);
+        dataToPost.set("a_sig", editProfile_sig);
+        dataToPost.set("ssc_transcript", editProfile_ssc);
+        dataToPost.set("hsc_transcript", editProfile_hsc);
+        dataToPost.set("ug_transcript", editProfile_bsc);
+        dataToPost.set("u_id", selectedUID);
+        api
+        .post("/ediProfile.php", dataToPost, {
+          headers: {
+            Authorization: localStorage.getItem("jwt"),
+            'Accept': '*/*'
+          },
+        })
+        .then(res => {
+          console.log(res.data);
+          toast.error("Successful");
+          setLoadingEditProfile(false);
+          setEditProfileModalOpen(false);
+        })
+        .catch(err=>{
+          console.log(err);
+          toast.error("Try again.");
+          setLoadingEditProfile(false);
+        })
+      }
+
+    }
+  }
+  // Communication
   const openSMSModal = (record) => {
     setSelectedApp(record["APP_ID"]);
     setSmsModalOpen(true);
@@ -166,7 +285,7 @@ const Submission = () => {
         })
         .then((res) => {
           setEmailLoading(false);
-          toast.success(`SMS sent: ${res.data["email"]}`);
+          toast.success(`Email sent: ${res.data["email"]}`);
           setEmailModalOpen(false);
         })
         .catch((err) => {
@@ -460,12 +579,36 @@ const Submission = () => {
                   </div>
                 )}
               ></Column>
+
+              <Column
+                title="Action"
+                dataIndex="id"
+                render={(payment, record) => (
+                  <>
+                  {record.EDIT_ACCESS ? 
+                <button
+                    onClick={() => openEditProfile(record)}
+                    className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white  focus:ring-4 focus:outline-none focus:ring-cyan-200 "
+                  >
+                    <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white  rounded-md group-hover:bg-opacity-0">
+                      Edit Profile
+                    </span>
+                  </button> 
+                  : 
+                  <></>
+                  }
+                  </>
+                )}
+              ></Column>
             </>
           ) : (
             <></>
           )}
 
+          
+
           {user.role === "admin" ? (
+            <>
             <Column
               title="Action"
               dataIndex="id"
@@ -519,6 +662,34 @@ const Submission = () => {
                 </div>
               )}
             ></Column>
+            <Column
+            title="Edit Access"
+            dataIndex="id"
+            render={(id, record) => (
+              <div>
+                {record.EDIT_ACCESS ? 
+                <button
+                    onClick={() => revokeEditAccess(record)}
+                    className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white  focus:ring-4 focus:outline-none focus:ring-cyan-200 "
+                  >
+                    <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white  rounded-md group-hover:bg-opacity-0">
+                      Revoke
+                    </span>
+                  </button> 
+                  : 
+                  <button
+                    onClick={() => grantEditAccess(record)}
+                    className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white  focus:ring-4 focus:outline-none focus:ring-cyan-200 "
+                  >
+                    <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white  rounded-md group-hover:bg-opacity-0">
+                      Grant
+                    </span>
+                  </button>}
+                </div>
+              )}
+            >
+            </Column>
+            </>
           ) : (
             <></>
           )}
@@ -1187,6 +1358,94 @@ const Submission = () => {
             ></textarea>
           </div>
         </Modal>
+
+        {/* Edit Profile Modal */}
+        <Modal 
+          title="Edit Profile"
+          centered
+          open={editProfileModalOpen}
+          onOk={() => editProfile()}
+          onCancel={() => setEditProfileModalOpen(false)}
+          okText={loadingEditProfile ? "Submitting" : "Submit"}
+          width={1000}
+          className="dark:bg-black"
+        >
+
+          <div>
+            <div className="relative z-0 w-full my-6 group">
+                  <div className="text-md"> <span className="font-bold"> Picture</span> (named: photo.jpg, size: under 1MB)</div>
+                  <input
+                    type="file"
+                    name="a_pic"
+                    id="a_pic"
+                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                    placeholder=" "
+                    required
+                    onChange={(e) => setEditProfile_pic(e.target.files[0])}
+                  />
+                  
+              </div>
+
+              <div className="relative z-0 w-full my-6 group">
+                    <div className="text-md"> <span className="font-bold"> Signature </span> (named: signature.jpg, size: under 1MB)</div>
+                  <input
+                    type="file"
+                    name="a_sig"
+                    id="a_sig"
+                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                    placeholder=" "
+                    required
+                    onChange={(e) => setEditProfile_sig(e.target.files[0])}
+                  />
+                  
+              </div>
+
+              <div className="relative z-0 w-full my-6 group">
+                    <div className="text-md"> <span className="font-bold"> SSC Transcript</span> (named: ssc.jpg/ssc.pdf, size: under 1-2MB)</div>
+                  <input
+                    type="file"
+                    name="ssc_transcript"
+                    id="ssc_transcript"
+                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                    placeholder=" "
+                    required
+                    onChange={(e) => setEditProfile_ssc(e.target.files[0])}
+                  />
+                  
+              </div>
+
+              <div className="relative z-0 w-full my-6 group">
+                    <div className="text-md"> <span className="font-bold"> HSC Transcript</span> (named: hsc.jpg/hsc.pdf, size: under 1-2MB)</div>
+                  <input
+                    type="file"
+                    name="hsc_transcript"
+                    id="hsc_transcript"
+                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                    placeholder=" "
+                    required
+                    onChange={(e) => setEditProfile_hsc(e.target.files[0])}
+                  />
+                  
+              </div>
+
+              <div className="relative z-0 w-full my-6 group">
+                    <div className="text-md"> <span className="font-bold"> Undergraduate Transcript</span> (named: ug.jpg/ug.pdf, size: under 1-3MB)</div>
+                  <input
+                    type="file"
+                    name="ug_transcript"
+                    id="ug_transcript"
+                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                    placeholder=" "
+                    required
+                    onChange={(e) => setEditProfile_bsc(e.target.files[0])}
+                  />
+                  
+              </div>
+          </div>
+
+          
+        </Modal>
+
       </div>
       <Footer />
     </div>
