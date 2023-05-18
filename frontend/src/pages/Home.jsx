@@ -60,7 +60,7 @@ const Home = () => {
 
   return (
     <div className="bg-white relative dark:bg-gray-900 flex flex-col justify-center text-gray-800 dark:text-white">
-      <div className="w-full  font-mono  font-semibold underline italic text-4xl text-center md:w-3/5 md:mx-auto mt-8 md:mt-28">
+      <div className="w-full  font-mono  font-semibold underline italic text-xl md:text-4xl text-center md:w-3/5 md:mx-auto mt-24 md:mt-28">
         The application process is still ongoing.
       </div>
       <img

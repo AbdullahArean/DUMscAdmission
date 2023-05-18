@@ -49,7 +49,11 @@ const Submission = () => {
   const [profile, setProfile] = useState({});
 
   const [smsModalOpen, setSmsModalOpen] = useState(false);
+  const [emailModalOpen, setEmailModalOpen] = useState(false);
+
   const [smsLoading, setSmsLoading] = useState(false);
+  const [emailLoading, setEmailLoading] = useState(false);
+
   const [selectedApp, setSelectedApp] = useState(null);
   const [message, setMessage] = useState("");
 
@@ -85,6 +89,8 @@ const Submission = () => {
 
   const showDetails = (record) => {
     if (!detailsLoading) {
+      setProfile({});
+
       setDetailsLoading(true);
       api
         .get(`/applications.php?id=${record["APP_ID"]}`, {
@@ -93,6 +99,7 @@ const Submission = () => {
           },
         })
         .then((response) => {
+          
           setProfile(response.data.message);
           setDetailsLoading(false);
           setDetailsModalOpen(true); // Open Modal
@@ -109,6 +116,12 @@ const Submission = () => {
     setSelectedApp(record["APP_ID"]);
     setSmsModalOpen(true);
   };
+
+  const openEmailModal = (record) => {
+    setSelectedApp(record["APP_ID"]);
+    setEmailModalOpen(true);
+  };
+
 
   function handleMessageChange(event) {
     setMessage(event.target.value);
@@ -128,12 +141,38 @@ const Submission = () => {
         })
         .then((res) => {
           setSmsLoading(false);
-          toast.success(`SMS status: ${res.data["sms"]}`);
+          toast.success(`SMS sent: ${res.data["sms"]}`);
           setSmsModalOpen(false);
         })
         .catch((err) => {
           setSmsLoading(false);
           toast.error("SMS Failed");
+          console.log(err);
+        });
+    }
+  };
+
+  const sendEmail = () => {
+    if (!emailLoading) {
+      setEmailLoading(true);
+      let dataToPost = new FormData();
+      dataToPost.set("app_id", selectedApp);
+      dataToPost.set("message", message);
+      api
+        .post("/email.php", dataToPost, {
+          headers: {
+            Authorization: localStorage.getItem("jwt"),
+          },
+        })
+        .then((res) => {
+          setEmailLoading(false);
+          toast.success(`SMS sent: ${res.data["email"]}`);
+          setEmailModalOpen(false);
+        })
+        .catch((err) => {
+          setEmailLoading(false);
+          setEmailModalOpen(false);
+          toast.error("Email Failed");
           console.log(err);
         });
     }
@@ -178,6 +217,37 @@ const Submission = () => {
       });
   };
 
+  // BULK SMS / EMAIL
+
+  const [selectedAppIds, setSelectedAppIds] = useState([]);
+  const rowSelection = {
+    onChange: (selectedRowKeys, selectedRows) => {
+      let appIdArr = [];
+      for (let i = 0; i < selectedRows.length; i++) {
+        appIdArr.push(selectedRows[i].APP_ID);
+      }
+      setSelectedAppIds(appIdArr);
+    },
+  };
+
+  const bulkEmail = () => {
+    let csAppId = "";
+    for (let i = 0; i < selectedAppIds.length; i++) {
+      csAppId += `${selectedAppIds[i]},`;
+    }
+    setSelectedApp(csAppId.slice(0,-1));
+    setEmailModalOpen(true);
+  };
+
+  const bulkSMS = () => {
+    let csAppId = "";
+    for (let i = 0; i < selectedAppIds.length; i++) {
+      csAppId += `${selectedAppIds[i]},`;
+    }
+    setSelectedApp(csAppId.slice(0,-1));
+    setSmsModalOpen(true);
+  };
+
   useEffect(() => {
     if (!isLoggedIn) nav("/login", { state: "redirected" });
     else if (user.verified === "0") nav("/verify");
@@ -205,47 +275,82 @@ const Submission = () => {
       <div className="mt-20 lg:mt-24 mx-2 mb-20 lg:mx-10 relative">
         {/* Filter */}
         {user.role === "admin" ? (
-          <div className="flex flex-row justify-end gap-5 mb-10">
-            {/* Payment Status */}
-            <div>
-              <label
-                htmlFor="payment_filter"
-                className="block mb-2 text-sm font-medium text-gray-900 "
-              >
-                Payment status
-              </label>
-              <select
-                id="payment_filter"
-                value={paymentFilter}
-                onChange={handlePaymentFilterChange}
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 px-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              >
-                <option value="">All</option>
-                <option value="0">Unpaid</option>
-                <option value="1">Paid</option>
-              </select>
-            </div>
+          <>
+            <div className="flex flex-row justify-between gap-5 mb-10">
+              {/* Send SMS */}
+              <div className="flex flex-row items-center">
+                {selectedAppIds.length > 0 ? (
+                  <>
+                    <div className="flex flex-row justify-start gap-5 mb-10 mt-8">
+                      <button
+                        onClick={bulkSMS}
+                        className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white  focus:ring-4 focus:outline-none focus:ring-cyan-200 "
+                      >
+                        <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white  rounded-md group-hover:bg-opacity-0">
+                          SMS
+                        </span>
+                      </button>
+                    </div>
 
-            {/* Verification Status */}
-            <div>
-              <label
-                htmlFor="verification_filter"
-                className="block mb-2 text-sm font-medium text-gray-900 "
-              >
-                Verification status
-              </label>
-              <select
-                id="verification_filter"
-                value={verifiedFilter}
-                onChange={handleVerifiedFilterChange}
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 px-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              >
-                <option value="">All</option>
-                <option value="0">Pending</option>
-                <option value="1">Verified</option>
-              </select>
+                    <div className="flex flex-row justify-start gap-5 mb-10 mt-8">
+                      <button
+                        onClick={bulkEmail}
+                        className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white  focus:ring-4 focus:outline-none focus:ring-cyan-200 "
+                      >
+                        <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white  rounded-md group-hover:bg-opacity-0">
+                          Email
+                        </span>
+                      </button>
+                    </div>
+                  </>
+                ) : (
+                  <></>
+                )}
+              </div>
+
+              <div className="flex flex-row gap-5">
+                {/* Payment Status */}
+                <div>
+                  <label
+                    htmlFor="payment_filter"
+                    className="block mb-2 text-sm font-medium text-gray-900 "
+                  >
+                    Payment status
+                  </label>
+                  <select
+                    id="payment_filter"
+                    value={paymentFilter}
+                    onChange={handlePaymentFilterChange}
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 px-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  >
+                    <option value="">All</option>
+                    <option value="0">Unpaid</option>
+                    <option value="1">Paid</option>
+                  </select>
+                </div>
+
+                {/* Verification Status */}
+                <div>
+                  <label
+                    htmlFor="verification_filter"
+                    className="block mb-2 text-sm font-medium text-gray-900 "
+                  >
+                    Verification status
+                  </label>
+                  <select
+                    id="verification_filter"
+                    value={verifiedFilter}
+                    onChange={handleVerifiedFilterChange}
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 px-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  >
+                    <option value="">All</option>
+                    <option value="0">Pending</option>
+                    <option value="1">Verified</option>
+                  </select>
+                </div>
+              </div>
             </div>
-          </div>
+          </>
         ) : (
           <></>
         )}
@@ -254,6 +359,10 @@ const Submission = () => {
           dataSource={data}
           rowKey="APP_ID"
           style={{ overflowX: "auto" }}
+          rowSelection={{
+            type: "checkbox",
+            ...rowSelection,
+          }}
         >
           {user.role === "admin" ? (
             <Column title="User ID" dataIndex="U_ID"></Column>
@@ -380,6 +489,15 @@ const Submission = () => {
                     </span>
                   </button>
 
+                  <button
+                    onClick={() => openEmailModal(record)}
+                    className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white  focus:ring-4 focus:outline-none focus:ring-cyan-200 "
+                  >
+                    <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white  rounded-md group-hover:bg-opacity-0">
+                      Email
+                    </span>
+                  </button>
+
                   {record.APP_VERIFIED == "0" && record.APP_PAYMENT == "1" ? (
                     <button
                       onClick={() => verifyApplication(record)}
@@ -425,7 +543,7 @@ const Submission = () => {
               </div>
               <div className="lg:flex lg:gap-x-10 lg:items-center">
                 <div className="">
-                  <div
+                  {profile.hasOwnProperty('A_PICPATH') ? <div
                     className="img-fluid picThumb mx-auto mb-6 lg:mb-0 w-1/3 lg:w-48"
                     style={{
                       backgroundImage: `url(${
@@ -435,7 +553,8 @@ const Submission = () => {
                       })`,
                       backgroundSize: "cover",
                     }}
-                  ></div>
+                  ></div> : <></>}
+                  
                 </div>
                 <div className="w-full">
                   <div className="relative z-0 w-full mb-6 group">
@@ -1023,6 +1142,33 @@ const Submission = () => {
           onOk={() => sendSMS()}
           onCancel={() => setSmsModalOpen(false)}
           okText={smsLoading ? "Sending" : "Send"}
+        >
+          <div>
+            <label
+              htmlFor="message"
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >
+              Your message
+            </label>
+            <textarea
+              id="message"
+              rows="4"
+              className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+              placeholder="Write message here..."
+              onChange={handleMessageChange}
+              value={message}
+            ></textarea>
+          </div>
+        </Modal>
+
+        {/* Send Email Modal */}
+        <Modal
+          title="Send Email"
+          centered
+          open={emailModalOpen}
+          onOk={() => sendEmail()}
+          onCancel={() => setEmailModalOpen(false)}
+          okText={emailLoading ? "Sending" : "Send"}
         >
           <div>
             <label

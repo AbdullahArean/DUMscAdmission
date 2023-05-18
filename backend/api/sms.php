@@ -60,7 +60,7 @@ if ($method == "POST"){
         if($user_data->data->{'role'} == 2){
 
             if(!isset($_POST["app_id"]) || empty(trim($_POST["app_id"]))){
-                $app_id_err = "Please enter an app_id.";
+                $app_id_err = "Please enter app_id.";
                 $error["app_id"] = $app_id_err;
                 
             } else {
@@ -76,26 +76,35 @@ if ($method == "POST"){
             }
 
             if(empty($message_err) &&empty($app_id_err) ){
-                $fquery = "SELECT pr.a_phone as phone_number, pr.a_name as name FROM Application ap JOIN Users u ON u.u_id = ap.u_id JOIN Profile pr ON pr.u_id = u.u_id WHERE ap.app_id = ".$app_id;
-                $fstmt = oci_parse($link, $fquery);
 
-                $sms_status = "SMS Initiated";
+                $app_id_arr = explode(",", $app_id);
+                // print_r($app_id_arr);
 
-                if(oci_execute($fstmt)){
-                    $frow = oci_fetch_array($fstmt, OCI_ASSOC);
-                    if($frow){
+                foreach ($app_id_arr as $app_id_i) {
 
-                        // SMS
-                        $formattedMessage = "Dear ".$frow["NAME"].", ".$message. ". Master's Admission Program, Department of Computer Science And Engineering, University of Dhaka.";
-                        $phone_number = $frow["PHONE_NUMBER"];
-                        $sms_status = send_sms($phone_number, $formattedMessage);
+                    $fquery = "SELECT pr.a_phone as phone_number, pr.a_name as name FROM Application ap JOIN Users u ON u.u_id = ap.u_id JOIN Profile pr ON pr.u_id = u.u_id WHERE ap.app_id = ".$app_id_i;
+                    $fstmt = oci_parse($link, $fquery);
+
+                    $sms_status_count = 0;
+
+                    if(oci_execute($fstmt)){
+                        $frow = oci_fetch_array($fstmt, OCI_ASSOC);
+                        if($frow){
+
+                            // SMS
+                            $formattedMessage = "Dear ".$frow["NAME"].", ".$message. ". Master's Admission Program, Department of Computer Science And Engineering, University of Dhaka.";
+                            $phone_number = $frow["PHONE_NUMBER"];
+                            $sms_status = send_sms($phone_number, $formattedMessage);
+
+                            if($sms_status == 'Success') $sms_status_count += 1;
+                        }
                     }
                 }
                     
                 http_response_code(200);
                 echo json_encode([
                     'status' => 1,
-                    'sms' => $sms_status
+                    'sms' => $sms_status_count
                 ]);
                 
             }
