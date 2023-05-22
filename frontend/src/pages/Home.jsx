@@ -13,6 +13,7 @@ import Footer from "../components/Footer";
 import header from "../resources/header.png";
 import { AiOutlineDownload } from "react-icons/ai";
 import { Modal } from "antd";
+import 'animate.css';
 
 const Home = () => {
   const { Panel } = Collapse;
@@ -90,8 +91,8 @@ const Home = () => {
       </svg>
       <div className="ml-3 mr-3 flex justify-between items-center w-full text-sm font-medium">
         <div className="w-full mr-2 md:mr-8">
-          <div className="flex justify-between">
-            <div className="text-md md:text-lg">Webinar on 25th May 9.00 PM with Professor Md. Mamun Rashid</div>
+          <div className="flex justify-center">
+            <div className="text-md md:text-lg animate__animated animate__flash animate__repeat-3">Webinar on 25th May 9.00 PM with Professor Md. Mamun Rashid</div>
             {/* <div>{notice.created_by}</div> */}
             {/* <div>{notice.created_on}</div> */}
           </div>
@@ -105,7 +106,50 @@ const Home = () => {
           <p className="text-xs md:text-md cursor-pointer">View Details</p>
         </a>
       </div>
-    </div>
+      </div>
+
+      {/* Deadline Extended */}
+      <div
+      className={`cursor-pointer flex p-4 mb-4 border-t-4 dark:bg-gray-800 text-yellow-800 border-yellow-300 bg-yellow-50 dark:text-yellow-300 dark:border-yellow-800 `}
+      role="alert"
+      onClick={() => {
+
+        let a= document.createElement('a');
+        a.target= '_blank';
+        a.href= 'https://drive.google.com/file/d/1ELlcS_0JOCEWBB28NiSQ1ql0UdwNUXSt/view?usp=sharing';
+        a.click();
+      }}
+    >
+      <svg
+        className="flex-shrink-0 w-5 h-5"
+        fill="currentColor"
+        viewBox="0 0 20 20"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          fillRule="evenodd"
+          d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+          clipRule="evenodd"
+        ></path>
+      </svg>
+      <div className="ml-3 mr-3 flex justify-between items-center w-full text-sm font-medium">
+        <div className="w-full mr-2 md:mr-8">
+          <div className="flex justify-center">
+            <div className="text-md md:text-lg">Application Deadline Extended to June 5th</div>
+            {/* <div>{notice.created_by}</div> */}
+            {/* <div>{notice.created_on}</div> */}
+          </div>
+          
+        </div>
+        <a
+          target="_blank"
+          href="https://drive.google.com/file/d/1ELlcS_0JOCEWBB28NiSQ1ql0UdwNUXSt/view?usp=sharing"
+          className="font-semibold flex flex-col-reverse md:flex-row justify-center md:gap-x-2 items-center hover:underline no-underline"
+        >
+          <p className="text-xs md:text-md cursor-pointer">View Details</p>
+        </a>
+      </div>
+      </div>
 
       {/* Hero Image */}
 
@@ -309,7 +353,7 @@ const Home = () => {
             <p>
             Dear Students,  <br/>
               We (CSE, DU) are going to arrange a webinar on 25th May 9.00 PM in the following link. 
-              Professor Md. Mamun Rashid is inviting you to a scheduled BdREN Zoom meeting.
+              You are invited to a scheduled BdREN Zoom meeting.
               <br/>
               <br/>
               Topic: Webinar on MS Admission 2023  <br/>
