@@ -135,7 +135,7 @@ const Home = () => {
       <div className="ml-3 mr-3 flex justify-between items-center w-full text-sm font-medium">
         <div className="w-full mr-2 md:mr-8">
           <div className="flex justify-center">
-            <div className="text-md md:text-lg">Application Deadline Extended to June 5th</div>
+            <div className="text-md md:text-lg">Application Deadline Extended to June 5th | Admit will be available within June 6th - 8th</div>
             {/* <div>{notice.created_by}</div> */}
             {/* <div>{notice.created_on}</div> */}
           </div>
