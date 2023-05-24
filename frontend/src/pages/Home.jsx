@@ -92,7 +92,7 @@ const Home = () => {
       <div className="ml-3 mr-3 flex justify-between items-center w-full text-sm font-medium">
         <div className="w-full mr-2 md:mr-8">
           <div className="flex justify-center">
-            <div className="text-md md:text-lg animate__animated animate__flash animate__repeat-3">Webinar on 25th May 9.00 PM with Professor Md. Mamun Rashid</div>
+            <div className="text-md md:text-lg animate__animated animate__flash animate__repeat-3">Webinar on 25th May 9.00 PM regarding MSc Admission, CSEDU</div>
             {/* <div>{notice.created_by}</div> */}
             {/* <div>{notice.created_on}</div> */}
           </div>
