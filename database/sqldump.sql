@@ -125,6 +125,23 @@ CREATE TABLE AdditionalProfileInfo (
     admit_card VARCHAR2(200)
 );
 
+CREATE TABLE SeatRoom (
+    room_id GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY NOT NULL,
+    room_center varchar2(200) NOT NULL,
+    room_title varchar2(200) NOT NULL,
+    room_capacity NUMBER(10, 2) NOT NULL,
+    room_filled NUMBER(10, 2) DEFAULT 0
+);
+
+/* Seat Room Data --------------------------------------- */
+INSERT INTO SeatRoom (room_center, room_title, room_capacity, room_filled) VALUES ('CSE', '405', 40, 0);
+INSERT INTO SeatRoom (room_center, room_title, room_capacity, room_filled) VALUES ('CSE', '412', 42, 0);
+INSERT INTO SeatRoom (room_center, room_title, room_capacity, room_filled) VALUES ('CSE', '413', 42, 0);
+INSERT INTO SeatRoom (room_center, room_title, room_capacity, room_filled) VALUES ('CSE', '420', 40, 0);
+/* --------------------------------------- Seat Room Data */
+
+
+
 CREATE TABLE PASSWORD_RESET (
     pr_id NUMBER(10) GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY NOT NULL,
     pr_code NUMBER(10) NOT NULL,

@@ -158,7 +158,13 @@ if($method == "POST"){
                     
                     $u_st = oci_parse($link, $update_query);
                     $r = oci_execute($u_st);
-                    
+
+                    // revoke edit access here
+                    $edit_revoke_query = "UPDATE AdditionalProfileInfo SET EDIT_PERMISSION = 0 WHERE u_id=".$u_id;
+                    $edit_revoke_s = oci_parse($link, $edit_revoke_query);
+                    $edit_revoke_r = oci_execute($edit_revoke_s);
+
+                    // return
                     http_response_code(200);
                     echo json_encode(array("status"=>"Succesful"));
                 }

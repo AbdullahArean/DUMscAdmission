@@ -113,7 +113,7 @@ if ($method == "POST"){
                     if($frow){
 
                         // SMS
-                        $formattedMessage = "Dear ".$frow["NAME"].", "."We could not verify your application due to some missing files/informations. Please check your email for further instructions.". " Master's Admission Program, Department of Computer Science And Engineering, University of Dhaka.";
+                        $formattedMessage = "Dear ".$frow["NAME"].", "."We could not verify your application due to some missing files/informations. Please check your email for further instructions.". " MSC, CSEDU. Helpline: 01782267068, iam.reduan@gmail.com";
                         $phone_number = $frow["PHONE_NUMBER"];
 
                         echo("SENDING SMS TO ".$phone_number);

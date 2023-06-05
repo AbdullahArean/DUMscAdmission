@@ -182,7 +182,7 @@ const Navbar = ({ active }) => {
             </li>
           </ul>
         </div>
-
+        {/* 
         {user.role === "student" ? (
           <button
             type="button"
@@ -202,6 +202,8 @@ const Navbar = ({ active }) => {
         ) : (
           <></>
         )}
+        */}
+        
       </div>
     </div>
   );
