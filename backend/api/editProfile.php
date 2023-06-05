@@ -28,7 +28,7 @@ function getFileUrl($SERVER, $FILES, $field, $random){
     $url = $SERVER['REQUEST_SCHEME'] . "://$SERVER[HTTP_HOST]$SERVER[REQUEST_URI]";
     $url = htmlspecialchars($url, ENT_QUOTES, 'UTF-8');
     $filename = $random.basename($FILES[$field]["name"]);
-    return substr($url, 0, -11)."transcripts/$filename";
+    return substr($url, 0, -15)."transcripts/$filename";
 }
 
 
@@ -152,9 +152,9 @@ if($method == "POST"){
                 }
 
                 if($edit_access){
-
                     // UPDATE PROFILE TABLE HERE
                     $update_query = "UPDATE SYS.Profile SET a_picpath = '".$a_picpath."', a_sigpath = '".$a_sigpath."', ssc_transcript_path = '".$ssc_transcript_path."', hsc_transcript_path = '".$hsc_transcript_path."', ug_transcript_path = '".$ug_transcript_path."' WHERE u_id = ".$u_id."";
+                   
                     
                     $u_st = oci_parse($link, $update_query);
                     $r = oci_execute($u_st);
@@ -163,6 +163,7 @@ if($method == "POST"){
                     $edit_revoke_query = "UPDATE AdditionalProfileInfo SET EDIT_PERMISSION = 0 WHERE u_id=".$u_id;
                     $edit_revoke_s = oci_parse($link, $edit_revoke_query);
                     $edit_revoke_r = oci_execute($edit_revoke_s);
+                    
 
                     // return
                     http_response_code(200);

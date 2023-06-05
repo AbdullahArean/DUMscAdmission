@@ -205,7 +205,7 @@ const Submission = () => {
         dataToPost.set("ug_transcript", editProfile_bsc);
         dataToPost.set("u_id", selectedUID);
         api
-          .post("/ediProfile.php", dataToPost, {
+          .post("/editProfile.php", dataToPost, {
             headers: {
               Authorization: localStorage.getItem("jwt"),
               Accept: "*/*",
@@ -213,9 +213,10 @@ const Submission = () => {
           })
           .then((res) => {
             console.log(res.data);
-            toast.error("Successful");
+            toast.success("Successful");
             setLoadingEditProfile(false);
             setEditProfileModalOpen(false);
+            fetchData(paymentFilter, verifiedFilter);
           })
           .catch((err) => {
             console.log(err);
@@ -292,6 +293,8 @@ const Submission = () => {
   };
 
   const toPayment = (app_id) => {
+    toast.error("Deadline over.")
+    /*
     let dataToPost = new FormData();
     setApiLoading(true);
     dataToPost.set("app_id", app_id);
@@ -309,6 +312,7 @@ const Submission = () => {
         setApiLoading(false);
         console.log(err);
       });
+      */
   };
 
   const fetchData = (paymentFilter, verifiedFilter) => {
