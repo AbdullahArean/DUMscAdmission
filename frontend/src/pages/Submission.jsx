@@ -7,7 +7,7 @@ import api from "../api";
 import "../index.css";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-import { FcOk, FcCancel } from "react-icons/fc";
+import { FcOk, FcCancel, FcDownload } from "react-icons/fc";
 import { BiTimeFive } from "react-icons/bi";
 import "react-toastify/dist/ReactToastify.css";
 import { Space, Table } from "antd";
@@ -57,6 +57,27 @@ const Submission = () => {
   const [selectedApp, setSelectedApp] = useState(null);
   const [selectedUID, setSelectedUID] = useState(null);
   const [message, setMessage] = useState("");
+
+  // download admit
+  const [downloadText, setDownloadText] = useState("Download Admit");
+  const downloadAdmit = () => {
+    setDownloadText("Downloading");
+    api
+        .get("/downloadAdmit.php", {
+          headers: {
+            Authorization: localStorage.getItem("jwt"),
+          },
+        })
+        .then((response) => {
+          setDownloadText("Download Admit");
+          window.open(response.data['admit'], '_blank');
+        })
+        .catch((err) => {
+          setDownloadText("Download Admit");
+          toast.error("Download Failed");
+          console.log(err);
+        });
+  }
 
   const [verificationLoading, setVerificationLoading] = useState(false);
 
@@ -550,15 +571,10 @@ const Submission = () => {
                     <BiTimeFive />
                     <p>Pending</p>
                   </div>
-                ) : record.APP_ADMIT === "0" ? (
+                )  : (
                   <div className="flex gap-1 items-center">
                     <FcOk />
                     <p>Approved</p>
-                  </div>
-                ) : (
-                  <div className="flex gap-1 items-center">
-                    <FcOk />
-                    <p>Download Admit</p>
                   </div>
                 )}
               </div>
@@ -571,10 +587,18 @@ const Submission = () => {
                 title="Admit"
                 dataIndex="APP_PAYMENT"
                 render={(payment, record) => (
-                  <div className="flex gap-1 items-center">
-                    <BiTimeFive />
-                    <p>Not yet publisehd</p>
-                  </div>
+                  <>
+                  { record.APP_VERIFIED == '1' ? 
+                    <div onClick={downloadAdmit} className="flex gap-1 items-center cursor-pointer">
+                      <FcDownload />
+                      <p className="underline font-bold">{downloadText}</p>
+                    </div> 
+                    : <div className="flex gap-1 items-center">
+                        <BiTimeFive />
+                        <p>Waiting for verification</p>
+                      </div>
+                  }
+                  </>
                 )}
               ></Column>
 
