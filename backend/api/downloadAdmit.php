@@ -160,7 +160,11 @@ if ($method == "GET"){
 
                             $name = $profile_row['A_NAME'];
                             $imgUrl = $profile_row['A_PICPATH'];
+                            $imgUrl = str_replace(' ', '%20', $imgUrl);
+
                             $signatureUrl = $profile_row['A_SIGPATH'];
+                            $signatureUrl = str_replace(' ', '%20', $signatureUrl);
+
                             $father = $profile_row['F_NAME'];
                             $mother = $profile_row['M_NAME'];
                             
