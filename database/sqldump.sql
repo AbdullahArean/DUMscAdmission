@@ -119,18 +119,23 @@ CREATE TABLE Profile (
 
 CREATE TABLE AdditionalProfileInfo (
     u_id NUMBER(10) REFERENCES Users(u_id) NOT NULL UNIQUE,
-    edit_permission NUMBER(1) DEFAULT 0,
-    roll VARCHAR2(200),
-    seat VARCHAR2(200),
-    admit_card VARCHAR2(200)
+    edit_permission NUMBER(1) DEFAULT 0
 );
 
+CREATE TABLE ApplicantAdmit (
+    u_id NUMBER(10) REFERENCES Users(u_id) NOT NULL UNIQUE,
+    roll VARCHAR2(200) NOT NULL UNIQUE,
+    seat_room NUMBER(10) REFERENCES SeatRoom(room_id) NOT NULL,
+    admit_card VARCHAR2(200) NOT NULL,
+    created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)
+
 CREATE TABLE SeatRoom (
-    room_id GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY NOT NULL,
+    room_id NUMBER(10) GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY NOT NULL,
     room_center varchar2(200) NOT NULL,
     room_title varchar2(200) NOT NULL,
-    room_capacity NUMBER(10, 2) NOT NULL,
-    room_filled NUMBER(10, 2) DEFAULT 0
+    room_capacity NUMBER(10) NOT NULL,
+    room_filled NUMBER(10) DEFAULT 0
 );
 
 /* Seat Room Data --------------------------------------- */
