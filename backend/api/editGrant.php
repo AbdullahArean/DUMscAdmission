@@ -56,7 +56,7 @@ if ($method == "POST"){
             $data=$user_data->data;
 
 
-        // Only Admin can update 
+        // Only Admin can update
         if($user_data->data->{'role'} == 2){
 
             if(!isset($_POST["app_id"]) || empty(trim($_POST["app_id"]))){
@@ -113,7 +113,7 @@ if ($method == "POST"){
                     if($frow){
 
                         // SMS
-                        $formattedMessage = "Dear ".$frow["NAME"].", "."We could not verify your application due to some missing files/informations. Please check your email for further instructions.". " MSC, CSEDU. Helpline: 01782267068, iam.reduan@gmail.com";
+                        $formattedMessage = "Dear ".$frow["NAME"].", "."We could not verify your application due to some missing files/informations. Please go to the website and My Submission page. You'll find an option for 'Edit Profile' Kindly Upload the files once again.". " MSC, CSEDU. Helpline: 01782267068, iam.reduan@gmail.com";
                         $phone_number = $frow["PHONE_NUMBER"];
 
                         echo("SENDING SMS TO ".$phone_number);
