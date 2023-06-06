@@ -63,7 +63,7 @@ function generateAdmitCard($SERVER, $name, $imgUrl, $signatureUrl, $roll, $userI
     /* QR Code    -------------------------------------------------- */
     $url = $SERVER['REQUEST_SCHEME'] . "://$SERVER[HTTP_HOST]$SERVER[REQUEST_URI]";
     $url = htmlspecialchars($url, ENT_QUOTES, 'UTF-8');
-    $qrcodeContent = substr($url, 0, -22)."/admits/".$fileName; /* !!!!!!!!! NEEDS CALIBRATION !!!!!!!! */
+    $qrcodeContent = substr($url, 0, -22)."/api/admits/".$fileName; /* !!!!!!!!! NEEDS CALIBRATION !!!!!!!! */
 
     // Generate QR code image file
     $qrCodeFile = getcwd().DIRECTORY_SEPARATOR."qr".DIRECTORY_SEPARATOR .uniqid() . '-' . time() . '.png';
