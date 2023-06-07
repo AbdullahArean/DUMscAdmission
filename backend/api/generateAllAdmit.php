@@ -117,12 +117,6 @@ if($method == "GET"){
                         $room_center = $available_room_row["ROOM_CENTER"];
                         $room_title = $available_room_row["ROOM_TITLE"];
                         $room_filled = $available_room_row["ROOM_FILLED"];
-
-                        // increase the room_filled by one
-                        $fill_room_query = "UPDATE DummySeatRoom SET DummySeatRoom.room_filled=".($room_filled + 1)."WHERE DummySeatRoom.room_id =".$room_id;
-                        
-                        $fill_room_stmt = oci_parse($link, $fill_room_query);
-                        oci_execute($fill_room_stmt);
                     }
                 }
 
@@ -154,12 +148,17 @@ if($method == "GET"){
                 }
 
                 
-
+                
                 // 1.1.4 Save record to DummyApplicantAdmit
                 $save_admit_query = "INSERT INTO DummyApplicantAdmit (U_ID, ROLL, SEAT_ROOM, ADMIT_CARD) VALUES (".$u_id.", ".$roll.", ".$room_id.", '".$admitURL."')";
                 $save_admit_stmt = oci_parse($link, $save_admit_query);
                 if(oci_execute($save_admit_stmt)){
-                    // echo "Admit saved";
+                    // increase the room_filled by one
+                    $fill_room_query = "UPDATE DummySeatRoom SET DummySeatRoom.room_filled=".($room_filled + 1)."WHERE DummySeatRoom.room_id =".$room_id;
+                            
+                    $fill_room_stmt = oci_parse($link, $fill_room_query);
+                    oci_execute($fill_room_stmt);
+                    
                 }
                 
                 echo json_encode([
