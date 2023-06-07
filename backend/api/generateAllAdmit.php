@@ -66,9 +66,9 @@ if($method == "GET"){
                 }
             }
            
-            // 1. Check if a record exits in DummyApplicantAdmit
+            // 1. Check if a record exits in ApplicantAdmit
             $admit_exists = 0;
-            $check_admit_query = "SELECT COUNT(*) AS admit_count FROM DummyApplicantAdmit WHERE u_id = " . $u_id;
+            $check_admit_query = "SELECT COUNT(*) AS admit_count FROM ApplicantAdmit WHERE u_id = " . $u_id;
             $check_admit_stmt = oci_parse($link, $check_admit_query);
 
             if (oci_execute($check_admit_stmt)) {
@@ -83,7 +83,7 @@ if($method == "GET"){
 
                 // 1.1.1 Assign a roll
                 $total_admit_count = 0;
-                $total_admit_query = "SELECT COUNT(*) AS admit_count FROM DummyApplicantAdmit";
+                $total_admit_query = "SELECT COUNT(*) AS admit_count FROM ApplicantAdmit";
                 $total_admit_stmt = oci_parse($link, $total_admit_query);
 
                 if (oci_execute($total_admit_stmt)) {
@@ -96,7 +96,7 @@ if($method == "GET"){
                     $roll = 70001;
                 }
                 else{
-                    $latest_roll_query = "SELECT * FROM DummyApplicantAdmit ORDER BY roll DESC FETCH FIRST 1 ROWS ONLY";
+                    $latest_roll_query = "SELECT * FROM ApplicantAdmit ORDER BY roll DESC FETCH FIRST 1 ROWS ONLY";
                     $latest_roll_stmt = oci_parse($link, $latest_roll_query);
                     if(oci_execute($latest_roll_stmt)){
                         $latest_roll_row = oci_fetch_array($latest_roll_stmt, OCI_ASSOC);
@@ -107,7 +107,7 @@ if($method == "GET"){
                 // 1.1.2 Assign a seat
                 $room_id = $room_center = $room_title =  $room_filled = 0;
 
-                $available_room_query = "SELECT * FROM DummySeatRoom WHERE room_capacity > room_filled ORDER BY room_id FETCH FIRST 1 ROWS ONLY";
+                $available_room_query = "SELECT * FROM SeatRoom WHERE room_capacity > room_filled ORDER BY room_id FETCH FIRST 1 ROWS ONLY";
                 $available_room_stmt = oci_parse($link, $available_room_query);
                 if(oci_execute($available_room_stmt)){
                     $available_room_row =  oci_fetch_array($available_room_stmt, OCI_ASSOC);
@@ -149,12 +149,12 @@ if($method == "GET"){
 
                 
                 
-                // 1.1.4 Save record to DummyApplicantAdmit
-                $save_admit_query = "INSERT INTO DummyApplicantAdmit (U_ID, ROLL, SEAT_ROOM, ADMIT_CARD) VALUES (".$u_id.", ".$roll.", ".$room_id.", '".$admitURL."')";
+                // 1.1.4 Save record to ApplicantAdmit
+                $save_admit_query = "INSERT INTO ApplicantAdmit (U_ID, ROLL, SEAT_ROOM, ADMIT_CARD) VALUES (".$u_id.", ".$roll.", ".$room_id.", '".$admitURL."')";
                 $save_admit_stmt = oci_parse($link, $save_admit_query);
                 if(oci_execute($save_admit_stmt)){
                     // increase the room_filled by one
-                    $fill_room_query = "UPDATE DummySeatRoom SET DummySeatRoom.room_filled=".($room_filled + 1)."WHERE DummySeatRoom.room_id =".$room_id;
+                    $fill_room_query = "UPDATE SeatRoom SET SeatRoom.room_filled=".($room_filled + 1)."WHERE SeatRoom.room_id =".$room_id;
                             
                     $fill_room_stmt = oci_parse($link, $fill_room_query);
                     oci_execute($fill_room_stmt);
@@ -171,7 +171,7 @@ if($method == "GET"){
             else{
 
                 // 1.2.1 Get and redirect to admit
-                $get_admit_query = "SELECT * FROM DummyApplicantAdmit WHERE U_ID=".$u_id;
+                $get_admit_query = "SELECT * FROM ApplicantAdmit WHERE U_ID=".$u_id;
                 $get_admit_stmt = oci_parse($link, $get_admit_query);
                 if(oci_execute($get_admit_stmt)){
                     $admit_row = oci_fetch_array($get_admit_stmt, OCI_ASSOC);
