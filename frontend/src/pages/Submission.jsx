@@ -17,6 +17,7 @@ import { useGlobalState } from "../components/UserContext";
 import { useLocation, useNavigate } from "react-router-dom";
 import { CgSpinner } from "react-icons/cg";
 import Footer from "../components/Footer";
+import Confetti from 'react-confetti'
 
 const Submission = () => {
   const nav = useNavigate();
@@ -336,6 +337,7 @@ const Submission = () => {
       */
   };
 
+  const [resultPublished, setResultPublished] = useState(false);
   const fetchData = (paymentFilter, verifiedFilter) => {
     api
       .get(
@@ -348,12 +350,35 @@ const Submission = () => {
       )
       .then((res) => {
         setData(res.data);
+        if(res.data[0].hasOwnProperty('marks')){
+          setResultPublished(true);
+        }
+        else{
+          setResultPublished(false);
+        }
       })
       .catch((err) => {
         console.log(err);
         toast.error("Failed to load data");
       });
   };
+
+  // RESULT
+  const [resultModalOpen, setResultModalOpen] = useState(false);
+  const [selectedRecord, setSelectedRecord] = useState({});
+  const [confettiShower, setConfettiShower] = useState(false);
+  const openResultModal = (record) => {
+    
+    setResultModalOpen(true);
+    setSelectedRecord(record);
+
+    if(parseInt(record['selected']) == 1) setConfettiShower(true);
+  }
+
+  const closeResultModal = () =>{
+    setResultModalOpen(false);
+    setConfettiShower(false);
+  }
 
   // BULK SMS / EMAIL
 
@@ -602,6 +627,23 @@ const Submission = () => {
                 )}
               ></Column>
 
+              {resultPublished ? <div>
+                <Column
+                title="Result"
+                dataIndex="U)ID"
+                render={(payment, record) => (
+                  <button
+                      onClick={() => openResultModal(record)}
+                      className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white  focus:ring-4 focus:outline-none focus:ring-cyan-200 "
+                    >
+                      <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white  rounded-md group-hover:bg-opacity-0">
+                        View
+                      </span>
+                    </button>
+                )}
+              ></Column>
+              </div> : <></>}
+
               <Column
                 title="Action"
                 dataIndex="id"
@@ -713,6 +755,7 @@ const Submission = () => {
           ) : (
             <></>
           )}
+
         </Table>
 
         {/* View Details Modal */}
@@ -1503,6 +1546,50 @@ const Submission = () => {
             instructions.
           </div>
         </Modal>
+
+        {/* Result Modal */}
+        <Modal
+          title=""
+          centered
+          open={resultModalOpen}
+          onOk={closeResultModal}
+          onCancel={closeResultModal}
+          width={1000}
+          className="dark:bg-black"
+        >
+          <div>
+            {parseInt(selectedRecord['selected']) == 1 ? 
+              <div>
+                <div className="flex flex-col justify-center items-center">
+                    <div className="text-2xl md:text-5xl font-black text-green-500">Congratulations</div>
+                    <div className="mt-4 text-xl"><u>You have been selected</u> for the next communcation/skill test.</div>
+                    <div className="mt-4 text-xl font-bold">Total Marks: {selectedRecord['marks']}</div>
+                    <div className="mt-4 text-lg">Please be present on Department of Computer Science & Engineering, University of Dhaka on <u>15th June 1:30 PM</u> with your <i>Admit Card</i>, <i>SSC Transcript</i> (Marksheet), <i>HSC Transcript</i> (Marksheet) & <i>Undergraduate Transcript</i> (Marksheet). [Transcript must contain the marks for respective exams. Certificate without transcript will not be allowed.]</div>
+                    
+                </div>
+              </div>
+              : 
+              <div>
+                <div className="flex flex-col justify-center items-center">
+                    <div className="text-2xl md:text-5xl  font-black">Sorry</div>
+                    <div className="mt-4 text-xl">We deeply appreciate your application but unfortunately <u>you were not selected</u> .</div>
+                    <div className="mt-4 text-xl font-bold">Total Marks: {selectedRecord['marks']}</div>
+                    
+                </div>
+              </div>
+              }
+          
+          </div>
+        </Modal>
+
+        {/* Confetti */}
+        {confettiShower? <> <div className=" fixed top-20 left-0">
+        <Confetti
+            width={window.innerWidth}
+            height={window.innerHeight}
+          />
+        </div></> : <></>}
+        
       </div>
       <Footer />
     </div>
