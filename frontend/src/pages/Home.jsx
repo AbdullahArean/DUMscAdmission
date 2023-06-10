@@ -104,7 +104,7 @@ const Home = () => {
             </div>
           </div>
           
-            <p className="text-xs md:text-md cursor-pointer">Download</p>
+            {/* <p className="text-xs md:text-md cursor-pointer">Download</p> */}
           
         </div>
       </div>
