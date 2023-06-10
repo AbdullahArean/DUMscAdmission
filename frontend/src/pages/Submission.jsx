@@ -17,7 +17,10 @@ import { useGlobalState } from "../components/UserContext";
 import { useLocation, useNavigate } from "react-router-dom";
 import { CgSpinner } from "react-icons/cg";
 import Footer from "../components/Footer";
-import Confetti from 'react-confetti'
+import Confetti from "react-confetti";
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
+import html2pdf from "html2pdf.js";
 
 const Submission = () => {
   const nav = useNavigate();
@@ -59,26 +62,125 @@ const Submission = () => {
   const [selectedUID, setSelectedUID] = useState(null);
   const [message, setMessage] = useState("");
 
+  const [resultDownloadModalOpen, setResultDownloadModalOpen] = useState(false);
+
   // download admit
   const [downloadText, setDownloadText] = useState("Download Admit");
   const downloadAdmit = () => {
     setDownloadText("Downloading");
     api
-        .get("/downloadAdmit.php", {
-          headers: {
-            Authorization: localStorage.getItem("jwt"),
-          },
-        })
-        .then((response) => {
-          setDownloadText("Download Admit");
-          window.open(response.data['admit'], '_blank');
-        })
-        .catch((err) => {
-          setDownloadText("Download Admit");
-          toast.error("Download Failed");
-          console.log(err);
-        });
-  }
+      .get("/downloadAdmit.php", {
+        headers: {
+          Authorization: localStorage.getItem("jwt"),
+        },
+      })
+      .then((response) => {
+        setDownloadText("Download Admit");
+        window.open(response.data["admit"], "_blank");
+      })
+      .catch((err) => {
+        setDownloadText("Download Admit");
+        toast.error("Download Failed");
+        console.log(err);
+      });
+  };
+
+  const convertToXLSX = (jsonData) => {
+    const worksheet = XLSX.utils.json_to_sheet(jsonData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+    const xlsxFile = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
+    return xlsxFile;
+  };
+
+  const downloadXLSX = () => {
+    const xlsxFile = convertToXLSX(data);
+    const file = new Blob([xlsxFile], {
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    });
+    saveAs(file, "result.xlsx");
+  };
+
+  const convertToHTML = (jsonData) => {
+    // Convert the JSON data to HTML format
+    const html = `
+      <html>
+        <head>
+          <title>Result</title>
+          <style>
+          body {
+            font-family: Arial, sans-serif;
+          }
+          table {
+            border-collapse: collapse;
+            width: 100%;
+          }
+          th, td {
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: center;
+          }
+          h1 {
+            text-align: center;
+            margin-bottom: 8px;
+            font-size: 24px;
+          }
+          h2 {
+            text-align: center;
+            margin-bottom: 8px;
+            font-size: 16px;
+          }
+          </style>
+        </head>
+        <body>
+          <h1>MSc Admission Result 2021-22</h1>
+          <h2>Department of Computer Science and Engineering</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>APP_ID
+                </th>
+                <th>U_ID
+                </th>
+                <th>A_NAME
+                </th>
+                <th>marks
+                </th>
+                <th>selected
+                </th>
+                <th>roll
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              ${jsonData
+                .map(
+                  (item) => `
+                <tr>
+                  <td>${item.APP_ID}</td>
+                  <td>${item.U_ID}</td>
+                  <td>${item.A_NAME}</td>
+                  <td>${item.marks}</td>
+                  <td>${item.selected}</td>
+                  <td>${item.roll}</td>
+                </tr>
+              `
+                )
+                .join("")}
+            </tbody>
+          </table>
+        </body>
+      </html>
+    `;
+    return html;
+  };
+
+  const generatePDF = () => {
+    const html = convertToHTML(data);
+
+    // Generate PDF from the HTML template
+    html2pdf().from(html).save("result.pdf");
+  };
 
   const [verificationLoading, setVerificationLoading] = useState(false);
 
@@ -315,7 +417,7 @@ const Submission = () => {
   };
 
   const toPayment = (app_id) => {
-    toast.error("Deadline over.")
+    toast.error("Deadline over.");
     /*
     let dataToPost = new FormData();
     setApiLoading(true);
@@ -351,10 +453,9 @@ const Submission = () => {
       )
       .then((res) => {
         setData(res.data);
-        if(res.data[0].hasOwnProperty('marks')){
+        if (res.data[0].hasOwnProperty("marks")) {
           setResultPublished(true);
-        }
-        else{
+        } else {
           setResultPublished(false);
         }
         setLoading(false);
@@ -371,17 +472,16 @@ const Submission = () => {
   const [selectedRecord, setSelectedRecord] = useState({});
   const [confettiShower, setConfettiShower] = useState(false);
   const openResultModal = (record) => {
-    
     setResultModalOpen(true);
     setSelectedRecord(record);
 
-    if(parseInt(record['selected']) == 1) setConfettiShower(true);
-  }
+    if (parseInt(record["selected"]) == 1) setConfettiShower(true);
+  };
 
-  const closeResultModal = () =>{
+  const closeResultModal = () => {
     setResultModalOpen(false);
     setConfettiShower(false);
-  }
+  };
 
   // BULK SMS / EMAIL
 
@@ -474,6 +574,14 @@ const Submission = () => {
                 )}
               </div>
 
+              <button
+                type="button"
+                onClick={() => setResultDownloadModalOpen(true)}
+                className="lg:h-12 cursor-pointer text-md lg:text-xl bg-blue-500 p-2 text-white rounded-lg hover:scale-105 hover:bg-blue-600 transition-all duration-300"
+              >
+                Download Result
+              </button>
+
               <div className="flex flex-row gap-5">
                 {/* Payment Status */}
                 <div>
@@ -542,10 +650,7 @@ const Submission = () => {
               <div>Computer Science & Engineering</div>
             )}
           ></Column> */}
-          <Column
-            title="Name"
-            dataIndex="A_NAME"
-          ></Column>
+          <Column title="Name" dataIndex="A_NAME"></Column>
           <Column
             title="Applied at"
             dataIndex="CREATED_ON"
@@ -603,7 +708,7 @@ const Submission = () => {
                     <BiTimeFive />
                     <p>Pending</p>
                   </div>
-                )  : (
+                ) : (
                   <div className="flex gap-1 items-center">
                     <FcOk />
                     <p>Approved</p>
@@ -620,36 +725,44 @@ const Submission = () => {
                 dataIndex="APP_PAYMENT"
                 render={(payment, record) => (
                   <>
-                  { record.APP_VERIFIED == '1' ? 
-                    <div onClick={downloadAdmit} className="flex gap-1 items-center cursor-pointer">
-                      <FcDownload />
-                      <p className="underline font-bold">{downloadText}</p>
-                    </div> 
-                    : <div className="flex gap-1 items-center">
+                    {record.APP_VERIFIED == "1" ? (
+                      <div
+                        onClick={downloadAdmit}
+                        className="flex gap-1 items-center cursor-pointer"
+                      >
+                        <FcDownload />
+                        <p className="underline font-bold">{downloadText}</p>
+                      </div>
+                    ) : (
+                      <div className="flex gap-1 items-center">
                         <BiTimeFive />
                         <p>Waiting for verification</p>
                       </div>
-                  }
+                    )}
                   </>
                 )}
               ></Column>
 
-              {resultPublished ? <div>
-                <Column
-                title="Result"
-                dataIndex="U_ID"
-                render={(payment, record) => (
-                  <button
-                      onClick={() => openResultModal(record)}
-                      className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white  focus:ring-4 focus:outline-none focus:ring-cyan-200 "
-                    >
-                      <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white  rounded-md group-hover:bg-opacity-0">
-                        View
-                      </span>
-                    </button>
-                )}
-              ></Column>
-              </div> : <></>}
+              {resultPublished ? (
+                <div>
+                  <Column
+                    title="Result"
+                    dataIndex="U_ID"
+                    render={(payment, record) => (
+                      <button
+                        onClick={() => openResultModal(record)}
+                        className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white  focus:ring-4 focus:outline-none focus:ring-cyan-200 "
+                      >
+                        <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white  rounded-md group-hover:bg-opacity-0">
+                          View
+                        </span>
+                      </button>
+                    )}
+                  ></Column>
+                </div>
+              ) : (
+                <></>
+              )}
 
               <Column
                 title="Action"
@@ -678,34 +791,32 @@ const Submission = () => {
 
           {user.role === "admin" ? (
             <>
-            {resultPublished ? <div>
+              {resultPublished ? (
+                <div>
+                  <Column title="Roll" dataIndex="roll"></Column>
 
-              <Column
-                title="Roll"
-                dataIndex="roll"
-              ></Column>
-                
-              <Column
-                title="Result"
-                dataIndex="selected"
-                render={(id, record) => (
-                  <div>
-                  {parseInt(record.selected) == 1 ? <div className="bg-green-400 px-2 py-1 rounded-xl text-center">
-                  <p classname="text-center">Selected</p>
-                  </div> : <div className="bg-red-400 px-2 py-1 rounded-xl text-center">
-                    
-                    <p classname="text-center">Rejected</p></div>}
-
+                  <Column
+                    title="Result"
+                    dataIndex="selected"
+                    render={(id, record) => (
+                      <div>
+                        {parseInt(record.selected) == 1 ? (
+                          <div className="bg-green-400 px-2 py-1 rounded-xl text-center">
+                            <p className="text-center">Selected</p>
+                          </div>
+                        ) : (
+                          <div className="bg-red-400 px-2 py-1 rounded-xl text-center">
+                            <p className="text-center">Rejected</p>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  ></Column>
+                  <Column title="Mark" dataIndex="marks"></Column>
                 </div>
+              ) : (
+                <></>
               )}
-              ></Column>
-                <Column
-                title="Mark"
-                dataIndex="marks"
-              ></Column>
-              
-              
-              </div> : <></>}
               <Column
                 title="Action"
                 dataIndex="id"
@@ -790,7 +901,6 @@ const Submission = () => {
           ) : (
             <></>
           )}
-
         </Table>
 
         {/* View Details Modal */}
@@ -1593,38 +1703,87 @@ const Submission = () => {
           className="dark:bg-black"
         >
           <div>
-            {parseInt(selectedRecord['selected']) == 1 ? 
+            {parseInt(selectedRecord["selected"]) == 1 ? (
               <div>
                 <div className="flex flex-col justify-center items-center">
-                    <div className="text-2xl md:text-5xl font-black text-green-500">Congratulations!</div>
-                    <div className="mt-4 text-xl"><u>You have been selected</u> for the next communcation/skill test and viva.</div>
-                    <div className="mt-4 text-xl font-bold">Your Score : {selectedRecord['marks']} | Total Marks: 150 </div>
-                    <div className="mt-4 text-lg">Please be present on Department of Computer Science & Engineering, University of Dhaka on <u>15th June 1:30 PM</u> for the <b>communcation/skill test and viva </b> with your <i>Admit Card</i>, <i>SSC Transcript</i> (Marksheet), <i>HSC Transcript</i> (Marksheet) & <i>Undergraduate Transcript</i> (Marksheet). [Transcript must contain the marks for respective exams. Certificate without transcript will not be allowed.]</div>
-                    
+                  <div className="text-2xl md:text-5xl font-black text-green-500">
+                    Congratulations!
+                  </div>
+                  <div className="mt-4 text-xl">
+                    <u>You have been selected</u> for the next
+                    communcation/skill test and viva.
+                  </div>
+                  <div className="mt-4 text-xl font-bold">
+                    Your Score : {selectedRecord["marks"]} | Total Marks: 150{" "}
+                  </div>
+                  <div className="mt-4 text-lg">
+                    Please be present on Department of Computer Science &
+                    Engineering, University of Dhaka on <u>15th June 1:30 PM</u>{" "}
+                    for the <b>communcation/skill test and viva </b> with your{" "}
+                    <i>Admit Card</i>, <i>SSC Transcript</i> (Marksheet),{" "}
+                    <i>HSC Transcript</i> (Marksheet) &{" "}
+                    <i>Undergraduate Transcript</i> (Marksheet). [Transcript
+                    must contain the marks for respective exams. Certificate
+                    without transcript will not be allowed.]
+                  </div>
                 </div>
               </div>
-              : 
+            ) : (
               <div>
                 <div className="flex flex-col justify-center items-center">
-                    <div className="text-2xl md:text-5xl  font-black">Sorry</div>
-                    <div className="mt-4 text-xl">We deeply appreciate your application but unfortunately <u>you were not selected</u> .</div>
-                    <div className="mt-4 text-xl font-bold">Your Score: {selectedRecord['marks']}  | Total Marks: 150  </div>
-                    
+                  <div className="text-2xl md:text-5xl  font-black">Sorry</div>
+                  <div className="mt-4 text-xl">
+                    We deeply appreciate your application but unfortunately{" "}
+                    <u>you were not selected</u> .
+                  </div>
+                  <div className="mt-4 text-xl font-bold">
+                    Your Score: {selectedRecord["marks"]} | Total Marks: 150{" "}
+                  </div>
                 </div>
               </div>
-              }
-          
+            )}
+          </div>
+        </Modal>
+
+        {/* Result Download Modal */}
+        <Modal
+          title="Download Result"
+          centered
+          open={resultDownloadModalOpen}
+          onOk={() => setResultDownloadModalOpen(false)}
+          onCancel={() => setResultDownloadModalOpen(false)}
+          width={1000}
+          className="dark:bg-black"
+        >
+          <div className="grid grid-cols-2 gap-x-6 lg:gap-x-32 mx-4 lg:mx-52 my-6">
+            <button
+              type="button"
+              onClick={downloadXLSX}
+              className="bg-green-800 p-2 text-lg lg:text-xl rounded-lg text-white"
+            >
+              as .xlsx
+            </button>
+            <button
+              type="button"
+              onClick={generatePDF}
+              className="bg-red-800 p-2 text-lg lg:text-xl rounded-lg text-white"
+            >
+              as .pdf
+            </button>
           </div>
         </Modal>
 
         {/* Confetti */}
-        {confettiShower? <> <div className=" fixed top-20 left-0">
-        <Confetti
-            width={window.innerWidth}
-            height={window.innerHeight}
-          />
-        </div></> : <></>}
-        
+        {confettiShower ? (
+          <>
+            {" "}
+            <div className=" fixed top-20 left-0">
+              <Confetti width={window.innerWidth} height={window.innerHeight} />
+            </div>
+          </>
+        ) : (
+          <></>
+        )}
       </div>
       <Footer />
     </div>
