@@ -77,7 +77,8 @@ CREATE TABLE Department (
     dept_notice varchar2(2000),
     Fee NUMBER,
     application_start TIMESTAMP,
-    application_end TIMESTAMP
+    application_end TIMESTAMP,
+    result_published NUMBER(10) DEFAULT 0
 );
 
 CREATE TABLE Profile (
@@ -128,7 +129,14 @@ CREATE TABLE ApplicantAdmit (
     seat_room NUMBER(10) REFERENCES SeatRoom(room_id) NOT NULL,
     admit_card VARCHAR2(200) NOT NULL,
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-)
+);
+
+CREATE TABLE ApplicantResult (
+    app_id NUMBER(10) REFERENCES Application(app_id) NOT NULL UNIQUE,
+    roll VARCHAR2(200) NOT NULL,
+    marks NUMBER(10, 2) NOT NULL,
+    selected NUMBER(10) NOT NULL
+);
 
 CREATE TABLE SeatRoom (
     room_id NUMBER(10) GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY NOT NULL,

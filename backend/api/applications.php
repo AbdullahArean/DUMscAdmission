@@ -72,7 +72,9 @@ if($method == "GET"){
 
                             // PROFILE
                             $application["A_NAME"] = $row["A_NAME"];
-
+                            $application["A_MAIL"] = $row["A_MAIL"];
+                            $application["F_NAME"] = $row["F_NAME"];
+                            $application["M_NAME"] = $row["M_NAME"];
 
 
                             // Edit Access
@@ -205,8 +207,8 @@ if($method == "GET"){
             
                         while($row = oci_fetch_array($stmt, OCI_ASSOC)){
 
-                            // print_r($row);
-                            // exit();
+                            print_r($row);
+                            exit();
 
                             $application = array();
                             $application["APP_ID"] = $row["APP_ID"];
@@ -220,6 +222,9 @@ if($method == "GET"){
 
                             // PROFILE
                             $application["A_NAME"] = $row["A_NAME"];
+                            $application["A_MAIL"] = $row["A_MAIL"];
+                            $application["F_NAME"] = $row["F_NAME"];
+                            $application["M_NAME"] = $row["M_NAME"];
 
                             // Edit Access
                             $application["EDIT_ACCESS"] = false;
