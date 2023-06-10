@@ -207,9 +207,6 @@ if($method == "GET"){
             
                         while($row = oci_fetch_array($stmt, OCI_ASSOC)){
 
-                            print_r($row);
-                            exit();
-
                             $application = array();
                             $application["APP_ID"] = $row["APP_ID"];
                             $application["DEPT_ID"] = $row["DEPT_ID"];
