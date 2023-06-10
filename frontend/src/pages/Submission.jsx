@@ -22,6 +22,8 @@ import Confetti from "react-confetti";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import html2pdf from "html2pdf.js";
+import { SiMicrosoftexcel } from "react-icons/si";
+import { VscFilePdf } from "react-icons/vsc";
 
 const Submission = () => {
   const nav = useNavigate();
@@ -139,18 +141,19 @@ const Submission = () => {
           <table>
             <thead>
               <tr>
-                <th>APP_ID
-                </th>
                 <th>U_ID
                 </th>
-                <th>A_NAME
+                <th>NAME
                 </th>
-                <th>marks
+                <th>Father
                 </th>
-                <th>selected
+                <th>Mother
                 </th>
-                <th>roll
+                <th>Roll
                 </th>
+                <th>Marks
+                </th>
+                <th>Selected</th>
               </tr>
             </thead>
             <tbody>
@@ -158,12 +161,13 @@ const Submission = () => {
                 .map(
                   (item) => `
                 <tr>
-                  <td>${item.APP_ID}</td>
                   <td>${item.U_ID}</td>
                   <td>${item.A_NAME}</td>
+                  <td>${item.F_NAME}</td>
+                  <td>${item.M_NAME}</td>
+                  <td>${item.roll}</td>C
                   <td>${item.marks}</td>
                   <td>${item.selected}</td>
-                  <td>${item.roll}</td>
                 </tr>
               `
                 )
@@ -575,14 +579,6 @@ const Submission = () => {
                 )}
               </div>
 
-              <button
-                type="button"
-                onClick={() => setResultDownloadModalOpen(true)}
-                className="lg:h-12 cursor-pointer text-md lg:text-xl bg-blue-500 p-2 text-white rounded-lg hover:scale-105 hover:bg-blue-600 transition-all duration-300"
-              >
-                Download Result
-              </button>
-
               <div className="flex flex-row gap-5">
                 {/* Payment Status */}
                 <div>
@@ -623,6 +619,14 @@ const Submission = () => {
                     <option value="1">Verified</option>
                   </select>
                 </div>
+
+                <button
+                  type="button"
+                  onClick={() => setResultDownloadModalOpen(true)}
+                  className="lg:h-12 flex gap-x-2 justify-center items-center my-auto lg:mt-6 cursor-pointer text-md  bg-blue-500 px-3 py-1 text-white rounded-lg hover:scale-105 hover:bg-blue-600 transition-all duration-300"
+                >
+                  <FcDownload className="text-white" /> Download Result
+                </button>
               </div>
             </div>
           </div>
@@ -794,7 +798,10 @@ const Submission = () => {
             <div>
               {resultPublished ? (
                 <div>
-                  <Column title="Roll" dataIndex="roll"></Column>
+                  <Column
+                    title="Roll"
+                    dataIndex="roll"
+                  ></Column>
 
                   <Column
                     title="Result"
@@ -1762,23 +1769,22 @@ const Submission = () => {
           open={resultDownloadModalOpen}
           onOk={() => setResultDownloadModalOpen(false)}
           onCancel={() => setResultDownloadModalOpen(false)}
-          width={1000}
           className="dark:bg-black"
         >
-          <div className="grid grid-cols-2 gap-x-6 lg:gap-x-32 mx-4 lg:mx-52 my-6">
+          <div className="flex flex-col justify-between gap-y-4 mx-4 my-6">
             <button
               type="button"
               onClick={downloadXLSX}
-              className="bg-green-800 p-2 text-lg lg:text-xl rounded-lg text-white"
+              className="bg-green-400 flex justify-center items-center gap-x-4 p-2 text-lg lg:text-xl rounded-xl text-white"
             >
-              as .xlsx
+              <SiMicrosoftexcel /> Excel
             </button>
             <button
               type="button"
               onClick={generatePDF}
-              className="bg-red-800 p-2 text-lg lg:text-xl rounded-lg text-white"
+              className="bg-blue-500 flex justify-center items-center gap-x-4 p-2 text-lg lg:text-xl rounded-xl text-white"
             >
-              as .pdf
+              <VscFilePdf /> PDF
             </button>
           </div>
         </Modal>
