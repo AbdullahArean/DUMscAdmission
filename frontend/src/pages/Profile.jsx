@@ -488,15 +488,14 @@ const Profile = () => {
           >
             <ProfileTab />
             <div className="flex flex-col justify-center">
-            <button
-              onClick={() => advance()}
-              className="dark:text-gray-400 mt-6 border-2 lg:w-2/5 mx-auto rounded-md px-4 py-2 border-blue-500 lg:mt-10 text-md lg:text-xl hover:underline text-gray-800"
-            >
-              English version / Foreign Student / Equivalent Diploma
-            </button>
+              <button
+                onClick={() => advance()}
+                className="dark:text-gray-400 mt-6 border-2 lg:w-2/5 mx-auto rounded-md px-4 py-2 border-blue-500 lg:mt-10 text-md lg:text-xl hover:underline text-gray-800"
+              >
+                English version / Foreign Student / Equivalent Diploma
+              </button>
               <div className="md:flex md:justify-evenly">
-              
-              <div className="w-full mb-16 md:mb-0 md:mx-10">
+                <div className="w-full mb-16 md:mb-0 md:mx-10">
                   <div className="text-black text-center md:text-start text-xl dark:text-white mb-8 my-8 md:ml-5">
                     SSC
                   </div>

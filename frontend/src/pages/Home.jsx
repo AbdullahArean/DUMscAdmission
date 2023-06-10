@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-target-blank */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
@@ -102,12 +103,11 @@ const Home = () => {
               {/* <div>{notice.created_on}</div> */}
             </div>
           </div>
-          
-            <p className="text-xs md:text-md cursor-pointer">Get Result</p>
-          
+
+          <p className="text-xs md:text-md cursor-pointer">Get Result</p>
         </div>
       </div>
-      
+
       {/* Webinar */}
       {isLoggedIn ? (
         <>
@@ -152,8 +152,6 @@ const Home = () => {
       ) : (
         <></>
       )}
-
-      
 
       {/* Hero Image */}
 

@@ -93,7 +93,10 @@ const Admin = () => {
           <hr className="w-5/6 border border-black"></hr>
         </div>
         <div className="mx-6 lg:mx-24 flex justify-center">
-          <buttton type="button" className=" cursor-pointer text-xl lg:text-3xl bg-blue-500 p-4 text-white rounded-lg hover:scale-105 hover:bg-blue-600 transition-all duration-300">
+          <buttton
+            type="button"
+            className=" cursor-pointer text-xl lg:text-3xl bg-blue-500 p-4 text-white rounded-lg hover:scale-105 hover:bg-blue-600 transition-all duration-300"
+          >
             Unpublish result
           </buttton>
         </div>

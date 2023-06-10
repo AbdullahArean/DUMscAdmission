@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/jsx-no-target-blank */
 /* eslint-disable no-unused-vars */
@@ -541,12 +542,12 @@ const Submission = () => {
       <div className="mt-20 lg:mt-24 mx-2 mb-20 lg:mx-10 relative">
         {/* Filter */}
         {user.role === "admin" ? (
-          <>
+          <div>
             <div className="flex flex-row justify-between gap-5 mb-10">
               {/* Send SMS */}
               <div className="flex flex-row items-center">
                 {selectedAppIds.length > 0 ? (
-                  <>
+                  <div>
                     <div className="flex flex-row justify-start gap-5 mb-10 mt-8">
                       <button
                         onClick={bulkSMS}
@@ -568,9 +569,9 @@ const Submission = () => {
                         </span>
                       </button>
                     </div>
-                  </>
+                  </div>
                 ) : (
-                  <></>
+                  <div></div>
                 )}
               </div>
 
@@ -624,9 +625,9 @@ const Submission = () => {
                 </div>
               </div>
             </div>
-          </>
+          </div>
         ) : (
-          <></>
+          <div></div>
         )}
         <Table
           loading={loading}
@@ -719,12 +720,12 @@ const Submission = () => {
           ></Column>
 
           {user.role === "student" ? (
-            <>
+            <div>
               <Column
                 title="Admit"
                 dataIndex="APP_PAYMENT"
                 render={(payment, record) => (
-                  <>
+                  <div>
                     {record.APP_VERIFIED == "1" ? (
                       <div
                         onClick={downloadAdmit}
@@ -739,7 +740,7 @@ const Submission = () => {
                         <p>Waiting for verification</p>
                       </div>
                     )}
-                  </>
+                  </div>
                 )}
               ></Column>
 
@@ -761,14 +762,14 @@ const Submission = () => {
                   ></Column>
                 </div>
               ) : (
-                <></>
+                <div></div>
               )}
 
               <Column
                 title="Action"
                 dataIndex="id"
                 render={(payment, record) => (
-                  <>
+                  <div>
                     {record.EDIT_ACCESS ? (
                       <button
                         onClick={() => openEditProfile(record)}
@@ -779,18 +780,18 @@ const Submission = () => {
                         </span>
                       </button>
                     ) : (
-                      <></>
+                      <div></div>
                     )}
-                  </>
+                  </div>
                 )}
               ></Column>
-            </>
+            </div>
           ) : (
-            <></>
+            <div></div>
           )}
 
           {user.role === "admin" ? (
-            <>
+            <div>
               {resultPublished ? (
                 <div>
                   <Column title="Roll" dataIndex="roll"></Column>
@@ -798,6 +799,15 @@ const Submission = () => {
                   <Column
                     title="Result"
                     dataIndex="selected"
+                    filters={[
+                      { text: "Selected", value: 1 },
+                      { text: "Rejected", value: 0 },
+                    ]}
+                    onFilter={(value, record) =>
+                      record.selected && record.roll != 0
+                        ? record.selected.indexOf(value) === 0
+                        : ""
+                    }
                     render={(id, record) => (
                       <div>
                         {parseInt(record.selected) == 1 ? (
@@ -815,7 +825,7 @@ const Submission = () => {
                   <Column title="Mark" dataIndex="marks"></Column>
                 </div>
               ) : (
-                <></>
+                <div></div>
               )}
               <Column
                 title="Action"
@@ -856,16 +866,16 @@ const Submission = () => {
                       >
                         <span className="flex  items-center  justify-between gap-2 relative px-5 py-2.5 transition-all ease-in duration-75 bg-white  rounded-md group-hover:bg-opacity-0">
                           {verificationLoading == true ? (
-                            <>Processing</>
+                            <div>Processing</div>
                           ) : (
-                            <>
+                            <div>
                               Verify <FcOk />
-                            </>
+                            </div>
                           )}
                         </span>
                       </button>
                     ) : (
-                      <></>
+                      <div></div>
                     )}
                   </div>
                 )}
@@ -897,9 +907,9 @@ const Submission = () => {
                   </div>
                 )}
               ></Column>
-            </>
+            </div>
           ) : (
-            <></>
+            <div></div>
           )}
         </Table>
 
@@ -932,7 +942,7 @@ const Submission = () => {
                       })`,
                       backgroundSize: "cover",
                     }}
-                  ></div> : <></>}
+                  ></div> : <div></div>}
                   
                 </div> */}
                 <div className="w-full">
@@ -1775,14 +1785,14 @@ const Submission = () => {
 
         {/* Confetti */}
         {confettiShower ? (
-          <>
+          <div>
             {" "}
             <div className=" fixed top-20 left-0">
               <Confetti width={window.innerWidth} height={window.innerHeight} />
             </div>
-          </>
+          </div>
         ) : (
-          <></>
+          <div></div>
         )}
       </div>
       <Footer />
