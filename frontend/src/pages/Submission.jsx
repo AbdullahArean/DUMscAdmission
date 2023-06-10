@@ -1596,10 +1596,10 @@ const Submission = () => {
             {parseInt(selectedRecord['selected']) == 1 ? 
               <div>
                 <div className="flex flex-col justify-center items-center">
-                    <div className="text-2xl md:text-5xl font-black text-green-500">Congratulations</div>
-                    <div className="mt-4 text-xl"><u>You have been selected</u> for the next communcation/skill test.</div>
-                    <div className="mt-4 text-xl font-bold">Total Marks: {selectedRecord['marks']}</div>
-                    <div className="mt-4 text-lg">Please be present on Department of Computer Science & Engineering, University of Dhaka on <u>15th June 1:30 PM</u> with your <i>Admit Card</i>, <i>SSC Transcript</i> (Marksheet), <i>HSC Transcript</i> (Marksheet) & <i>Undergraduate Transcript</i> (Marksheet). [Transcript must contain the marks for respective exams. Certificate without transcript will not be allowed.]</div>
+                    <div className="text-2xl md:text-5xl font-black text-green-500">Congratulations!</div>
+                    <div className="mt-4 text-xl"><u>You have been selected</u> for the next communcation/skill test and viva.</div>
+                    <div className="mt-4 text-xl font-bold">Your Score : {selectedRecord['marks']} | Total Marks: 150 </div>
+                    <div className="mt-4 text-lg">Please be present on Department of Computer Science & Engineering, University of Dhaka on <u>15th June 1:30 PM</u> for the <b>communcation/skill test and viva </b> with your <i>Admit Card</i>, <i>SSC Transcript</i> (Marksheet), <i>HSC Transcript</i> (Marksheet) & <i>Undergraduate Transcript</i> (Marksheet). [Transcript must contain the marks for respective exams. Certificate without transcript will not be allowed.]</div>
                     
                 </div>
               </div>
@@ -1608,7 +1608,7 @@ const Submission = () => {
                 <div className="flex flex-col justify-center items-center">
                     <div className="text-2xl md:text-5xl  font-black">Sorry</div>
                     <div className="mt-4 text-xl">We deeply appreciate your application but unfortunately <u>you were not selected</u> .</div>
-                    <div className="mt-4 text-xl font-bold">Total Marks: {selectedRecord['marks']} </div>
+                    <div className="mt-4 text-xl font-bold">Your Score: {selectedRecord['marks']}  | Total Marks: 150  </div>
                     
                 </div>
               </div>
