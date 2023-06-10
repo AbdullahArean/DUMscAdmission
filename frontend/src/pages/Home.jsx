@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-target-blank */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
@@ -95,8 +96,8 @@ const Home = () => {
         <div className="ml-3 mr-3 flex justify-between items-center w-full text-sm font-medium">
           <div className="w-full mr-2 md:mr-8">
             <div className="flex justify-center">
-              <div className="text-md md:text-lg">
-                Admit Card Published
+              <div className="text-md md:text-lg animate__animated animate__flash animate__repeat-3">
+                Result will be published today around 7 pm
               </div>
               {/* <div>{notice.created_by}</div> */}
               {/* <div>{notice.created_on}</div> */}
@@ -130,7 +131,7 @@ const Home = () => {
             <div className="ml-3 mr-3 flex justify-between items-center w-full text-sm font-medium">
               <div className="w-full mr-2 md:mr-8">
                 <div className="flex justify-center">
-                  <div className="text-md md:text-lg animate__animated animate__flash animate__repeat-3">
+                  <div className="text-md md:text-lg">
                     Previous Questions of CSEDU MSc Admission Program
                   </div>
                   {/* <div>{notice.created_by}</div> */}
