@@ -339,6 +339,7 @@ const Submission = () => {
 
   const [resultPublished, setResultPublished] = useState(false);
   const fetchData = (paymentFilter, verifiedFilter) => {
+    setLoading(true);
     api
       .get(
         `/applications.php?payment=${paymentFilter}&verified=${verifiedFilter}`,
@@ -356,10 +357,12 @@ const Submission = () => {
         else{
           setResultPublished(false);
         }
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
         toast.error("Failed to load data");
+        setLoading(false);
       });
   };
 
@@ -532,12 +535,16 @@ const Submission = () => {
           ) : (
             ""
           )}
-          <Column
+          {/* <Column
             title="Department"
             dataIndex="DEPT_NAME"
             render={(approved, record) => (
               <div>Computer Science & Engineering</div>
             )}
+          ></Column> */}
+          <Column
+            title="Name"
+            dataIndex="A_NAME"
           ></Column>
           <Column
             title="Applied at"
@@ -630,7 +637,7 @@ const Submission = () => {
               {resultPublished ? <div>
                 <Column
                 title="Result"
-                dataIndex="U)ID"
+                dataIndex="U_ID"
                 render={(payment, record) => (
                   <button
                       onClick={() => openResultModal(record)}
@@ -671,6 +678,34 @@ const Submission = () => {
 
           {user.role === "admin" ? (
             <>
+            {resultPublished ? <div>
+
+              <Column
+                title="Roll"
+                dataIndex="roll"
+              ></Column>
+                
+              <Column
+                title="Result"
+                dataIndex="selected"
+                render={(id, record) => (
+                  <div>
+                  {parseInt(record.selected) == 1 ? <div className="bg-green-400 px-2 py-1 rounded-xl text-center">
+                  <p classname="text-center">Selected</p>
+                  </div> : <div className="bg-red-400 px-2 py-1 rounded-xl text-center">
+                    
+                    <p classname="text-center">Rejected</p></div>}
+
+                </div>
+              )}
+              ></Column>
+                <Column
+                title="Mark"
+                dataIndex="marks"
+              ></Column>
+              
+              
+              </div> : <></>}
               <Column
                 title="Action"
                 dataIndex="id"
@@ -1573,7 +1608,7 @@ const Submission = () => {
                 <div className="flex flex-col justify-center items-center">
                     <div className="text-2xl md:text-5xl  font-black">Sorry</div>
                     <div className="mt-4 text-xl">We deeply appreciate your application but unfortunately <u>you were not selected</u> .</div>
-                    <div className="mt-4 text-xl font-bold">Total Marks: {selectedRecord['marks']}</div>
+                    <div className="mt-4 text-xl font-bold">Total Marks: {selectedRecord['marks']} </div>
                     
                 </div>
               </div>

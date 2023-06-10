@@ -96,14 +96,14 @@ const Home = () => {
           <div className="w-full mr-2 md:mr-8">
             <div className="flex justify-center">
               <div className="text-md md:text-lg animate__animated animate__flash animate__repeat-3">
-                Result will be published today around 7 pm
+                Result has been published
               </div>
               {/* <div>{notice.created_by}</div> */}
               {/* <div>{notice.created_on}</div> */}
             </div>
           </div>
           
-            <p className="text-xs md:text-md cursor-pointer"></p>
+            <p className="text-xs md:text-md cursor-pointer">Get Result</p>
           
         </div>
       </div>

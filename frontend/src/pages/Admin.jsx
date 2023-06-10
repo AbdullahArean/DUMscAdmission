@@ -88,13 +88,13 @@ const Admin = () => {
           </Card>
         </div>
         <div className="mt-8 mb-6 flex items-center">
-          <hr className="w-1/6 border border-black"></hr>
+          <hr className="w-1/6 border border-gray-500"></hr>
           <div className="text-xl lg:text-3xl mx-2">Result</div>
           <hr className="w-5/6 border border-black"></hr>
         </div>
         <div className="mx-6 lg:mx-24 flex justify-center">
           <buttton type="button" className=" cursor-pointer text-xl lg:text-3xl bg-blue-500 p-4 text-white rounded-lg hover:scale-105 hover:bg-blue-600 transition-all duration-300">
-            Publish result
+            Unpublish result
           </buttton>
         </div>
         <Footer />
