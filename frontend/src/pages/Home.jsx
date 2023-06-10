@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-target-blank */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
@@ -104,7 +103,7 @@ const Home = () => {
             </div>
           </div>
           
-            {/* <p className="text-xs md:text-md cursor-pointer">Download</p> */}
+            <p className="text-xs md:text-md cursor-pointer"></p>
           
         </div>
       </div>
