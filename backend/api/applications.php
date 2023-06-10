@@ -52,8 +52,8 @@ if($method == "GET"){
             if($user_data->data->{'role'} == 3){
 
                 $app_id = 4;
-                $query = "SELECT * FROM Application NATURAL JOIN DEPARTMENT WHERE Application.U_ID = ".$data->{'id'}." AND Application.U_ID = ".$data->{'id'}." ";
-
+                // $query = "SELECT * FROM Application NATURAL JOIN DEPARTMENT WHERE Application.U_ID = ".$data->{'id'}." AND Application.U_ID = ".$data->{'id'}." ";
+                $query = "SELECT * FROM Application JOIN PROFILE ON PROFILE.u_id = Application.u_id  WHERE Application.U_ID = ".$data->{'id'};
                 $stmt = oci_parse($link, $query);
     
                     if(oci_execute($stmt)){
@@ -70,6 +70,11 @@ if($method == "GET"){
                             $application["APP_PAYMENT"] = $row["APP_PAYMENT"];
                             $application["CREATED_ON"] = $row["CREATED_ON"];
 
+                            // PROFILE
+                            $application["A_NAME"] = $row["A_NAME"];
+
+
+
                             // Edit Access
                             $application["EDIT_ACCESS"] = false;
 
@@ -85,6 +90,38 @@ if($method == "GET"){
                                     else $application["EDIT_ACCESS"] = false;
                                 }
                             }
+                            
+                            /* IF RESULT PUBLISHED */
+                            $result_published = 0;
+                            $result_published_query = "SELECT RESULT_PUBLISHED FROM DEPARTMENT JOIN APPLICATION ON DEPARTMENT.dept_id = APPLICATION.dept_id WHERE Application.u_id = ".$data->{'id'};
+                            $result_published_stmt = oci_parse($link, $result_published_query);
+                            if(oci_execute($result_published_stmt)){
+                                while($result_published_row=oci_fetch_array($result_published_stmt, OCI_ASSOC)){
+                                    $result_published = $result_published_row['RESULT_PUBLISHED'];
+                                }
+                            }
+                            
+                            if($result_published == 1){
+                                // RESULT
+                                $result_query = "SELECT * FROM ApplicantResult JOIN Application ON ApplicantResult.app_id = Application.app_id WHERE Application.u_id = ".$data->{'id'};
+                                $result_stmt = oci_parse($link, $result_query);
+                                if(oci_execute($result_stmt)){
+                                    while($result_row=oci_fetch_array($result_stmt, OCI_ASSOC)){
+                                        $application["marks"] = $result_row['MARKS'];
+                                        $application["selected"] = $result_row['SELECTED'];
+                                    }
+                                }
+
+                                // ROLL
+                                $roll_query = "SELECT * FROM APPLICANTADMIT WHERE U_ID = ".$data->{'id'};
+                                $roll_stmt = oci_parse($link, $roll_query);
+                                if(oci_execute($roll_stmt)){
+                                    while($roll_row=oci_fetch_array($roll_stmt, OCI_ASSOC)){
+                                        $application["roll"] = $roll_row['ROLL'];
+                                    }
+                                }
+                            }
+
 
                             
                             array_push($response, $application);
@@ -99,7 +136,7 @@ if($method == "GET"){
             else if($user_data->data->{'role'} == 2) {
                 
                 
-                // Getting Profile from app_id
+                /* When clicking on the details button*/
                 if (isset($_GET['id'])) {
                     $id = $_GET['id'];
                     $query = "SELECT p.* FROM Profile p INNER JOIN Application a ON p.u_id = a.u_id WHERE a.app_id = ".$id;
@@ -117,15 +154,17 @@ if($method == "GET"){
                     }
                 }
                 
+
+                /* ELSE  - Totally Seperate btw - The Application List*/
                 // Filtration
                 else{
-                    $query = "SELECT * FROM Application";
+                    $query = "SELECT * FROM Application JOIN PROFILE ON Application.u_id = PROFILE.u_id";
 
                     if (isset($_GET['verified'])) {
                         $verified = $_GET['verified'];
 
-                        if($verified ==  1) $query .= " WHERE APP_VERIFIED = 1";
-                        else if($verified ==  0) $query .= " WHERE APP_VERIFIED = 0";
+                        if($verified ==  1) $query .= " WHERE Application.APP_VERIFIED = 1";
+                        else if($verified ==  0) $query .= " WHERE Application.APP_VERIFIED = 0";
                     }
 
                     if (isset($_GET['payment'])) {
@@ -133,17 +172,27 @@ if($method == "GET"){
 
                         if($payment ==  1) {
                             if (strpos($query, 'WHERE') === false) {
-                                $query .= " WHERE APP_PAYMENT = 1";
+                                $query .= " WHERE Application.APP_PAYMENT = 1";
                             } else {
-                                $query .= " AND APP_PAYMENT = 1";
+                                $query .= " AND Application.APP_PAYMENT = 1";
                             }
                         }
                         else if($payment ==  0) {
                             if (strpos($query, 'WHERE') === false) {
-                                $query .= " WHERE APP_PAYMENT = 0";
+                                $query .= " Application.WHERE APP_PAYMENT = 0";
                             } else {
-                                $query .= " AND APP_PAYMENT = 0";
+                                $query .= " AND Application.APP_PAYMENT = 0";
                             }
+                        }
+                    }
+
+                    /* IF RESULT PUBLISHED */
+                    $result_published = 0;
+                    $result_published_query = "SELECT RESULT_PUBLISHED FROM DEPARTMENT JOIN USERS ON DEPARTMENT.dept_id = USERS.dept_id  WHERE USERS.U_ID = ".$data->{'id'};
+                    $result_published_stmt = oci_parse($link, $result_published_query);
+                    if(oci_execute($result_published_stmt)){
+                        while($result_published_row=oci_fetch_array($result_published_stmt, OCI_ASSOC)){
+                            $result_published = $result_published_row['RESULT_PUBLISHED'];
                         }
                     }
 
@@ -156,6 +205,9 @@ if($method == "GET"){
             
                         while($row = oci_fetch_array($stmt, OCI_ASSOC)){
 
+                            // print_r($row);
+                            // exit();
+
                             $application = array();
                             $application["APP_ID"] = $row["APP_ID"];
                             $application["DEPT_ID"] = $row["DEPT_ID"];
@@ -165,6 +217,9 @@ if($method == "GET"){
                             $application["APP_ADMIT"] = $row["APP_ADMIT"];
                             $application["APP_PAYMENT"] = $row["APP_PAYMENT"];
                             $application["CREATED_ON"] = $row["CREATED_ON"];
+
+                            // PROFILE
+                            $application["A_NAME"] = $row["A_NAME"];
 
                             // Edit Access
                             $application["EDIT_ACCESS"] = false;
@@ -181,6 +236,34 @@ if($method == "GET"){
                                     else $application["EDIT_ACCESS"] = false;
                                 }
                             }
+
+                            // Result
+                            if($result_published == 1){
+                                $application["marks"] = 0;
+                                $application["selected"] = 0;
+
+                                $application["roll"] = 0;
+
+                                // RESULT
+                                $result_query = "SELECT * FROM ApplicantResult JOIN Application ON ApplicantResult.app_id = Application.app_id WHERE Application.u_id = ".$row["U_ID"];
+                                $result_stmt = oci_parse($link, $result_query);
+                                if(oci_execute($result_stmt)){
+                                    while($result_row=oci_fetch_array($result_stmt, OCI_ASSOC)){
+                                        $application["marks"] = $result_row['MARKS'];
+                                        $application["selected"] = $result_row['SELECTED'];
+                                    }
+                                }
+
+                                $roll_query = "SELECT * FROM APPLICANTADMIT WHERE U_ID = ".$row["U_ID"];
+                                $roll_stmt = oci_parse($link, $roll_query);
+                                if(oci_execute($roll_stmt)){
+                                    while($roll_row=oci_fetch_array($roll_stmt, OCI_ASSOC)){
+                                        $application["roll"] = $roll_row['ROLL'];
+                                    }
+                                }
+
+                            }
+                            
 
                             array_push($response, $application);
                         }
