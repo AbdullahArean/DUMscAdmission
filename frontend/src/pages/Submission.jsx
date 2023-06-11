@@ -151,6 +151,8 @@ const Submission = () => {
                 </th>
                 <th>Roll
                 </th>
+                <th>Serial
+                </th>
                 <th>Marks
                 </th>
                 <th>Selected</th>
@@ -165,7 +167,8 @@ const Submission = () => {
                   <td>${item.A_NAME}</td>
                   <td>${item.F_NAME}</td>
                   <td>${item.M_NAME}</td>
-                  <td>${item.roll}</td>C
+                  <td>${item.roll}</td>
+                  <td>${item.serial}</td>
                   <td>${item.marks}</td>
                   <td>${item.selected}</td>
                 </tr>
@@ -458,6 +461,7 @@ const Submission = () => {
       )
       .then((res) => {
         setData(res.data);
+        console.log(res.data);
         if (res.data[0].hasOwnProperty("marks")) {
           setResultPublished(true);
         } else {
@@ -644,7 +648,11 @@ const Submission = () => {
           }}
         >
           {user.role === "admin" ? (
-            <Column title="User ID" dataIndex="U_ID"></Column>
+            <Column
+              title="User ID"
+              dataIndex="U_ID"
+              sorter={(a, b) => a.U_ID - b.U_ID}
+            ></Column>
           ) : (
             ""
           )}
@@ -655,7 +663,11 @@ const Submission = () => {
               <div>Computer Science & Engineering</div>
             )}
           ></Column> */}
-          <Column title="Name" dataIndex="A_NAME"></Column>
+          <Column
+            title="Name"
+            dataIndex="A_NAME"
+            sorter={(a, b) => a.A_NAME.localeCompare(b.A_NAME)}
+          ></Column>
           <Column
             title="Applied at"
             dataIndex="CREATED_ON"
@@ -801,6 +813,7 @@ const Submission = () => {
                   <Column
                     title="Roll"
                     dataIndex="roll"
+                    sorter={(a, b) => a.roll - b.roll}
                   ></Column>
 
                   <Column
@@ -829,7 +842,11 @@ const Submission = () => {
                       </div>
                     )}
                   ></Column>
-                  <Column title="Mark" dataIndex="marks"></Column>
+                  <Column
+                    title="Mark"
+                    dataIndex="marks"
+                    sorter={(a, b) => a.marks - b.marks}
+                  ></Column>
                 </div>
               ) : (
                 <div></div>
