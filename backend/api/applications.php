@@ -209,6 +209,8 @@ if($method == "GET"){
 
                             $application = array();
                             $application["APP_ID"] = $row["APP_ID"];
+                            $application["serial"] = $application["APP_ID"] + 50000;
+
                             $application["DEPT_ID"] = $row["DEPT_ID"];
                             // $application["DEPT_NAME"] = $row["DEPT_NAME"];
                             $application["U_ID"] = $row["U_ID"];
@@ -245,6 +247,7 @@ if($method == "GET"){
                                 $application["selected"] = 0;
 
                                 $application["roll"] = 0;
+                                
 
                                 // RESULT
                                 $result_query = "SELECT * FROM ApplicantResult JOIN Application ON ApplicantResult.app_id = Application.app_id WHERE Application.u_id = ".$row["U_ID"];
