@@ -955,7 +955,7 @@ const Submission = () => {
                 Personal Information
               </div>
               <div className="lg:flex lg:gap-x-10 lg:items-center">
-                {/* <div className="">
+                <div className="">
                   {profile.hasOwnProperty('A_PICPATH') ? <div
                     className="img-fluid picThumb mx-auto mb-6 lg:mb-0 w-1/3 lg:w-48"
                     style={{
@@ -968,7 +968,7 @@ const Submission = () => {
                     }}
                   ></div> : <div></div>}
                   
-                </div> */}
+                </div>
                 <div className="w-full">
                   <div className="relative z-0 w-full mb-6 group">
                     <input
