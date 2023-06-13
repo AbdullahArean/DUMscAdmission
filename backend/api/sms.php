@@ -92,7 +92,7 @@ if ($method == "POST"){
                         if($frow){
 
                             // SMS
-                            $formattedMessage = "Dear ".$frow["NAME"].", ".$message. ". Master's Admission Program, Department of Computer Science And Engineering, University of Dhaka.";
+                            $formattedMessage = "Dear ".$frow["NAME"].", ".$message. " MSc, CSEDU.";
                             $phone_number = $frow["PHONE_NUMBER"];
                             $sms_status = send_sms($phone_number, $formattedMessage);
 
