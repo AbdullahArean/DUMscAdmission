@@ -1026,11 +1026,7 @@ const Submission = () => {
                     <div
                       className="img-fluid picThumb mx-auto mb-6 lg:mb-0 w-1/3 lg:w-48"
                       style={{
-                        backgroundImage: `url(${
-                          /\s/g.test(profile.A_PICPATH)
-                            ? profile.A_PICPATH.replace(/\s/g, "%20")
-                            : profile.A_PICPATH
-                        })`,
+                        backgroundImage: `url(${encodeURI(profile.A_PICPATH)})`,
                         backgroundSize: "cover",
                       }}
                     ></div>
