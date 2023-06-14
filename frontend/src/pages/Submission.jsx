@@ -344,7 +344,6 @@ const Submission = () => {
             },
           })
           .then((res) => {
-            console.log(res.data);
             toast.success("Successful");
             setLoadingEditProfile(false);
             setEditProfileModalOpen(false);
@@ -447,35 +446,6 @@ const Submission = () => {
       */
   };
 
-  const [resultPublished, setResultPublished] = useState(false);
-  const fetchData = (paymentFilter, verifiedFilter) => {
-    setLoading(true);
-    api
-      .get(
-        `/applications.php?payment=${paymentFilter}&verified=${verifiedFilter}`,
-        {
-          headers: {
-            Authorization: localStorage.getItem("jwt"),
-          },
-        }
-      )
-      .then((res) => {
-        setData(res.data);
-        console.log(res.data);
-        if (res.data[0].hasOwnProperty("marks")) {
-          setResultPublished(true);
-        } else {
-          setResultPublished(false);
-        }
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error("Failed to load data");
-        setLoading(false);
-      });
-  };
-
   // RESULT
   const [resultModalOpen, setResultModalOpen] = useState(false);
   const [selectedRecord, setSelectedRecord] = useState({});
@@ -523,6 +493,85 @@ const Submission = () => {
     setSmsModalOpen(true);
   };
 
+  // Fetch Data
+  const [resultPublished, setResultPublished] = useState(false);
+  const fetchData = (paymentFilter, verifiedFilter) => {
+    setLoading(true);
+    api
+      .get(
+        `/applications.php?payment=${paymentFilter}&verified=${verifiedFilter}`,
+        {
+          headers: {
+            Authorization: localStorage.getItem("jwt"),
+          },
+        }
+      )
+      .then((res) => {
+        setData(res.data);
+        searchData(searchTerm, res.data);
+        if (res.data[0].hasOwnProperty("marks")) {
+          setResultPublished(true);
+        } else {
+          setResultPublished(false);
+        }
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Failed to load data");
+        setLoading(false);
+      });
+  };
+
+  // SEARCH DATA
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredData, setFilteredData] = useState(data);
+
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value);
+    searchData(e.target.value, data);
+  };
+
+  const searchData = (searchKey, ori_data) => {
+    if (searchKey !== "") {
+      const filteredData = [];
+      for (let i = 0; i < data.length; i++) {
+        if (
+          ori_data[i]["A_NAME"]
+            .toLowerCase()
+            .startsWith(searchKey.toLowerCase())
+        ) {
+          filteredData.push(ori_data[i]);
+        }
+
+        if (ori_data.hasOwnProperty("roll")) {
+          if (
+            ori_data[i]["roll"]
+              .toString()
+              .toLowerCase()
+              .startsWith(searchKey.toLowerCase())
+          ) {
+            filteredData.push(ori_data[i]);
+          }
+        }
+
+        if (
+          ori_data[i]["U_ID"]
+            .toString()
+            .toLowerCase()
+            .startsWith(searchKey.toLowerCase())
+        ) {
+          filteredData.push(ori_data[i]);
+        }
+      }
+      setFilteredData(filteredData);
+      console.log("Data", ori_data);
+      console.log("Filtered Data", filteredData);
+    } else {
+      setFilteredData(ori_data);
+    }
+  };
+
   useEffect(() => {
     if (!isLoggedIn) nav("/login", { state: "redirected" });
     else if (user.verified === "0") nav("/verify");
@@ -553,10 +602,10 @@ const Submission = () => {
           <div>
             <div className="flex flex-row justify-between gap-5 mb-10">
               {/* Send SMS */}
-              <div className="flex flex-row items-center">
+              <div className="flex flex-row items-center justify-center">
                 {selectedAppIds.length > 0 ? (
-                  <div>
-                    <div className="flex flex-row justify-start gap-5 mb-10 mt-8">
+                  <div className="flex flex-row items-center justify-center">
+                    <div className="flex flex-row justify-start mb-10 mt-8">
                       <button
                         onClick={bulkSMS}
                         className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white  focus:ring-4 focus:outline-none focus:ring-cyan-200 "
@@ -567,7 +616,7 @@ const Submission = () => {
                       </button>
                     </div>
 
-                    <div className="flex flex-row justify-start gap-5 mb-10 mt-8">
+                    <div className="flex flex-row justify-start mb-10 mt-8">
                       <button
                         onClick={bulkEmail}
                         className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white  focus:ring-4 focus:outline-none focus:ring-cyan-200 "
@@ -584,6 +633,23 @@ const Submission = () => {
               </div>
 
               <div className="flex flex-row gap-5">
+                {/* Search */}
+                <div>
+                  <label
+                    htmlFor="search_btn"
+                    className="block mb-2 text-sm font-medium text-gray-900 "
+                  >
+                    Search
+                  </label>
+                  <input
+                    id="search_btn"
+                    value={searchTerm}
+                    onChange={handleSearch}
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 px-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="Search by Name, Roll, ID"
+                  ></input>
+                </div>
+
                 {/* Payment Status */}
                 <div>
                   <label
@@ -639,7 +705,7 @@ const Submission = () => {
         )}
         <Table
           loading={loading}
-          dataSource={data}
+          dataSource={filteredData}
           rowKey="APP_ID"
           style={{ overflowX: "auto" }}
           rowSelection={{
@@ -956,18 +1022,21 @@ const Submission = () => {
               </div>
               <div className="lg:flex lg:gap-x-10 lg:items-center">
                 <div className="">
-                  {profile.hasOwnProperty('A_PICPATH') ? <div
-                    className="img-fluid picThumb mx-auto mb-6 lg:mb-0 w-1/3 lg:w-48"
-                    style={{
-                      backgroundImage: `url(${
-                        /\s/g.test(profile.A_PICPATH)
-                          ? profile.A_PICPATH.replace(/\s/g, "%20")
-                          : profile.A_PICPATH
-                      })`,
-                      backgroundSize: "cover",
-                    }}
-                  ></div> : <div></div>}
-                  
+                  {profile.hasOwnProperty("A_PICPATH") ? (
+                    <div
+                      className="img-fluid picThumb mx-auto mb-6 lg:mb-0 w-1/3 lg:w-48"
+                      style={{
+                        backgroundImage: `url(${
+                          /\s/g.test(profile.A_PICPATH)
+                            ? profile.A_PICPATH.replace(/\s/g, "%20")
+                            : profile.A_PICPATH
+                        })`,
+                        backgroundSize: "cover",
+                      }}
+                    ></div>
+                  ) : (
+                    <div></div>
+                  )}
                 </div>
                 <div className="w-full">
                   <div className="relative z-0 w-full mb-6 group">
