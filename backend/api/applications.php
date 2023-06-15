@@ -134,8 +134,8 @@ if($method == "GET"){
                         );
                     }
             }
-            // Admin
-            else if($user_data->data->{'role'} == 2) {
+            // Admin or supervisor 
+            else if($user_data->data->{'role'} == 2 || $user_data->data->{'role'} == 4) {
                 
                 
                 /* When clicking on the details button*/

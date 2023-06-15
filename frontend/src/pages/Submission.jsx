@@ -544,12 +544,10 @@ const Submission = () => {
           filteredData.push(ori_data[i]);
         }
 
-        if (ori_data.hasOwnProperty("roll")) {
+        if (ori_data[i].hasOwnProperty("roll")) {
+
           if (
-            ori_data[i]["roll"]
-              .toString()
-              .toLowerCase()
-              .startsWith(searchKey.toLowerCase())
+            ori_data[i]["roll"] == searchKey.toString()
           ) {
             filteredData.push(ori_data[i]);
           }
@@ -565,8 +563,6 @@ const Submission = () => {
         }
       }
       setFilteredData(filteredData);
-      console.log("Data", ori_data);
-      console.log("Filtered Data", filteredData);
     } else {
       setFilteredData(ori_data);
     }
@@ -598,7 +594,7 @@ const Submission = () => {
 
       <div className="mt-20 lg:mt-24 mx-2 mb-20 lg:mx-10 relative">
         {/* Filter */}
-        {user.role === "admin" ? (
+        {user.role === "admin" || user.role === "supervisor" ? (
           <div>
             <div className="flex flex-row justify-between gap-5 mb-10">
               {/* Send SMS */}
@@ -713,7 +709,7 @@ const Submission = () => {
             ...rowSelection,
           }}
         >
-          {user.role === "admin" ? (
+          {user.role === "admin" || user.role === "supervisor" ? (
             <Column
               title="User ID"
               dataIndex="U_ID"
@@ -752,7 +748,7 @@ const Submission = () => {
                     <FcOk />
                     <p>Paid</p>
                   </div>
-                ) : user.role === "admin" ? (
+                ) : user.role === "admin" || user.role === "supervisor" ? (
                   <div className="flex gap-1 items-center">
                     <FcCancel />
                     <p>Unpaid</p>
@@ -872,8 +868,9 @@ const Submission = () => {
             <div></div>
           )}
 
-          {user.role === "admin" ? (
+          {user.role === "admin" || user.role === "supervisor" ? (
             <div>
+              
               {resultPublished ? (
                 <div>
                   <Column
@@ -882,6 +879,7 @@ const Submission = () => {
                     sorter={(a, b) => a.roll - b.roll}
                   ></Column>
 
+                  {/* Result */}
                   <Column
                     title="Result"
                     dataIndex="selected"
@@ -908,6 +906,8 @@ const Submission = () => {
                       </div>
                     )}
                   ></Column>
+                  
+                  {/* Mark */}
                   <Column
                     title="Mark"
                     dataIndex="marks"
@@ -917,6 +917,8 @@ const Submission = () => {
               ) : (
                 <div></div>
               )}
+
+              {/* Action */}
               <Column
                 title="Action"
                 dataIndex="id"
@@ -930,6 +932,9 @@ const Submission = () => {
                         {detailsLoading ? "Loading" : "Details"}
                       </span>
                     </button>
+
+                    {user.role == "admin" ? <>
+                    
 
                     <button
                       onClick={() => openSMSModal(record)}
@@ -967,10 +972,17 @@ const Submission = () => {
                     ) : (
                       <div></div>
                     )}
+                    </> : <></>}
+
+
+                    
                   </div>
                 )}
               ></Column>
-              <Column
+
+              {/* Edit Access - only Admin */}
+
+              {user.role == "admin" ? <Column
                 title="Edit Access"
                 dataIndex="id"
                 render={(id, record) => (
@@ -996,7 +1008,10 @@ const Submission = () => {
                     )}
                   </div>
                 )}
-              ></Column>
+              ></Column> 
+              : 
+              <></>}
+              
             </div>
           ) : (
             <div></div>
