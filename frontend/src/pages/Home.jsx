@@ -111,6 +111,41 @@ const Home = () => {
         </div>
       </div>
 
+      {/* Deadline Extended */}
+      <div
+        className={`cursor-pointer flex p-4 mb-4 border-t-4 dark:bg-gray-800 text-yellow-800 border-yellow-300 bg-yellow-50 dark:text-yellow-300 dark:border-yellow-800`}
+        role="alert"
+        onClick={() => {
+          setWebinarModalOpen(true);
+        }}
+      >
+        <svg
+          className="flex-shrink-0 w-5 h-5"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            fillRule="evenodd"
+            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+            clipRule="evenodd"
+          ></path>
+        </svg>
+        <div className="ml-3 mr-3 flex justify-between items-center w-full text-sm font-medium">
+          <div className="w-full mr-2 md:mr-8">
+            <div className="flex justify-center">
+              <div className="text-md md:text-lg animate__animated animate__flash animate__repeat-3">
+                Notice for selected applicants of viva.
+              </div>
+              {/* <div>{notice.created_by}</div> */}
+              {/* <div>{notice.created_on}</div> */}
+            </div>
+          </div>
+
+          <p className="text-xs md:text-md cursor-pointer">View</p>
+        </div>
+      </div>
+
       {/* Hero Image */}
 
       <img
@@ -301,7 +336,7 @@ const Home = () => {
       <Footer />
 
       <Modal
-        title="Invitation to webinar"
+        title="Notice for selected participants of viva"
         centered
         open={webinarModalOpen}
         onOk={() => setWebinarModalOpen(false)}
@@ -310,39 +345,11 @@ const Home = () => {
         cancelButtonProps={{ style: { display: "none" } }}
       >
         <div>
-          <p>
-            Dear Students, <br />
-            We (CSE, DU) are going to arrange a webinar on 25th May 9.00 PM in
-            the following link. You are invited to a scheduled BdREN Zoom
-            meeting.
-            <br />
-            <br />
-            Topic: Webinar on MS Admission 2023 <br />
-            Time: May 25, 2023 09:00 PM Astana, Dhaka <br /> <br />
-            -- Join BdREN Zoom Meeting from Laptop or Mobile: <br />
-            <a
-              className="underline text-blue-300"
-              href="https://bdren.zoom.us/j/69588484234?pwd=a1dWTG9TU0RKSy9BMmVoamtFWGg0QT09 "
-            >
-              {" "}
-              https://bdren.zoom.us/j/69588484234?pwd=a1dWTG9TU0RKSy9BMmVoamtFWGg0QT09{" "}
-            </a>{" "}
-            <br />
-            <br />
-            Meeting ID: 695 8848 4234 <br />
-            Password: 529036 <br />
-            The webinar will discuss the following aspects of the MS program in
-            CSE, DU and finally answer the admission related questions.: <br />
-            1. Admission Test Pattern <br />
-            2. Admission Fees and Other Educational Expenses <br />
-            3. Contemporary Opportunities in CSE <br />
-            4. Why CSEDU should be your choice <br />
-            5. Adaptability with the mainstream students <br />
-            6. Scholarship Opportunities <br /> <br />
-            Apart from the above agenda students may discuss any other academic
-            and admission related issues. Advanced questions and issues on the
-            academic program and admission test are welcome in the following
-            link.
+          <p className="text-lg">
+            The selected student must reach out to the CSE Office (Mr. Md
+            Shahnewaz Islam) 2nd floor to complete their admission procedure as
+            soon as possible. <br />
+            The class will start in the 2nd week of July
           </p>
         </div>
       </Modal>
