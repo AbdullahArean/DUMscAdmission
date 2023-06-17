@@ -78,7 +78,10 @@ const Home = () => {
         className={`mt-24 cursor-pointer flex p-4 mb-4 border-t-4 dark:bg-gray-800 text-yellow-800 border-yellow-300 bg-yellow-50 dark:text-yellow-300 dark:border-yellow-800`}
         role="alert"
         onClick={() => {
-          window.open("https://drive.google.com/file/d/1fPQ9JORZqLsQHghkbqgD_UP1h_r85iHs/view?usp=share_link", "_blank");
+          window.open(
+            "https://drive.google.com/file/d/1ayz6t8tBjPA3L8bVxwOLq2u29lLdsj6i/view?usp=sharing",
+            "_blank"
+          );
         }}
       >
         <svg
@@ -97,7 +100,7 @@ const Home = () => {
           <div className="w-full mr-2 md:mr-8">
             <div className="flex justify-center">
               <div className="text-md md:text-lg animate__animated animate__flash animate__repeat-3">
-                Viva Notice for selected applicants on 15th June 1:30 PM
+                Result for selected applicants has been published.
               </div>
               {/* <div>{notice.created_by}</div> */}
               {/* <div>{notice.created_on}</div> */}
