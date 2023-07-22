@@ -1,3 +1,4 @@
+<!-- Home -->
 ## Home
 ### Description
 The Home component is a React functional component representing the home page of the application. It serves as the main landing page for the users and provides information about the latest notices, admission process, frequently asked questions (FAQs), and other relevant details. The component fetches notice data from an API endpoint using Axios (not shown in the code) and displays the notices in an interactive format. Additionally, it includes a Carousel component for showcasing images, a navigation bar, and a footer.
@@ -8,6 +9,8 @@ The Home component is a React functional component representing the home page of
 - notices (array): Contains an array of notice objects fetched from the API.
 ### Methods
 - getNotice(): A function that fetches the notice data from the API using Axios and updates the notices state.
+
+<!-- Login -->
 ## Login
 ### Description
 The Login component is a React functional component responsible for rendering the login page of the application. It allows users to sign in to their accounts using their email and password. The component also provides options for password reset, account registration, and toggling between light and dark themes.
@@ -18,6 +21,8 @@ The Login component is a React functional component responsible for rendering th
 - toggleTheme(): A function that toggles between dark and light themes.
 - setTheme(): A function that sets the theme based on the user's preference or system settings.
 - handleLogin(e): A function that handles the login form submission. It sends a request to the server for user authentication and updates the global state with user information upon successful login.
+
+<!-- Registration -->
 ## Registration
 ### Description
 The Registration component is a React functional component responsible for rendering the user registration page of the application. It allows users to create a new account by providing their full name, email, password, phone number, and accepting the terms and conditions. The component also provides options for toggling between light and dark themes and navigating back to the home page or the login page.
@@ -31,6 +36,8 @@ The Registration component is a React functional component responsible for rende
 - setTheme(): A function that sets the theme based on the user's preference or system settings.
 - toLogin(res): A function that navigates to the login page.
 - handleRegister(e): A function that handles the registration form submission. It sends a request to the server to create a new user account and logs in the user upon successful registration.
+
+<!-- Profile -->
 ## Profile
 ### Description
 The Profile component is a React functional component responsible for rendering the user profile page of the application. It allows users to fill in their personal information, academic details, and upload necessary documents to complete their profile. The component uses several states to manage the user input and form data for profile completion. It also utilizes the Ant Design Modal component for displaying a confirmation modal when the user submits their profile.
@@ -61,6 +68,8 @@ The Profile component is a React functional component responsible for rendering 
 - submitProfile(): A function that submits the user's profile data to the server upon completing all pages of the profile form.
 - fetchSscHscData(e): A function that fetches SSC and HSC examination data from the server based on user input and sets the respective state variables.
 - advance(): A function to advance to the next page of the profile form (not clear from the provided code).
+
+<!-- ViewProfile -->
 ## ViewProfile
 ### Description
 The ViewProfile component is a React functional component responsible for displaying the user's profile information. It fetches the user's profile data from the server using the /profile.php API endpoint and displays the information on the page. The component also uses the useGlobalState hook from the UserContext component to access the user's data.
@@ -69,6 +78,8 @@ The ViewProfile component is a React functional component responsible for displa
 - profile (object): Represents the user's profile data fetched from the server.
 ### Methods
 - getProfile(): A function that makes an API call to fetch the user's profile data from the server and sets the profile state with the response.
+
+<!-- Apply -->
 ## Apply
 ### Description
 The Apply component is a React functional component responsible for allowing users to apply for departments by submitting their applications. The component fetches department data from the server using the /department.php API endpoint and displays the available departments in a table format. The user can select a department and apply for it, triggering an API call to submit the application. The component uses the useGlobalState hook from the UserContext component to access the user's data.
@@ -85,6 +96,8 @@ The Apply component is a React functional component responsible for allowing use
 ### Methods
 - fetchData(): A function that makes an API call to fetch the department data from the server and sets the data state with the response.
 - apply(): A function that makes an API call to submit the user's application for the selected department.
+
+<!-- Submission -->
 ## Submission
 ### Description
 The Submission component is a React functional component responsible for displaying and managing the submitted applications for MSc Admission. It fetches application data from the server using the /applications.php API endpoint and allows various actions like filtering, verifying applications, sending SMS/emails, downloading data in different formats (e.g., PDF, Excel), and granting/editing access to profiles. It also provides the functionality for bulk SMS/emails and searching for specific applications.
@@ -130,6 +143,8 @@ The Submission component is a React functional component responsible for display
 - closeResultModal(): Closes the result details modal.
 - bulkEmail(): Opens a modal to send bulk emails to selected applications.
 - bulkSMS(): Opens a modal to send bulk SMS to selected applications.
+
+<!-- Admin -->
 ## Admin
 ### Description
 The Admin component is a React functional component that represents the admin dashboard page of an application. It provides information and functionalities related to reports and result management. The component fetches data from an API endpoint using Axios (not shown in the code) and displays the data in a user-friendly format.
