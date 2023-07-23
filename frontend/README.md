@@ -46,19 +46,19 @@ The Profile component is a React functional component responsible for rendering 
 - **modal2Open (boolean):** Represents whether the confirmation modal for profile submission is open.
 - **user (object):** Represents the user's data obtained from the global user context.
 - **isLoggedIn (boolean):** Represents whether the user is logged in.
-- **othersub (boolean):** Represents whether the user is submitting for another user (not clear from the provided code).
+- **othersub (boolean):** Represents whether the user is submitting for another user has selected ‘Other’ in the subject field.
 - **university (array):** An array of university data obtained from an API call.
 - **subjects (array):** An array of subject data obtained from an API call.
 - **page1complete (boolean):** Represents whether the first page of the profile form is complete.
 - **page2complete (boolean):** Represents whether the second page of the profile form is complete.
-- **duStudent (boolean):** Represents whether the user is a Dhaka University student (not clear from the provided code).
-- **others (boolean):** Represents whether the user is filling the profile for another user (not clear from the provided code).
-- **bangla (boolean):** Represents whether the user has chosen the Bengali language (not clear from the provided code).
-- **previewData (object):** Represents data for previewing the user's profile (not clear from the provided code).
-- **fetchedData (object):** Represents data fetched from an API call related to SSC and HSC examination (not clear from the provided code).
-- **firstFormData (object):** Represents form data from the first page of the profile form (not clear from the provided code).
-- **secondFormData (object):** Represents form data from the second page of the profile form (not clear from the provided code).
-- **thirdFormData (object):** Represents form data from the third page of the profile form (not clear from the provided code).
+- **duStudent (boolean):** Represents whether the user is a Dhaka University student.
+- **others (boolean):** Represents whether the user is filling the profile for another user has selected ‘Other’ in the university field.
+- **bangla (boolean):** Represents whether the user has chosen the Bengali language.
+- **previewData (object):** Represents data for previewing the user's profile.
+- **fetchedData (object):** Represents data fetched from an API call related to SSC and HSC examination.
+- **firstFormData (object):** Represents form data from the first page of the profile form.
+- **secondFormData (object):** Represents form data from the second page of the profile form.
+- **thirdFormData (object):** Represents form data from the third page of the profile form.
 ### Methods
 - **ProfileTab():** A function that returns a JSX element representing the profile tab containing buttons to navigate between different pages of the profile form.
 - **page1(), page2(), page3():** Functions that set the page state to navigate between different pages of the profile form.
@@ -67,7 +67,7 @@ The Profile component is a React functional component responsible for rendering 
 - **page3Donee(e):** A function that handles the form submission on the third page of the profile form and sets the respective state variables.
 - **submitProfile():** A function that submits the user's profile data to the server upon completing all pages of the profile form.
 - **fetchSscHscData(e):** A function that fetches SSC and HSC examination data from the server based on user input and sets the respective state variables.
-- **advance():** A function to advance to the next page of the profile form (not clear from the provided code).
+- **advance():** A function to advance to the next page of the profile form.
 
 <!-- ViewProfile -->
 ## ViewProfile
