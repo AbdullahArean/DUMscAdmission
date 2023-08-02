@@ -21,6 +21,7 @@ import { useGlobalState } from "./components/UserContext";
 import Spinner from "./components/Spinner";
 import Confirmation from "./pages/Confirmation";
 import Admin from "./pages/Admin";
+import Information from "./pages/Information";
 
 function App() {
   const [user, setUser] = useGlobalState("user");
@@ -118,6 +119,14 @@ function App() {
                   element={
                     <PrivateRoute>
                       <Admin />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="info"
+                  element={
+                    <PrivateRoute>
+                      <Information />
                     </PrivateRoute>
                   }
                 />

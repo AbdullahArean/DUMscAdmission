@@ -84,6 +84,13 @@ const Sidebar = () => {
         <div onClick={() => to("submission")} className="menu-item">
           {user.role === "admin" ? "Submissions" : "My Submissions"}
         </div>
+        {user.role === "student" ? (
+          <div onClick={() => to("info")} className="menu-item">
+            Information
+          </div>
+        ) : (
+          ""
+        )}
         {user.role === "admin" ? (
           <div onClick={() => to("report")} className="menu-item">
             Report
